@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <span sec:authentication="name"></span>-->
+<!--        <span sec:authentication="principal.fullName">Fullname</span>-->
+<!--&lt;!&ndash;        <img  th:src="${user.getImgView()}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <img  >&ndash;&gt;-->
+<!--&lt;!&ndash;        <img  sec="principal.imgView">&ndash;&gt;-->
+<!--    </div>-->
+
+<div th:if="${employee} == null">
+    <a th:href="@{/login}">Đăng nhập</a>
+</div>
+
+<div th:if="${employee} != null">
+    <span th:text="${employee.getFullName()}"></span>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" class="btn btn-primary">
+    </form>
+</div>
+
+</body>
+</html>
