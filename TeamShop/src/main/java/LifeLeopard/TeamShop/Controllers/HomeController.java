@@ -40,18 +40,21 @@ public class HomeController {
             }
             model.addAttribute("customer",customer);
         }
-        return "home/home.index";
+        return "home/index";
     }
     @GetMapping("/login")
-    public String login(){
-        return "home/home.login";
+    public String login(Principal principal){
+        if(principal != null){
+            return "redirect:/";
+        }
+        return "home/login";
     }
     @GetMapping("/registration")
     public String registration(Model model){
         model.addAttribute("customer",new Customers());
         model.addAttribute("account",new Accounts());
 //        model.addAttribute("account",new Accounts());
-        return "home/home.registration";
+        return "home/registration";
     }
     @PostMapping("/registration")
     public String registration(@ModelAttribute("customer") Customers customersDetails, @ModelAttribute("account") Accounts accountDetails,Model model){
@@ -59,7 +62,7 @@ public class HomeController {
         boolean exists = accountReps.existsByUsername(accountDetails.getUsername().trim());
         if(exists){
             model.addAttribute("exist",true);
-            return "home/home.registration";
+            return "home/registration";
         }else{
             Roles roles = rolesReps.findByRoleName("ROLE_USER");
             accountDetails.setRoles(roles);
@@ -75,7 +78,7 @@ public class HomeController {
                 System.out.println(customersDetails.toString());
             }catch (Exception e){
                 System.out.println(e);
-                return "home/home.registration";
+                return "home/registration";
             }
         }
 
@@ -86,6 +89,6 @@ public class HomeController {
 //        model.addAttribute("customer",customersDetails);
 //        model.addAttribute("account",accountDetails);
             model.addAttribute("success",true);
-        return "home/home.registration";
+        return "home/registration";
     }
 }
