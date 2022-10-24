@@ -95,6 +95,24 @@
                            <i class="fa fa-search" aria-hidden="true"></i>
                            </button>
                         </form>
+                        <div th:if="${customer} == null">
+                           <a th:href="@{/login}">
+                              <button class="btn btn-info">
+                                 <span class="text-danger">
+                                 <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+                                 Login</span>
+                              </button>
+                           </a>
+                        </div>
+                        <div th:if="${customer} != null">
+                           <form th:action="@{/logout}" method="post">
+                              <button class="btn btn-primary" type="submit" value="logout">
+                                 <span class="text-danger">
+                                 <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+                                 Log Out</span>
+                              </button>
+                           </form>
+                        </div>
                      </ul>
                   </div>
                </nav>
