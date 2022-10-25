@@ -33,17 +33,18 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/","/admin/login","/bootstrap/**","/registration","/css/**","/fonts/**","/js/**",
-                            "/images/**","/vendor/**","/product/**").permitAll()
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/user/**").hasAnyRole("USER")
+                    .antMatchers("/**").permitAll()
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage("/login").permitAll()
-                    .and().logout().logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID");
+                    .and().logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
 //                    .and().rememberMe().key("uniqueAndSecret");
 
         return http.build();
     }
-
 }

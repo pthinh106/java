@@ -38,4 +38,14 @@ public class AdminController {
         }
         return "admin/admin.index";
     }
+    @GetMapping("/add")
+    public String add(Model model, Principal principal){
+
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        return "admin/admin.index";
+    }
 }

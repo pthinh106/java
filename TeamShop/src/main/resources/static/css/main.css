@@ -446,6 +446,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 .main-menu > li:hover > .sub-menu {
   visibility: visible;
   opacity: 1;
+  border-radius: 4px;
 }
 
 .sub-menu li:hover > .sub-menu {
@@ -454,11 +455,12 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 } 
 
 .sub-menu li:hover {
-  background-color: transparent;
+  background-color: #2e65b6;
+  border-radius: 2px;
 }
 
 .sub-menu > li:hover > a {
-  color: #6c7ae0;
+  color: #0a0a0a;
   text-decoration: none;
 }
 
@@ -784,7 +786,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*---------------------------------------------*/
 .sub-menu-m {
-  background-color: #fff;
+  background-color: #717fe0;
   padding: 10px 15px 10px 32px;
   display: none;
 }
@@ -3300,6 +3302,10 @@ input.num-product::-webkit-inner-spin-button {
   }
 
   
+}
+.main-menu > li > .sub-menu.sub-menu-right{
+    left: auto!important;
+    right: 0!important;
 }
 
 
