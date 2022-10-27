@@ -58,11 +58,6 @@ public class HomeController {
         }
         return "redirect:/";
     }
-//    @GetMapping("/{type}/{id}.html")
-//    public String getAllProduct(@PathVariable String type, @PathVariable int id     ){
-////        System.out.println(type);
-//        return "home/product";
-//    }
     @GetMapping("/registration")
     public String registration(Model model){
         model.addAttribute("customer",new Customers());
