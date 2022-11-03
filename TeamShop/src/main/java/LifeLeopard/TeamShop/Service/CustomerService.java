@@ -88,5 +88,35 @@ public class CustomerService {
 
             javaMailSender.send(message);
     }
+        public void sendResetPassWord(Customers customers, String siteURL)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = customers.getEmail();
+        String fromAddress = "lifeleopardjava@gmail.com";
+        String senderName = "Shop Life Leopard";
+        String subject = "Request your reset password";
+        String content = "Dear [[name]],<br>"
+                + "Please click the link below to your reset password:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "Your company name.";
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", customers.getFullName());
+        Accounts accounts = accountReps.getById(customers.getAccountId());
+
+        String verifyURL = siteURL + "/verify?code=" + accounts.getResetPassCode();
+
+        content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+
+        javaMailSender.send(message);
+    }
 
 }

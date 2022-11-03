@@ -12,8 +12,21 @@ public class AccountService {
     @Autowired
     private AccountReps accountReps;
 
-    public boolean verify(String verificationCode) {
+    public boolean verifyUser(String verificationCode) {
         Accounts accounts = accountReps.findByVerificationCode(verificationCode);
+
+        if (accounts == null || accounts.isStatus()) {
+            return false;
+        } else {
+            accounts.setVerificationCode(null);
+            accounts.setStatus(1);
+            accountReps.save(accounts);
+            return true;
+        }
+
+    }
+    public boolean verifyPassword(String verificationCode) {
+        Accounts accounts = accountReps.findByResetPassCode(verificationCode);
 
         if (accounts == null || accounts.isStatus()) {
             return false;

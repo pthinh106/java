@@ -12,4 +12,7 @@ public interface AccountReps extends JpaRepository<Accounts,Integer> {
     Accounts findByUsername(String Username);
 
     Accounts findByVerificationCode(String VerificationCode);
+    Accounts findByResetPassCode(String ResetPassCode);
+    boolean existsByResetPassCode(String ResetPassCode);
+
 }

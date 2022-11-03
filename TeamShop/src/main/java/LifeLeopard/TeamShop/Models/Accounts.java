@@ -25,6 +25,8 @@ public class Accounts {
 
     @Column(name = "Verification_code")
     String verificationCode;
+    @Column(name = "reset_pass_code")
+    String resetPassCode;
     @Column( name = "Date_create")
     private Date dateCreate;
 
@@ -108,6 +110,14 @@ public class Accounts {
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
+    }
+
+    public String getResetPassCode() {
+        return resetPassCode;
+    }
+
+    public void setResetPassCode(String resetPassCode) {
+        this.resetPassCode = resetPassCode;
     }
 
     public boolean isStatus(){

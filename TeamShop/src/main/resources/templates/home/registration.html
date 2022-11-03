@@ -38,9 +38,10 @@
                                         <div class="col-6">
                                             <label>Email<span class="text-danger">*</span></label>
                                             <div class="input-group">
-                                                <div class="input-group-text"><i class="bi bi-envelope-fill"></i></div>
-                                                <input type="email" class="form-control" required name="email" th:field="*{email}" placeholder="Enter Email">
+                                                    <div class="input-group-text"><i class="bi bi-envelope-fill"></i></div>
+                                                    <input type="email" class="form-control" required name="email" th:field="*{email}" placeholder="Enter Email">
                                             </div>
+                                                <label th:if="${email_exists}"><span class="text-danger">Email Da Ton Tai</span></label>
                                         </div>
                                         <div class="col-6">
                                             <label>Phone Number<span class="text-danger">*</span></label>
@@ -101,7 +102,7 @@
                                         <a th:href="@{/login}" class="float-end text-primary">SignIn?</a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <a href="#" class="float-start text-primary">Forgot Password?</a>
+                                        <a th:href="@{/recovery}" class="float-start text-primary">Forgot Password?</a>
                                     </div>
                                 </div>
                             </div>
