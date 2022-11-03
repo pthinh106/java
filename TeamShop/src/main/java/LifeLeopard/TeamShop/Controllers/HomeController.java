@@ -58,7 +58,14 @@ public class HomeController {
             return "redirect:/";
         }
         return "home/login";
-    }@GetMapping("/logout")
+    }
+    @GetMapping("/login-error")
+    public String loginError(Model model){
+        model.addAttribute("error",true);
+        System.out.println("faild");
+        return "home/login";
+    }
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
@@ -93,12 +100,6 @@ public class HomeController {
         } else {
             model.addAttribute("exists",true);
         }
-
-
-//        System.out.println(pass);
-//        accountReps.save(accounts);
-//        model.addAttribute("customer",customersDetails);
-//        model.addAttribute("account",accountDetails);
         return "home/registration";
     }
     @GetMapping("/registration/verify")
@@ -135,22 +136,21 @@ public class HomeController {
 
         return "home/recovery";
     }
-//    @GetMapping("/recovery/verify")
-//    public String verifyPassword(@Param("code") String code) {
-//       boolean exitst = accountReps.existsByResetPassCode(code);
-//       if(exitst){
-//           return "";
-//       }else{
-//           return "";
-//       }
-//    }
-//    @PostMapping("/recovery/verify")
-//    public String verifyPassword(@Param("code") String code) {
-//        boolean exitst = accountReps.existsByResetPassCode(code);
-//        if(exitst){
-//            return "";
-//        }else{
-//            return "";
-//        }
-//    }
+    @GetMapping("/recovery/verify")
+    public String verifyPassword(@Param("code") String code,Model model) {
+        model.addAttribute("account",new Accounts());
+        model.addAttribute("code","/recovery/verify?code="+code);
+        System.out.println(code);
+       return "home/verify_password";
+    }
+    @PostMapping("/recovery/verify")
+    public String verifyPassword(@Param("code") String code,@ModelAttribute("account") Accounts accounts) {
+         if(accountService.verifyPassword(code, accounts.getPassword())){
+             System.out.println("success");
+             return "redirect:/recovery_success";
+         }else{
+             System.out.println("faild");
+             return "home/verify_fail";
+         }
+    }
 }

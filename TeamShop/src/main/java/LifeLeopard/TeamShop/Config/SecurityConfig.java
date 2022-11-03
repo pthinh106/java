@@ -37,7 +37,7 @@ public class SecurityConfig {
                     .antMatchers("/user/**").hasAnyRole("USER")
                     .antMatchers("/**").permitAll()
                     .anyRequest().authenticated()
-                    .and().formLogin().loginPage("/login").permitAll()
+                    .and().formLogin().loginPage("/login").failureUrl("/login-error").permitAll()
                     .and().logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
