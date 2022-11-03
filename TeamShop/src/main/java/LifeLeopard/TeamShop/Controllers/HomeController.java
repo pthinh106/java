@@ -40,6 +40,7 @@ public class HomeController {
     @Autowired
     private RolesRepos rolesReps;
 
+
     @GetMapping("/")
     public String index(Model model, Principal principal){
         if(principal != null){
@@ -80,10 +81,7 @@ public class HomeController {
 //        model.addAttribute("account",new Accounts());
         return "home/registration";
     }
-    private String getSiteURL(HttpServletRequest request) {
-        String siteURL = request.getRequestURL().toString();
-        return siteURL.replace(request.getServletPath(), "");
-    }
+
     @PostMapping("/registration")
     public String registration(@ModelAttribute("customer") Customers customersDetails, @ModelAttribute("account") Accounts accountDetails,Model model, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
@@ -110,7 +108,6 @@ public class HomeController {
             return "home/verify_fail";
         }
     }
-
     @GetMapping("/recovery")
     public String resetPassword(Model model){
         model.addAttribute("email", new String());
@@ -133,24 +130,35 @@ public class HomeController {
         }else{
             model.addAttribute("notfound",true);
         }
-
         return "home/recovery";
     }
     @GetMapping("/recovery/verify")
     public String verifyPassword(@Param("code") String code,Model model) {
-        model.addAttribute("account",new Accounts());
+        model.addAttribute("password1",new String());
+        model.addAttribute("password2",new String());
         model.addAttribute("code","/recovery/verify?code="+code);
         System.out.println(code);
        return "home/verify_password";
     }
     @PostMapping("/recovery/verify")
-    public String verifyPassword(@Param("code") String code,@ModelAttribute("account") Accounts accounts) {
-         if(accountService.verifyPassword(code, accounts.getPassword())){
-             System.out.println("success");
-             return "redirect:/recovery_success";
-         }else{
-             System.out.println("faild");
-             return "home/verify_fail";
-         }
+    public String verifyPassword(@Param("code") String code,@ModelAttribute("password1") String password1, @ModelAttribute("password2") String password2,Model model) {
+        System.out.println(password1);
+        System.out.println(password2);
+        if(password1.contentEquals(password2) && !password1.isEmpty() && !password2.isEmpty()){
+            System.out.println("success");
+            System.out.println(code);
+            if(accountService.verifyPassword(code, password1)){
+                System.out.println("success_verify");
+                return "redirect:/recovery_success";
+            }else{
+                System.out.println("fail_verify");
+                return "home/verify_fail";
+            }
+        }else{
+            System.out.println("fail_same");
+            model.addAttribute("error",true);
+        }
+        return "home/verify_password";
+
     }
 }

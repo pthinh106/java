@@ -81,11 +81,8 @@ public class CustomerService {
             content = content.replace("[[name]]", customers.getFullName());
             Accounts accounts = accountReps.getById(customers.getAccountId());
             String verifyURL = siteURL + "/verify?code=" + accounts.getVerificationCode();
-
             content = content.replace("[[URL]]", verifyURL);
-
             helper.setText(content, true);
-
             javaMailSender.send(message);
     }
         public void sendResetPassWord(Customers customers, String siteURL)

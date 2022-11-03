@@ -46,12 +46,6 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-//        System.out.println(type);
         return "home/" + product;
     }
-//    @GetMapping("/{product}/{id}.html")
-//    public String getAllProduct(@PathVariable String product,@PathVariable String category,@PathVariable String id){
-////        System.out.println(type);
-//        return "home/product-detail";
-//    }
 }
