@@ -19,14 +19,14 @@
                             <div class="form-left h-100 py-5 px-5">
                                 <form action="#" th:action="@{/registration}" th:object="${customer}" class="row g-4"  method="post">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>First Name<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
                                                 <input type="text" class="form-control" th:value="${customer} == null ? null : ${customer.getFirstName()}" required th:field="*{firstName}" placeholder="Enter First Name">
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Last Name<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Email<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                     <div class="input-group-text"><i class="bi bi-envelope-fill"></i></div>
@@ -43,7 +43,7 @@
                                             </div>
                                                 <label th:if="${email_exists}"><span class="text-danger">Email Da Ton Tai</span></label>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Phone Number<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-telephone-fill"></i></div>
@@ -52,14 +52,14 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Address<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-globe"></i></div>
                                                 <input type="text" class="form-control" required name="phone" th:field="*{address}" placeholder="Enter Address">
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Birthday<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-calendar-date-fill"></i></div>
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Username<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
@@ -76,7 +76,7 @@
                                             </div>
                                             <label th:if="${exists}"><span class="text-danger">Username Da Ton Tai</span></label>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <label>Password<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
@@ -98,10 +98,10 @@
                                     </div>
                                 </form>
                                 <div class="row">
-                                    <div class="col-sm-6 ">
+                                    <div class="col-6 ">
                                         <a th:href="@{/login}" class="float-end text-primary">SignIn?</a>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-6">
                                         <a th:href="@{/recovery}" class="float-start text-primary">Forgot Password?</a>
                                     </div>
                                 </div>
