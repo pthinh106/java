@@ -6,17 +6,23 @@ import LifeLeopard.TeamShop.Models.Roles;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;
 import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
 import LifeLeopard.TeamShop.Responsibility.RolesRepos;
+import LifeLeopard.TeamShop.Service.AccountService;
+import LifeLeopard.TeamShop.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 
 @Controller
@@ -24,7 +30,10 @@ import java.security.Principal;
 public class HomeController {
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    AccountService accountService;
     @Autowired
     private CustomerRepos customerRepos;
     @Autowired
@@ -65,39 +74,35 @@ public class HomeController {
 //        model.addAttribute("account",new Accounts());
         return "home/registration";
     }
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("customer") Customers customersDetails, @ModelAttribute("account") Accounts accountDetails,Model model){
+    public String registration(@ModelAttribute("customer") Customers customersDetails, @ModelAttribute("account") Accounts accountDetails,Model model, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
 
-        boolean exists = accountReps.existsByUsername(accountDetails.getUsername().trim());
-        if(exists){
-            model.addAttribute("exist",true);
-            return "home/registration";
-        }else{
-            Roles roles = rolesReps.findByRoleName("ROLE_USER");
-            accountDetails.setRoles(roles);
-            accountDetails.setStatus(1);
-            accountDetails.setPassword(passwordEncoder.encode(accountDetails.getPassword()));
-            try{
-//                System.out.println(customers.toString());
-                accountReps.save(accountDetails);
-                Accounts accountrepos = accountReps.findByUsername(accountDetails.getUsername());
-                System.out.println(accountrepos.toString());
-                customersDetails.setAccountId(accountrepos.getAccountId());
-                customerRepos.save(customersDetails);
-                System.out.println(customersDetails.toString());
-            }catch (Exception e){
-                System.out.println(e);
-                return "home/registration";
-            }
+        String siteURL = request.getRequestURL().toString();
+        if (customerService.createCustomer(customersDetails, accountDetails,siteURL)) {
+            return "redirect:/register_success";
+        } else {
+            model.addAttribute("exists",true);
+
         }
-
 
 
 //        System.out.println(pass);
 //        accountReps.save(accounts);
 //        model.addAttribute("customer",customersDetails);
 //        model.addAttribute("account",accountDetails);
-            model.addAttribute("success",true);
         return "home/registration";
+    }
+    @GetMapping("/registration/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (accountService.verify(code)) {
+            return "home/verify_success";
+        } else {
+            return "home/verify_fail";
+        }
     }
 }

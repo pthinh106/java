@@ -23,6 +23,8 @@ public class Accounts {
     @Column(name = "Status")
     private int status;
 
+    @Column(name = "Verification_code")
+    String verificationCode;
     @Column( name = "Date_create")
     private Date dateCreate;
 
@@ -39,11 +41,12 @@ public class Accounts {
         this.dateCreate = dateCreate;
     }
 
-    public Accounts(String username, String password, Roles roles, int status) {
+    public Accounts(String username, String password, Roles roles, int status ,String verificationCode) {
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.status = status;
+        this.verificationCode = verificationCode;
     }
 
     public Accounts(String username, String password) {
@@ -97,6 +100,14 @@ public class Accounts {
 
     public void setDateCreate(Date dateCreate) {
         this.dateCreate = dateCreate;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public boolean isStatus(){

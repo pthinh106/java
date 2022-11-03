@@ -18,13 +18,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         boolean exists = accountReps.existsByUsername(username);
         if(exists){
             Accounts accounts = accountReps.findByUsername(username);
+            CustomUserDetails userDetails = null;
+            if(accounts.isStatus()){
+                userDetails = new CustomUserDetails(accounts);
+            }
 //            List<GrantedAuthority> granList =  new ArrayList<GrantedAuthority>();
 ////            if(user.getRoles().isEmpty()){
 ////                user.setRoles("USER");
 ////            }
 //            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRoles()) ;
 //            granList.add(grantedAuthority);
-            CustomUserDetails userDetails = new CustomUserDetails(accounts);
+
             return  userDetails;
         }else {
             new UsernameNotFoundException("fail");

@@ -73,7 +73,7 @@
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
                                                 <input type="text" class="form-control" required th:object="${account}" th:field="*{username}" placeholder="Enter Username">
                                             </div>
-                                            <label th:if="${exist}"><span class="text-danger">Username Da Ton Tai</span></label>
+                                            <label th:if="${exists}"><span class="text-danger">Username Da Ton Tai</span></label>
                                         </div>
                                         <div class="col-6">
                                             <label>Password<span class="text-danger">*</span></label>
