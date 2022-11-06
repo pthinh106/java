@@ -6,11 +6,12 @@ import javax.persistence.*;
 @Table(name = "table_product_size")
 public class ProductSize {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ProductSizeId;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "Product_id")
     private Product product;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "Size_id")
     private Size size;
     @Column(name = "Quantity")
@@ -81,7 +82,9 @@ public class ProductSize {
     @Override
     public String toString() {
         return "ProductSize{" +
-                "Quantity=" + Quantity +
+                ", product=" + product +
+                ", size=" + size +
+                ", Quantity=" + Quantity +
                 ", Price=" + Price +
                 ", Status=" + Status +
                 '}';

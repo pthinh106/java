@@ -56,8 +56,6 @@ public class HomeController {
             }
             model.addAttribute("customer",customer);
         }
-        List<Product> products = productService.getAllProduct();
-        System.out.println(products.get(0).getProductImagesList().get(0).getUrl());
         return "home/index";
     }
     @GetMapping("/login")

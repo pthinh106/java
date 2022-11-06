@@ -34,4 +34,12 @@ public class Size {
     public void setSizeName(String sizeName) {
         SizeName = sizeName;
     }
+
+    @Override
+    public String toString() {
+        return "Size{" +
+                "SizeId=" + SizeId +
+                ", SizeName='" + SizeName + '\'' +
+                '}';
+    }
 }

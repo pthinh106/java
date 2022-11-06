@@ -50,8 +50,8 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-        Product product =  productService.getById(id);
-        System.out.println(product.getProductName());
+//        Product product =  productService.getById(id);
+//        System.out.println(product.getProductName());
         return "home/product-detail";
     }
 }
