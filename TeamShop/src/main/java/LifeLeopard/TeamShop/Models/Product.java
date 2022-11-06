@@ -2,7 +2,8 @@ package LifeLeopard.TeamShop.Models;
 
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+import java.util.List;
 
 @Entity
 @Table(name = "table_products")
@@ -12,6 +13,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "Category_id")
     private Category category;
+    @Column(name = "Product_name")
+    private String ProductName;
     @Column(name = "Product_images_preview")
     private String images;
     @Column(name = "Short_description")
@@ -23,11 +26,37 @@ public class Product {
     @Column(name = "Status")
     private int Status;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductImages> productImagesSet;
+    private List<ProductImages> productImagesList;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private List<ProductSize> productSizeList;
     public Product(){}
 
-    public Product(int productId, Category category, String images, String shortDescription, String description, int quantity, int status, Set<ProductImages> productImagesSet) {
+    public Product(Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList, List<ProductSize> productSizeList) {
+        this.category = category;
+        ProductName = productName;
+        this.images = images;
+        ShortDescription = shortDescription;
+        Description = description;
+        Quantity = quantity;
+        Status = status;
+        this.productImagesList = productImagesList;
+        this.productSizeList = productSizeList;
+    }
+
+    public Product(int productId, Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList) {
+        ProductId = productId;
+        this.category = category;
+        ProductName = productName;
+        this.images = images;
+        ShortDescription = shortDescription;
+        Description = description;
+        Quantity = quantity;
+        Status = status;
+        this.productImagesList = productImagesList;
+    }
+
+    public Product(int productId, Category category, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList) {
         ProductId = productId;
         this.category = category;
         this.images = images;
@@ -35,7 +64,7 @@ public class Product {
         Description = description;
         Quantity = quantity;
         Status = status;
-        this.productImagesSet = productImagesSet;
+        this.productImagesList = productImagesList;
     }
 
     public Product(int productId, Category category, String images, String shortDescription, String description, int quantity, int status) {
@@ -46,6 +75,19 @@ public class Product {
         Description = description;
         Quantity = quantity;
         Status = status;
+    }
+
+    public Product(int productId, Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList, List<ProductSize> productSizeList) {
+        ProductId = productId;
+        this.category = category;
+        ProductName = productName;
+        this.images = images;
+        ShortDescription = shortDescription;
+        Description = description;
+        Quantity = quantity;
+        Status = status;
+        this.productImagesList = productImagesList;
+        this.productSizeList = productSizeList;
     }
 
     public int getProductId() {
@@ -96,12 +138,28 @@ public class Product {
         Quantity = quantity;
     }
 
-    public Set<ProductImages> getProductImagesSet() {
-        return productImagesSet;
+    public List<ProductImages> getProductImagesList() {
+        return productImagesList;
     }
 
-    public void setProductImagesSet(Set<ProductImages> productImagesSet) {
-        this.productImagesSet = productImagesSet;
+    public void setProductImagesList(List<ProductImages> productImagesList) {
+        this.productImagesList = productImagesList;
+    }
+
+    public List<ProductSize> getProductSizeList() {
+        return productSizeList;
+    }
+
+    public void setProductSizeList(List<ProductSize> productSizeList) {
+        this.productSizeList = productSizeList;
+    }
+
+    public String getProductName() {
+        return ProductName;
+    }
+
+    public void setProductName(String productName) {
+        ProductName = productName;
     }
 
     public int getStatus() {
@@ -111,4 +169,5 @@ public class Product {
     public void setStatus(int status) {
         Status = status;
     }
+
 }

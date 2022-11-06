@@ -39,14 +39,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-body">
                   <h3>create Product</h3>
                   <form th:action="@{/admin/product/create}"  method="post">
-                    <div class="row">
-
-                    </div>
-                    <div class="row p-3">
-                      <div class="col-6 d-grid gap-2 m-auto">
-                        <button type="submit" value="Submit" class="btn btn-primary">Create</button>
+                      <div class="col-12">
+                        <label for="productname" class="form-label">Product name</label>
+                        <input type="text" class="form-control" id="productname"  required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
                       </div>
-                    </div>
+                      <div class="col-12">
+                        <label for="validationCustom04" class="form-label">Category</label>
+                        <select class="form-select" id="validationCustom04" required>
+                          <option selected disabled value="">Choose...</option>
+                          <option>...</option>
+                        </select>
+                      </div>
+                      <div class="col-12">
+                        <label for="thumbnail" class="form-label">Thumbnail</label>
+                        <input type="file" class="form-control" id="thumbnail"  required>
+                      </div>
+                      <div class="col-12">
+                        <label for="shordescription" class="form-label">Short description</label>
+                          <input type="text" class="form-control" id="shordescription"  required>
+
+                        </div>
+                      <div class="col-12">
+                        <label for="Description" class="form-label">Full Description</label>
+                        <input type="text" class="form-control" id="Description" required>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="Quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="Quantity" required>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="status" required>
+                          <label class="form-check-label" for="status">
+                            Status
+                          </label>
+                        </div>
+                      </div>
+                      <div class="row p-3">
+                        <div class="col-6 d-grid gap-2 m-auto">
+                          <button type="submit" value="Submit" class="btn btn-primary">Create</button>
+                        </div>
+                      </div>
                   </form>
 
                 </div>
