@@ -27,20 +27,17 @@ public class Accounts {
     String verificationCode;
     @Column(name = "reset_pass_code")
     String resetPassCode;
-    @Column( name = "Date_create")
-    private Date dateCreate;
 
     public Accounts() {
 
     }
 
-    public Accounts(int accountId, String username, String password, Roles roles, int status, Date dateCreate) {
+    public Accounts(int accountId, String username, String password, Roles roles, int status) {
         this.AccountId = accountId;
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.status = status;
-        this.dateCreate = dateCreate;
     }
 
     public Accounts(String username, String password, Roles roles, int status ,String verificationCode) {
@@ -96,13 +93,6 @@ public class Accounts {
         this.status = status;
     }
 
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
 
     public String getVerificationCode() {
         return verificationCode;
@@ -136,7 +126,6 @@ public class Accounts {
                 ", rolesId=" + roles.getRoleId() +
                 ", rolesName=" + roles.getRoleName() +
                 ", status=" + status +
-                ", dateCreate=" + dateCreate +
                 '}';
     }
 }

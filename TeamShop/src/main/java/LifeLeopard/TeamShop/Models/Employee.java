@@ -36,14 +36,10 @@ public class Employee {
 
     @Column(name = "Status")
     private int status;
-    @Column(name = "Date_create")
-    private Date dateCreate;
-    @Column(name = "Date_delete")
-    private Date dateDelete;
 
     public Employee(){}
 
-    public Employee(int accountId, String firstName, String lastName, Date birthday, String email, String phoneNumber, String address, Department department, Position position, int status, Date dateCreate, Date dateDelete) {
+    public Employee(int accountId, String firstName, String lastName, Date birthday, String email, String phoneNumber, String address, Department department, Position position, int status) {
         this.accountId = accountId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -54,8 +50,6 @@ public class Employee {
         this.department = department;
         this.position = position;
         this.status = status;
-        this.dateCreate = dateCreate;
-        this.dateDelete = dateDelete;
     }
 
     public Employee(int accountId, String firstName, String lastName, String email, String phoneNumber, String address, Department department, Position position, int status) {
@@ -157,23 +151,6 @@ public class Employee {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getDateDelete() {
-        return dateDelete;
-    }
-
-    public void setDateDelete(Date dateDelete) {
-        this.dateDelete = dateDelete;
-    }
-
     public String getFullName(){
         return this.firstName + " " + this.lastName;
     }
@@ -192,8 +169,6 @@ public class Employee {
                 ", department=" + department +
                 ", position=" + position +
                 ", status=" + status +
-                ", dateCreate=" + dateCreate +
-                ", dateDelete=" + dateDelete +
                 '}';
     }
 }
