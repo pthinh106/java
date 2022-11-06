@@ -3,8 +3,23 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="admin/fragmientAdmin/head :: formField(title = 'Admin')"></head>
+<style>
+  fieldset{
+    border: 1px solid #ccc;
+    display: block;
+    padding: 10px 10px;
+    margin-top: 10px;
+  }
+  legend{
+    width: auto;
+    float: none;
+    font-size: 20px;
+    padding: 5px 5px;
+    font-weight: 900;
+  }
+</style>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <nav th:replace="admin/fragmientAdmin/nav"></nav>
@@ -38,47 +53,83 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="card">
                 <div class="card-body">
                   <h3>create Product</h3>
-                  <form th:action="@{/admin/product/create}"  method="post">
-                      <div class="col-12">
-                        <label for="productname" class="form-label">Product name</label>
-                        <input type="text" class="form-control" id="productname"  required>
-                        <div class="valid-feedback">
-                          Looks good!
+                  <form th:action="@{/admin/product/create}" th:object="${product}" method="post" enctype="multipart/form-data">
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <label for="productname" class="form-label">Product name</label>
+                          <input type="text" th:field="*{productName}" class="form-control" id="productname"  required>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label for="Category" class="form-label">Category</label>
+                          <select class="form-select" id="Category" th:field="*{category}" required>
+                            <th:block th:each="category : ${categorys}">
+                              <option th:value="${category.getCategoryId()}" th:text="${category.getCategoryName()}"></option>
+                            </th:block>
+                          </select>
                         </div>
                       </div>
-                      <div class="col-12">
-                        <label for="validationCustom04" class="form-label">Category</label>
-                        <select class="form-select" id="validationCustom04" required>
-                          <option selected disabled value="">Choose...</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div class="col-12">
-                        <label for="thumbnail" class="form-label">Thumbnail</label>
-                        <input type="file" class="form-control" id="thumbnail"  required>
-                      </div>
-                      <div class="col-12">
-                        <label for="shordescription" class="form-label">Short description</label>
-                          <input type="text" class="form-control" id="shordescription"  required>
+                      <div class="row">
+                        <div class="col-12">
+                          <label for="shordescription" class="form-label">Short description</label>
+                          <textarea type="text" class="form-control" id="shordescription" th:field="*{shortDescription}" required></textarea>
 
                         </div>
-                      <div class="col-12">
-                        <label for="Description" class="form-label">Full Description</label>
-                        <input type="text" class="form-control" id="Description" required>
-                      </div>
-
-                      <div class="col-12">
-                        <label for="Quantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="Quantity" required>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="status" required>
-                          <label class="form-check-label" for="status">
-                            Status
-                          </label>
+                        <div class="col-12">
+                          <label for="Description" class="form-label">Full Description</label>
+                          <textarea type="text" class="form-control" id="Description" th:field="*{description}" required></textarea>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label for="Quantity" class="form-label">Quantity</label>
+                          <input type="number" class="form-control" id="Quantity" th:field="*{quantity}" required>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label th:for="productstatus" class="form-label" >Product Status</label>
+                          <select class="form-select form-control" th:id="productstatus" th:field="*{status}" required>
+                            <option value="0">Out of stock</option>
+                            <option value="1">stocking</option>
+                          </select>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <label for="thumbnail" class="form-label">Thumbnail</label>
+                          <input type="file" class="form-control" id="thumbnail" name="files"  required>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label for="img1" class="form-label">Product img 1</label>
+                          <input type="file" class="form-control" id="img1"  name="files"  required>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label for="img2" class="form-label">Product img 2</label>
+                          <input type="file" class="form-control" id="img2" name="files"  required>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <label for="img3" class="form-label">Product img 3</label>
+                          <input type="file" class="form-control" id="img3" name="files"  required>
+                        </div>
+                      </div>
+                    <th:block th:each="size,state : ${sizes}" >
+                      <fieldset class="fieldset" >
+                        <legend class="legend" th:text="${size.getSizeName()}"></legend>
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <label th:for="'productsize' + ${size.getSizeId()}" class="form-label" th:text="Quantity"></label>
+                            <input type="number" class="form-control" th:id="'productsize' + ${size.getSizeId()}" name = "quantity" required >
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <label th:for="'productsize' + ${size.getSizeId()}" class="form-label" >Status</label>
+                            <select class="form-select form-control" th:id="'productsizestatus'+${size.getSizeId()}" name="status" required>
+                              <option value="0">Out of stock</option>
+                              <option value="1">stocking</option>
+                            </select>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <label th:for="'productsize' + ${size.getSizeId()}" class="form-label" th:text="Price"></label>
+                            <input type="number" class="form-control" th:id="'productsize' + ${size.getSizeId()}" name="price" required >
+                          </div>
+                        </div>
+                      </fieldset>
+                    </th:block>
                       <div class="row p-3">
                         <div class="col-6 d-grid gap-2 m-auto">
                           <button type="submit" value="Submit" class="btn btn-primary">Create</button>

@@ -77,4 +77,13 @@ public class ProductSize {
     public void setStatus(int status) {
         Status = status;
     }
+
+    @Override
+    public String toString() {
+        return "ProductSize{" +
+                "Quantity=" + Quantity +
+                ", Price=" + Price +
+                ", Status=" + Status +
+                '}';
+    }
 }

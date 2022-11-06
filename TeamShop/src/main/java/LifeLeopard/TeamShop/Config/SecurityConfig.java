@@ -33,8 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/user/**").hasAnyRole("USER")
+//                    .antMatchers("/admin/**").hasRole("ADMIN")
+//                    .antMatchers("/user/**").hasAnyRole("USER")
                     .antMatchers("/**").permitAll()
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage("/login").failureUrl("/login-error").permitAll()

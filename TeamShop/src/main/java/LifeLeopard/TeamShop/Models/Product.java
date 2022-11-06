@@ -170,4 +170,15 @@ public class Product {
         Status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "category=" + category +
+                ", ProductName='" + ProductName + '\'' +
+                ", ShortDescription='" + ShortDescription + '\'' +
+                ", Description='" + Description + '\'' +
+                ", Quantity=" + Quantity +
+                ", Status=" + Status +
+                '}';
+    }
 }
