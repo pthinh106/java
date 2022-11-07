@@ -29,7 +29,7 @@ import java.util.List;
 public class AdminController {
     public static String UPLOAD_DIRECTORY = Paths.get("")
             .toAbsolutePath()
-            .toString() + "/src/main/resources/static/images/Product";
+            .toString() + "/src/main/resources/static/images/product";
 
     @Autowired
     private PasswordEncoder passwordEncoder;
