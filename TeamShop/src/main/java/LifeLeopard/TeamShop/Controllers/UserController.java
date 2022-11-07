@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     AccountService accountService;
     @GetMapping("")
-    public String proFileUser(Model model, Principal principal){
+    public String proFileUser(Model model,Principal principal){
 //        if(principal != null){
 //            String username = principal.getName().trim();
 //            Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
@@ -31,10 +31,14 @@ public class UserController {
 //                model.addAttribute("customer",customer);
 //            }
 //        }
+
+        model.addAttribute("customer",customerService.getByAccountId(2));
         return "home/user/profile-user";
     }
     @GetMapping("/edit")
-    public String editProfileUser(){
+    public String editProfileUser(Model model,Principal principal){
+        model.addAttribute("customer",customerService.getByAccountId(2));
+        System.out.println(customerService.getByAccountId(2).toString());
         return "home/user/edit-profile";
     }
 }

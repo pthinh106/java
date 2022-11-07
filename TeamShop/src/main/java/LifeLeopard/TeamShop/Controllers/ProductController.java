@@ -9,9 +9,7 @@ import LifeLeopard.TeamShop.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -53,5 +51,17 @@ public class ProductController {
 //        Product product =  productService.getById(id);
 //        System.out.println(product.getProductName());
         return "home/product-detail";
+    }
+    @PostMapping("")
+    public String findByProductName(@RequestParam("keyword") String keyword,Principal principal,Model model){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            if(customer == null){
+                return "redirect:/admin";
+            }
+            model.addAttribute("customer",customer);
+        }
+        return null;
     }
 }
