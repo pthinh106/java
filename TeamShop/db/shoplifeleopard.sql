@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2022 at 06:29 AM
+-- Generation Time: Nov 07, 2022 at 01:29 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
 
@@ -24,20 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hibernate_sequence`
+--
+
+CREATE TABLE `hibernate_sequence` (
+    `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `hibernate_sequence`
+--
+
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+    (12);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `table_accounts`
 --
 
 CREATE TABLE `table_accounts` (
                                   `Account_id` int(11) NOT NULL,
-                                  `Username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `Username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                   `Role_id` int(11) NOT NULL,
                                   `Status` tinyint(4) NOT NULL,
-                                  `Verification_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                  `reset_pass_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                  `Verification_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                                  `reset_pass_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                                   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_accounts`
@@ -45,16 +62,16 @@ CREATE TABLE `table_accounts` (
 
 INSERT INTO `table_accounts` (`Account_id`, `Username`, `Password`, `Role_id`, `Status`, `Verification_code`, `reset_pass_code`, `Created`, `Updated`) VALUES
                                                                                                                                                            (1, 'admin_npt', '$2a$10$/m9GEuyxU966OmMa1YWUju.b2s3XUx0ZGu38S7CNrpxxfeR/QlPmC', 2, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (2, 'user_npt', '$2a$10$/m9GEuyxU966OmMa1YWUju.b2s3XUx0ZGu38S7CNrpxxfeR/QlPmC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (3, 'user_nhttm', '$2a$10$YhK4DI43pUQMuj0QGnzncOwgViMBACZKBSFa/s03cpZfrEf9jjREe', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (4, 'user_nntt', '$2a$10$/JgAMzqu7z4tEaNWtVQVVu8sv35W/pwLjrDkjpj.hrgXJoweomrsi', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (5, 'user_lvhn', '$2a$10$owcBO0Ie6Lf6m/dZknRIfOREz7vhE4Py/lnrFvItWDPmTGuVJHE1S', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
+                                                                                                                                                           (2, 'user_npt', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-07 11:27:58'),
+                                                                                                                                                           (3, 'user_nhttm', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:02'),
+                                                                                                                                                           (4, 'user_nntt', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:04'),
+                                                                                                                                                           (5, 'user_lvhn', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:06'),
                                                                                                                                                            (6, 'admin', '$2a$10$J0aLh3BEWKFdBhZaGhxQVOkHYoq8F8LY5VI3YcWZGcQmBNvs8/OKW', 2, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (7, 'test', '$2a$10$nY8hUHFN1TGjRW/eTFXsl.ONuJbzA1ALamgy36dhP3atgWEcpUBSW', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (14, 'testmail', '$2a$10$q1PJeFNhSPxY/EwuGphDp.MUm.LP7KDysWdGT5mz4v27CGN04Ioxa', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (15, 'adad', '$2a$10$Qr03PQAZz0pITISXn703S.yCO6SPYomUlSflkIkkVWESvVtgQel1O', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (16, 'pthinhtest', '$2a$10$j/FqXNCZj1UsOtq9VCg/z.ae7/7pkajbtLs1A6VShc3n069TOHey2', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02'),
-                                                                                                                                                           (17, 'thinhken106', '$2a$10$vEtR4viJcoKZpO3OusuF0eOYClTVv/QiJRIIdGdma2EZLwAV6Ouli', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-05 15:18:02');
+                                                                                                                                                           (7, 'test', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, '', NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:09'),
+                                                                                                                                                           (14, 'testmail', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:11'),
+                                                                                                                                                           (15, 'adad', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:12'),
+                                                                                                                                                           (16, 'pthinhtest', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:14'),
+                                                                                                                                                           (17, 'thinhken106', '$2a$10$GixiwoIjaryBJJhTzKy64eOYZvTha3PxXSNeXMmfjVIfPfFcNx/rC', 1, 1, NULL, NULL, '2022-11-05 15:25:38', '2022-11-07 11:28:16');
 
 -- --------------------------------------------------------
 
@@ -64,8 +81,19 @@ INSERT INTO `table_accounts` (`Account_id`, `Username`, `Password`, `Role_id`, `
 
 CREATE TABLE `table_category` (
                                   `Category_id` int(11) NOT NULL,
-                                  `Category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                  `Category_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `table_category`
+--
+
+INSERT INTO `table_category` (`Category_id`, `Category_name`) VALUES
+                                                                  (1, 'Women'),
+                                                                  (2, 'Men'),
+                                                                  (3, 'Bag'),
+                                                                  (4, 'Shoes'),
+                                                                  (5, 'Watches');
 
 -- --------------------------------------------------------
 
@@ -76,15 +104,15 @@ CREATE TABLE `table_category` (
 CREATE TABLE `table_customer` (
                                   `Customer_id` int(11) NOT NULL,
                                   `Account_id` int(11) NOT NULL,
-                                  `First_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `First_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                   `Birthday` date DEFAULT NULL,
-                                  `Email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Phone_number` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `Email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Phone_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_customer`
@@ -109,10 +137,10 @@ INSERT INTO `table_customer` (`Customer_id`, `Account_id`, `First_name`, `Last_n
 
 CREATE TABLE `table_departments` (
                                      `Department_id` int(11) NOT NULL,
-                                     `Department_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                     `Department_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                      `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                      `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_departments`
@@ -130,18 +158,18 @@ INSERT INTO `table_departments` (`Department_id`, `Department_name`, `Created`, 
 CREATE TABLE `table_employee` (
                                   `Employee_id` int(11) NOT NULL,
                                   `Account_id` int(11) NOT NULL,
-                                  `First_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `First_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                   `Birthday` date DEFAULT NULL,
-                                  `Email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Phone_number` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `Email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Phone_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                   `Department_id` int(11) NOT NULL,
                                   `Position_id` int(11) NOT NULL,
                                   `Status` int(11) NOT NULL,
                                   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_employee`
@@ -160,17 +188,17 @@ INSERT INTO `table_employee` (`Employee_id`, `Account_id`, `First_name`, `Last_n
 CREATE TABLE `table_order` (
                                `Order_id` int(11) NOT NULL,
                                `Customer_id` int(11) NOT NULL,
-                               `First_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                               `Last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                               `Phone_numer` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-                               `Address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                               `First_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                               `Last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                               `Phone_numer` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+                               `Address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                `Total` double NOT NULL,
-                               `Payment` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                               `Payment` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                                `Payment_status` tinyint(4) NOT NULL DEFAULT 0,
                                `Status` int(11) NOT NULL,
                                `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -180,8 +208,8 @@ CREATE TABLE `table_order` (
 
 CREATE TABLE `table_position` (
                                   `Position_id` int(11) NOT NULL,
-                                  `Position_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                  `Position_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_position`
@@ -200,16 +228,16 @@ INSERT INTO `table_position` (`Position_id`, `Position_name`) VALUES
 CREATE TABLE `table_products` (
                                   `Product_id` int(11) NOT NULL,
                                   `Category_id` int(11) NOT NULL,
-                                  `Product_type` int(11) NOT NULL,
-                                  `Product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Product_images_preview` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `Short_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-                                  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                                  `Product_type` int(11) DEFAULT NULL,
+                                  `Product_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                                  `Product_images_preview` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+                                  `Short_description` text COLLATE utf8_unicode_ci NOT NULL,
+                                  `description` text COLLATE utf8_unicode_ci NOT NULL,
                                   `Quantity` int(11) NOT NULL,
                                   `Status` tinyint(4) NOT NULL,
                                   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -220,10 +248,10 @@ CREATE TABLE `table_products` (
 CREATE TABLE `table_product_images` (
                                         `Product_images_id` int(11) NOT NULL,
                                         `Product_id` int(11) NOT NULL,
-                                        `Product_imgaes_url` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                        `Product_imgaes_url` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
                                         `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                         `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -239,7 +267,7 @@ CREATE TABLE `table_product_order` (
                                        `Price` int(11) NOT NULL,
                                        `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                                        `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -254,7 +282,7 @@ CREATE TABLE `table_product_size` (
                                       `Quantity` int(11) NOT NULL,
                                       `Price` int(11) NOT NULL,
                                       `Status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -265,7 +293,7 @@ CREATE TABLE `table_product_size` (
 CREATE TABLE `table_product_type` (
                                       `Type_id` int(11) NOT NULL,
                                       `Type_name` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -275,8 +303,8 @@ CREATE TABLE `table_product_type` (
 
 CREATE TABLE `table_roles` (
                                `Role_id` int(11) NOT NULL,
-                               `role_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                               `role_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `table_roles`
@@ -294,10 +322,20 @@ INSERT INTO `table_roles` (`Role_id`, `role_name`) VALUES
 
 CREATE TABLE `table_size` (
                               `Size_id` int(11) NOT NULL,
-                              `Size_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                              `Size_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
                               `Created` timestamp NOT NULL DEFAULT current_timestamp(),
                               `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `table_size`
+--
+
+INSERT INTO `table_size` (`Size_id`, `Size_name`, `Created`, `Updated`) VALUES
+                                                                            (1, 'Size S', '2022-11-06 05:44:00', '2022-11-06 08:17:11'),
+                                                                            (2, 'Size M', '2022-11-06 05:44:00', '2022-11-06 08:17:14'),
+                                                                            (3, 'Size L', '2022-11-06 05:44:00', '2022-11-06 08:17:18'),
+                                                                            (4, 'Size XL', '2022-11-06 05:44:00', '2022-11-06 08:17:22');
 
 --
 -- Indexes for dumped tables
@@ -372,6 +410,14 @@ ALTER TABLE `table_product_order`
     ADD PRIMARY KEY (`Product_Order_id`);
 
 --
+-- Indexes for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+    ADD PRIMARY KEY (`Product_Size_id`),
+  ADD KEY `Size_id` (`Size_id`),
+  ADD KEY `Product_id` (`Product_id`);
+
+--
 -- Indexes for table `table_product_type`
 --
 ALTER TABLE `table_product_type`
@@ -403,7 +449,7 @@ ALTER TABLE `table_accounts`
 -- AUTO_INCREMENT for table `table_category`
 --
 ALTER TABLE `table_category`
-    MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `table_customer`
@@ -454,6 +500,12 @@ ALTER TABLE `table_product_order`
     MODIFY `Product_Order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+    MODIFY `Product_Size_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `table_product_type`
 --
 ALTER TABLE `table_product_type`
@@ -469,7 +521,7 @@ ALTER TABLE `table_roles`
 -- AUTO_INCREMENT for table `table_size`
 --
 ALTER TABLE `table_size`
-    MODIFY `Size_id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `Size_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -506,6 +558,13 @@ ALTER TABLE `table_products`
 --
 ALTER TABLE `table_product_images`
     ADD CONSTRAINT `FKner637g99t8cybonraf640soc` FOREIGN KEY (`Product_id`) REFERENCES `table_products` (`Product_id`);
+
+--
+-- Constraints for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+    ADD CONSTRAINT `table_product_size_ibfk_2` FOREIGN KEY (`Size_id`) REFERENCES `table_size` (`Size_id`),
+  ADD CONSTRAINT `table_product_size_ibfk_3` FOREIGN KEY (`Product_id`) REFERENCES `table_products` (`Product_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
