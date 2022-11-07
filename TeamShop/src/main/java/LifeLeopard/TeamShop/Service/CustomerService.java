@@ -32,6 +32,9 @@ public class CustomerService {
     RolesRepos rolesRepos;
     @Autowired
     private JavaMailSender javaMailSender;
+    public Customers getByAccountId(int id){
+        return customerRepos.findByAccountId(id);
+    }
     public boolean createCustomer(Customers customersDetails,Accounts accountDetails, String siteURL) throws MessagingException, UnsupportedEncodingException {
         boolean exists = accountReps.existsByUsername(accountDetails.getUsername().trim());
         if(exists){

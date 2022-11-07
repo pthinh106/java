@@ -34,7 +34,7 @@
             <nav class="limiter-menu-desktop container">
 
                 <!-- Logo desktop -->
-                <a href="#" class="logo">
+                <a href="/" class="logo">
                     <img src="/images/icons/logo-01.png" alt="IMG-LOGO">
                 </a>
 
@@ -114,7 +114,7 @@
                                         <a th:text="${fullname}"></a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="/user">
                                             Setting
                                         </a>
                                     </li>
@@ -196,9 +196,9 @@
 
         <ul class="main-menu-m">
             <li>
-                <a href="/index">Home</a>
+                <a href="/">Home</a>
                 <ul class="sub-menu-m">
-                    <li><a href="/index">Homepage 1</a></li>
+                    <li><a href="/">Homepage 1</a></li>
                     <li><a href="/home-02">Homepage 2</a></li>
                     <li><a href="/home-03">Homepage 3</a></li>
                 </ul>
@@ -229,7 +229,7 @@
             <li th:if="${fullname} != null" style="padding-bottom: 10px;">
                 <a class="text-info pl-5" th:text="${fullname}">AAA</a>
                 <ul class="sub-menu-m">
-                    <li><a href="#">Setting</a></li>
+                    <li><a href="/user">Setting</a></li>
                     <li>
                         <a th:href="@{/logout}">
                             LogOut

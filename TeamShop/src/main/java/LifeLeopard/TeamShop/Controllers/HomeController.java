@@ -50,11 +50,13 @@ public class HomeController {
     public String index(Model model, Principal principal){
         if(principal != null){
             String username = principal.getName().trim();
-            Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
             if(customer == null){
                 return "redirect:/admin";
+            }else{
+                model.addAttribute("customer",customer);
             }
-            model.addAttribute("customer",customer);
+
         }
         return "home/index";
     }
@@ -80,7 +82,10 @@ public class HomeController {
         return "redirect:/";
     }
     @GetMapping("/registration")
-    public String registration(Model model){
+    public String registration(Model model,Principal principal){
+        if(principal != null){
+            return "redirect:/";
+        }
         model.addAttribute("customer",new Customers());
         model.addAttribute("account",new Accounts());
 //        model.addAttribute("account",new Accounts());
@@ -119,7 +124,10 @@ public class HomeController {
         }
     }
     @GetMapping("/recovery")
-    public String resetPassword(Model model){
+    public String resetPassword(Model model,Principal principal){
+        if(principal != null){
+            return "redirect:/";
+        }
         model.addAttribute("email", new String());
         return "home/recovery";
     }

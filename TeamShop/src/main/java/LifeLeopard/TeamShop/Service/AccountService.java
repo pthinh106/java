@@ -15,6 +15,10 @@ public class AccountService {
     @Autowired
     private AccountReps accountReps;
 
+    public Accounts getUsername(String Username){
+        return accountReps.findByUsername(Username);
+    }
+
     public boolean verifyUser(String verificationCode) {
         Accounts accounts = accountReps.findByVerificationCode(verificationCode);
 
