@@ -7,6 +7,7 @@ import LifeLeopard.TeamShop.Responsibility.ProductImagesReps;
 import LifeLeopard.TeamShop.Responsibility.ProductReps;
 import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
 import LifeLeopard.TeamShop.UploadImagesProduct.FileUploadUtil;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProductService {
@@ -48,11 +54,13 @@ public class ProductService {
     public void saveImgProduct(Product product, MultipartFile[] multipartFiles) throws IOException {
         List<String> urlImages =new ArrayList<>(4);
         for (MultipartFile multipartFile:multipartFiles) {
-            String FileName = StringUtils.getFilename(multipartFile.getOriginalFilename());
-            int index = FileName.lastIndexOf('.');
-            String Del = FileName.substring(index);
+//            String FileName = StringUtils.getFilename(multipartFile.getOriginalFilename());
+            String FileName = RandomString.make(10);
+//            int index = FileName.lastIndexOf('.');
+//            String Del = FileName.substring(index);
             String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
-            FileName = FileName.replace(Del,"");
+            FileName = FileName + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+//            FileName = FileName.replace(Del,"");
             FileName = FileName.replace('.','-');
             FileName = FileName.replace(' ','-');
             FileName = FileName + "."+ Ex;

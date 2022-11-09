@@ -60,6 +60,45 @@
                             <a><button type="button" class="btn btn-outline-primary ms-1">Changes Password</button></a>
                         </div>
                     </div>
+                    <div class="card-body text-center " id="changes_password" style="display: none">
+                        <form th:action="@{/user/reset/password}" method="post" >
+                            <div class="row">
+                                <div class="col-sm-3 m-aufto">
+                                    <p class="mb-0">Current Password</p>
+                                </div>
+                                <div class="col-sm-9 position-relative">
+                                    <input type="password" name="current_password"  class="input-edit-profile" id="current_password"  >
+                                    <button type="button" id="current_btnToggle" class="toggle t-r"><i id="current_eyeIcon" class="bi bi-eye"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3 m-auto">
+                                    <p class="mb-0">New Password</p>
+                                </div>
+                                <div class="col-sm-9 position-relative">
+                                    <input type="password" name="new_password"  class="input-edit-profile" id="new_password"  >
+                                    <button type="button" id="new_btnToggle" class="toggle t-r"><i id="new_eyeIcon" class="bi bi-eye"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3 m-auto">
+                                    <p class="mb-0">Confirm Password</p>
+                                </div>
+                                <div class="col-sm-9 position-relative">
+                                    <input type="password" name="confirm_password"  class="input-edit-profile" id="confirm_password_edit"  >
+                                    <button type="button" id="confirm_btnToggle" class="toggle t-r"><i id="confirm_eyeIcon" class="bi bi-eye"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="d-flex justify-content-center mb-2">
+                                    <button type="submit" class="btn btn-outline-primary ms-1">Changes Password</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-8">
@@ -302,7 +341,7 @@
 </div>
 <div th:replace="fragments/addjs"></div>
 <script>
-    let passwordInput = document.getElementById('confirm_password'),
+    let passwordInput = document.getElementById('confirm_password_edit'),
         toggle = document.getElementById('btnToggle'),
         icon =  document.getElementById('eyeIcon');
 
@@ -332,6 +371,75 @@
 
     toggle.addEventListener('click', togglePassword, false);
     // passwordInput.addEventListener('keyup', checkInput, false);
+    let current_passwordInput = document.getElementById('current_password'),
+        current_toggle = document.getElementById('current_btnToggle'),
+        current_icon =  document.getElementById('current_eyeIcon');
+
+    function current_togglePassword() {
+        if (current_passwordInput.type === 'password') {
+            current_passwordInput.type = 'text';
+            current_icon.classList.add("bi-eye-slash");
+            current_icon.classList.remove("bi-eye");
+            //toggle.innerHTML = 'hide';
+        } else {
+            current_passwordInput.type = 'password';
+            current_icon.classList.remove("bi-eye-slash");
+            current_icon.classList.add("bi-eye");
+            //toggle.innerHTML = 'show';
+        }
+    }
+
+
+    let new_passwordInput = document.getElementById('new_password'),
+        new_toggle = document.getElementById('new_btnToggle'),
+        new_icon =  document.getElementById('new_eyeIcon');
+
+    function new_togglePassword() {
+        if (new_passwordInput.type === 'password') {
+            new_passwordInput.type = 'text';
+            new_icon.classList.add("bi-eye-slash");
+            new_icon.classList.remove("bi-eye");
+            //toggle.innerHTML = 'hide';
+        } else {
+            new_passwordInput.type = 'password';
+            new_icon.classList.remove("bi-eye-slash");
+            new_icon.classList.add("bi-eye");
+            //toggle.innerHTML = 'show';
+        }
+    }
+    let confirm_passwordInput = document.getElementById('confirm_password'),
+        confirm_toggle = document.getElementById('confirm_btnToggle'),
+        confirm_icon =  document.getElementById('confirm_eyeIcon');
+
+    function confirm_togglePassword() {
+        if (confirm_passwordInput.type === 'password') {
+            confirm_passwordInput.type = 'text';
+            confirm_icon.classList.add("bi-eye-slash");
+            confirm_icon.classList.remove("bi-eye");
+            //toggle.innerHTML = 'hide';
+        } else {
+            confirm_passwordInput.type = 'password';
+            confirm_icon.classList.remove("bi-eye-slash");
+            confirm_icon.classList.add("bi-eye");
+            //toggle.innerHTML = 'show';
+        }
+    }
+
+    new_toggle.addEventListener('click', new_togglePassword, false);
+
+    current_toggle.addEventListener('click', current_togglePassword, false);
+
+    confirm_toggle.addEventListener('click', confirm_togglePassword, false);
+
+
+    function showChangePassword(){
+        var show_changes_pass = document.getElementById("changes_password").style.display;
+        if(show_changes_pass == "none"){
+            document.getElementById("changes_password").style.display = "block";
+        }else {
+            document.getElementById("changes_password").style.display = "none";
+        }
+    }
 </script>
 
 </body>
