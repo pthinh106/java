@@ -36,7 +36,7 @@ public class ProductService {
     @Autowired
     ProductImagesReps productImagesReps;
     public List<Product> getAllProduct(){
-        return productReps.findAll();
+        return productReps.findAllByStatusIs(1);
     }
     public Product getById(int id){
         return productReps.getById(id);

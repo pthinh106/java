@@ -15,7 +15,7 @@ public class Product {
     @JoinColumn(name = "Category_id")
     private Category category;
     @Column(name = "Product_name")
-    private String ProductName;
+    private String productName;
     @Column(name = "Product_images_preview")
     private String images;
     @Column(name = "Short_description")
@@ -25,7 +25,7 @@ public class Product {
     @Column(name = "Quantity")
     private int Quantity;
     @Column(name = "Status")
-    private int Status;
+    private int status;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImages> productImagesList;
 
@@ -35,12 +35,12 @@ public class Product {
 
     public Product(Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList, List<ProductSize> productSizeList) {
         this.category = category;
-        ProductName = productName;
+        this.productName = productName;
         this.images = images;
         ShortDescription = shortDescription;
         Description = description;
         Quantity = quantity;
-        Status = status;
+        this.status = status;
         this.productImagesList = productImagesList;
         this.productSizeList = productSizeList;
     }
@@ -48,12 +48,12 @@ public class Product {
     public Product(int productId, Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList) {
         ProductId = productId;
         this.category = category;
-        ProductName = productName;
+        this.productName = productName;
         this.images = images;
         ShortDescription = shortDescription;
         Description = description;
         Quantity = quantity;
-        Status = status;
+        this.status = status;
         this.productImagesList = productImagesList;
     }
 
@@ -64,7 +64,7 @@ public class Product {
         ShortDescription = shortDescription;
         Description = description;
         Quantity = quantity;
-        Status = status;
+        this.status = status;
         this.productImagesList = productImagesList;
     }
 
@@ -75,18 +75,18 @@ public class Product {
         ShortDescription = shortDescription;
         Description = description;
         Quantity = quantity;
-        Status = status;
+        this.status = status;
     }
 
     public Product(int productId, Category category, String productName, String images, String shortDescription, String description, int quantity, int status, List<ProductImages> productImagesList, List<ProductSize> productSizeList) {
         ProductId = productId;
         this.category = category;
-        ProductName = productName;
+        this.productName = productName;
         this.images = images;
         ShortDescription = shortDescription;
         Description = description;
         Quantity = quantity;
-        Status = status;
+        this.status = status;
         this.productImagesList = productImagesList;
         this.productSizeList = productSizeList;
     }
@@ -156,30 +156,30 @@ public class Product {
     }
 
     public String getProductName() {
-        return ProductName;
+        return this.productName;
     }
 
     public void setProductName(String productName) {
-        ProductName = productName;
+        this.productName = productName;
     }
 
     public int getStatus() {
-        return Status;
+        return this.status;
     }
 
     public void setStatus(int status) {
-        Status = status;
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "category=" + category +
-                ", ProductName='" + ProductName + '\'' +
+                ", productName='" + productName + '\'' +
                 ", ShortDescription='" + ShortDescription + '\'' +
                 ", Description='" + Description + '\'' +
                 ", Quantity=" + Quantity +
-                ", Status=" + Status +
+                ", status=" + status +
                 '}';
     }
 }

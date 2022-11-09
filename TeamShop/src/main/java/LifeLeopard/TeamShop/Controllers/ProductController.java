@@ -1,10 +1,11 @@
 package LifeLeopard.TeamShop.Controllers;
 
+import LifeLeopard.TeamShop.Models.Category;
 import LifeLeopard.TeamShop.Models.Customers;
 import LifeLeopard.TeamShop.Models.Product;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;
 import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
-import LifeLeopard.TeamShop.Responsibility.ProductReps;
+import LifeLeopard.TeamShop.Service.CategoryService;
 import LifeLeopard.TeamShop.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/product")
@@ -23,6 +25,8 @@ public class ProductController {
     private AccountReps accountReps;
     @Autowired
     ProductService productService;
+    @Autowired
+    CategoryService categoryService;
 
 
 
@@ -39,6 +43,10 @@ public class ProductController {
         if(keyword != null){
             return "home/product-detail";
         }
+        List<Category> categoryList = categoryService.getAllCategory();
+        List<Product> productList = productService.getAllProduct();
+        model.addAttribute("productList",productList);
+        model.addAttribute("categoryList",categoryList);
         return "home/product";
     }
     @GetMapping("/{id}")
@@ -51,8 +59,11 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-//        Product product =  productService.getById(id);
-//        System.out.println(product.getProductName());
+        Product product = productService.getById(id);
+        if(product == null){
+            return "error";
+        }
+        model.addAttribute("product",product);
         return "home/product-detail";
     }
 

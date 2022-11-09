@@ -19,7 +19,7 @@ public class ProductSize {
     @Column(name = "Price")
     private double Price;
     @Column(name = "Status")
-    private int Status;
+    private int status;
     public ProductSize(){}
 
     public ProductSize(int productSizeId, Product product, Size size, int quantity, double price, int status) {
@@ -28,7 +28,7 @@ public class ProductSize {
         this.size = size;
         Quantity = quantity;
         Price = price;
-        Status = status;
+        this.status = status;
     }
 
     public int getProductSizeId() {
@@ -72,11 +72,11 @@ public class ProductSize {
     }
 
     public int getStatus() {
-        return Status;
+        return this.status;
     }
 
     public void setStatus(int status) {
-        Status = status;
+        this.status = status;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ProductSize {
                 ", size=" + size +
                 ", Quantity=" + Quantity +
                 ", Price=" + Price +
-                ", Status=" + Status +
+                ", status=" + status +
                 '}';
     }
 }
