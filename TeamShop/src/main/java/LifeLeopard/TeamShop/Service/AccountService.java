@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
+
 @Service
 @Transactional
 public class AccountService {
@@ -45,5 +47,11 @@ public class AccountService {
         } else {
             return false;
         }
+    }
+
+    public void changesPassword(String newPassword, Principal principal) {
+        String username = principal.getName().trim();
+        Accounts accounts = accountReps.findByUsername(username);
+        accounts.setPassword(passwordEncoder.encode(newPassword));
     }
 }

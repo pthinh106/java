@@ -6,14 +6,23 @@ import LifeLeopard.TeamShop.Models.ProductSize;
 import LifeLeopard.TeamShop.Responsibility.ProductImagesReps;
 import LifeLeopard.TeamShop.Responsibility.ProductReps;
 import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
+import LifeLeopard.TeamShop.UploadImagesProduct.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductService {
+    public static String UPLOAD_DIRECTORY = Paths.get("")
+            .toAbsolutePath()
+            .toString() + "/src/main/resources/static/images/product";
     @Autowired
     ProductReps productReps;
     @Autowired
@@ -36,15 +45,32 @@ public class ProductService {
         productSizeReps.saveAll(productSizeList);
         return product;
     }
-    public void saveImgProduct(Product product,List<String> UrlList){
-        for (String url:UrlList) {
+    public void saveImgProduct(Product product, MultipartFile[] multipartFiles) throws IOException {
+        List<String> urlImages =new ArrayList<>(4);
+        for (MultipartFile multipartFile:multipartFiles) {
+            String FileName = StringUtils.getFilename(multipartFile.getOriginalFilename());
+            int index = FileName.lastIndexOf('.');
+            String Del = FileName.substring(index);
+            String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+            FileName = FileName.replace(Del,"");
+            FileName = FileName.replace('.','-');
+            FileName = FileName.replace(' ','-');
+            FileName = FileName + "."+ Ex;
+            String uploadDir = UPLOAD_DIRECTORY + "/"+ product.getProductId();
+            String urlImg = new String();
+            urlImg = "/images/product/" + product.getProductId() +"/"+ FileName;
+            urlImages.add(urlImg);
+            FileUploadUtil.saveFile(uploadDir,FileName,multipartFile);
+            System.out.println(FileName);
+        }
+        for (String url:urlImages) {
             ProductImages productImages = new ProductImages();
             productImages.setProduct(product);
             productImages.setUrl(url);
             productImagesReps.save(productImages);
         }
         Product product1 = productReps.getById(product.getProductId());
-        product1.setImages(UrlList.get(0));
+        product1.setImages(urlImages.get(0));
         productReps.save(product1);
     }
 }

@@ -10,6 +10,8 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -117,6 +120,25 @@ public class CustomerService {
         helper.setText(content, true);
 
         javaMailSender.send(message);
+    }
+    public boolean editProfile(Customers customersDetails,String password,Principal principal){
+        String username = principal.getName().trim();
+        Accounts accounts = accountReps.findByUsername(username);
+        if(passwordEncoder.matches(password,accounts.getPassword())){
+            Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            customer.setFirstName(customersDetails.getFirstName());
+            customer.setLastName(customersDetails.getLastName());
+            customer.setBirthday(customersDetails.getBirthday());
+            customer.setPhoneNumber(customersDetails.getPhoneNumber());
+            customer.setAddress(customersDetails.getAddress());
+            customerRepos.save(customer);
+            System.out.println("edit_profile_success");
+            return true;
+        }else{
+            System.out.println("edit_profile_fail");
+            return false;
+        }
+
     }
 
 }

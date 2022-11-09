@@ -2,7 +2,6 @@ package LifeLeopard.TeamShop.Controllers;
 
 import LifeLeopard.TeamShop.Models.Accounts;
 import LifeLeopard.TeamShop.Models.Customers;
-import LifeLeopard.TeamShop.Models.Product;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;
 import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
 import LifeLeopard.TeamShop.Responsibility.RolesRepos;
@@ -25,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.List;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping(path = "/")
@@ -42,8 +41,6 @@ public class HomeController {
     private CustomerRepos customerRepos;
     @Autowired
     private AccountReps accountReps;
-    @Autowired
-    private RolesRepos rolesReps;
 
 
     @GetMapping("/")
@@ -70,7 +67,7 @@ public class HomeController {
     @GetMapping("/login-error")
     public String loginError(Model model){
         model.addAttribute("error",true);
-        System.out.println("faild");
+        System.out.println("login_fail");
         return "home/login";
     }
     @GetMapping("/logout")
@@ -187,5 +184,19 @@ public class HomeController {
         }
         return "home/verify_password";
 
+    }
+    @GetMapping("/s")
+    public String gt(Model model){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        ArrayList<Integer> arrayList2 = new ArrayList<>();
+        for(Integer i = 0; i<=66;i++){
+            arrayList.add(i);
+        }
+        for(Integer i = 1; i<=147;i++){
+            arrayList2.add(i);
+        }
+        model.addAttribute("stt",arrayList);
+        model.addAttribute("chap",arrayList2);
+        return "home/test";
     }
 }
