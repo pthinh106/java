@@ -42,24 +42,29 @@ public class UserController {
         return "home/user/edit-profile";
     }
     @PostMapping("/edit")
-    public String editProfileUser(RedirectAttributes redirectAttrs, Principal principal,@ModelAttribute("customer") Customers customers, @RequestParam("password") String password){
+    public String editProfileUser(Model model, Principal principal,@ModelAttribute("customer") Customers customers, @RequestParam("password") String password){
         if(customerService.editProfile(customers,password,principal)){
-            redirectAttrs.addFlashAttribute("edit_profile_success",true);
+            model.addAttribute("edit_profile_success",true);
         }else{
-            redirectAttrs.addFlashAttribute("edit_profile_fail",true);
+            model.addAttribute("edit_profile_fail",true);
         }
         return "redirect:/user";
     }
     @PostMapping("/reset/password")
-    public String resetPassword(RedirectAttributes redirectAttrs, Principal principal, @RequestParam("current_password") String currentPassword,
+    public String resetPassword(Model model, Principal principal, @RequestParam("current_password") String currentPassword,
                                 @RequestParam("new_password") String newPassword, @RequestParam("confirm_password") String confirmPassword){
         if(newPassword.equals(confirmPassword) && !newPassword.isEmpty()){
-            accountService.changesPassword(newPassword,principal);
-            redirectAttrs.addFlashAttribute("changes_pass_success",true);
-            System.out.println("changes_pass_success");
+            if(accountService.changesPassword(currentPassword,newPassword,principal)){
+                model.addAttribute("changes_pass_success",true);
+
+                System.out.println("changes_pass_success");
+            }else{
+                model.addAttribute("changes_pass_fail",true);
+                System.out.println("current_password_pass_fail");
+            }
         }else{
-            redirectAttrs.addFlashAttribute("changes_pass_fail",true);
-            System.out.println("changes_pass_fail");
+            model.addAttribute("changes_pass_fail",true);
+            System.out.println("confirm_pass_fail");
         }
         return "redirect:/user";
     }

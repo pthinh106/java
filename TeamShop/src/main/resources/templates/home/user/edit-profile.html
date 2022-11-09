@@ -57,7 +57,7 @@
                         <h5 class="my-3" th:text="${customer.getFullName()}"></h5>
                         <div class="d-flex justify-content-center mb-2">
                             <a th:href="@{/user}"><button type="button" class="btn btn-outline-primary ms-1">Profile</button></a>
-                            <a><button type="button" class="btn btn-outline-primary ms-1">Changes Password</button></a>
+                            <a><button type="button" class="btn btn-outline-primary ms-1" onclick="showChangePassword()">Changes Password</button></a>
                         </div>
                     </div>
                     <div class="card-body text-center " id="changes_password" style="display: none">
@@ -407,7 +407,7 @@
             //toggle.innerHTML = 'show';
         }
     }
-    let confirm_passwordInput = document.getElementById('confirm_password'),
+    let confirm_passwordInput = document.getElementById('confirm_password_edit'),
         confirm_toggle = document.getElementById('confirm_btnToggle'),
         confirm_icon =  document.getElementById('confirm_eyeIcon');
 

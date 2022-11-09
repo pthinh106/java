@@ -95,7 +95,7 @@ public class AdminController {
         productService.saveImgProduct(productRepos,multipartFiles);
 //        System.out.println(productSizes.get(0).toString());
         System.out.println("success");
-
+        model.addAttribute("create_product_success");
 
         return "redirect:/admin/product/create";
     }

@@ -49,9 +49,15 @@ public class AccountService {
         }
     }
 
-    public void changesPassword(String newPassword, Principal principal) {
+    public boolean changesPassword(String currentPassword,String newPassword, Principal principal) {
         String username = principal.getName().trim();
         Accounts accounts = accountReps.findByUsername(username);
-        accounts.setPassword(passwordEncoder.encode(newPassword));
+        if(passwordEncoder.matches(currentPassword, accounts.getPassword())){
+            accounts.setPassword(passwordEncoder.encode(newPassword));
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
