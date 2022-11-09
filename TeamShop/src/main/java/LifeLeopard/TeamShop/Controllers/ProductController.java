@@ -7,6 +7,7 @@ import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
 import LifeLeopard.TeamShop.Responsibility.ProductReps;
 import LifeLeopard.TeamShop.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ProductController {
 
 
     @GetMapping("")
-    public String getAllProduct( Model model, Principal principal){
+    public String getProduct(@Param("keyword") String keyword, Principal principal, Model model){
         if(principal != null){
             String username = principal.getName().trim();
             Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
@@ -35,7 +36,9 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-
+        if(keyword != null){
+            return "home/product-detail";
+        }
         return "home/product";
     }
     @GetMapping("/{id}")
@@ -52,16 +55,5 @@ public class ProductController {
 //        System.out.println(product.getProductName());
         return "home/product-detail";
     }
-    @PostMapping("")
-    public String findByProductName(@RequestParam("keyword") String keyword,Principal principal,Model model){
-        if(principal != null){
-            String username = principal.getName().trim();
-            Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
-            if(customer == null){
-                return "redirect:/admin";
-            }
-            model.addAttribute("customer",customer);
-        }
-        return null;
-    }
+
 }
