@@ -66,7 +66,6 @@ public class AdminController {
             model.addAttribute("employee",employee);
         }
         model.addAttribute("product",new Product());
-        model.addAttribute("product_size",new ArrayList<ProductSize>(4));
         model.addAttribute("categoryList",categoryService.getAllCategory());
         model.addAttribute("sizes",sizeService.getAllSize());
         return "admin/create-product";
@@ -110,6 +109,7 @@ public class AdminController {
             model.addAttribute("employee",employee);
         }
         Product product = productService.getById(id);
+//        System.out.println(product.getProductImagesList().size());
         model.addAttribute("product",product);
         model.addAttribute("categoryList",categoryService.getAllCategory());
         return "admin/update-product";
@@ -121,7 +121,7 @@ public class AdminController {
 
         productService.updateProduct(id,productDetails,multipartFiles,quantity,status,price);
         model.addAttribute("update_product_success");
-        return "forward:/admin/product/update/" + id;
+        return "redirect:/admin/product/update/" + id;
     }
 
 }

@@ -59,22 +59,21 @@ public class ProductService {
     public void saveImgProduct(Product product, MultipartFile[] multipartFiles) throws IOException {
         List<String> urlImages =new ArrayList<>(4);
         for (MultipartFile multipartFile:multipartFiles) {
-//            String FileName = StringUtils.getFilename(multipartFile.getOriginalFilename());
-            String FileName = RandomString.make(10);
-//            int index = FileName.lastIndexOf('.');
-//            String Del = FileName.substring(index);
-            String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
-            FileName = FileName + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-//            FileName = FileName.replace(Del,"");
-            FileName = FileName.replace('.','-');
-            FileName = FileName.replace(' ','-');
-            FileName = FileName + "."+ Ex;
-            String uploadDir = UPLOAD_DIRECTORY + "/"+ product.getProductId();
-            String urlImg = new String();
-            urlImg = "/images/product/" + product.getProductId() +"/"+ FileName;
-            urlImages.add(urlImg);
-            FileUploadUtil.saveFile(uploadDir,FileName,multipartFile);
-            System.out.println(FileName);
+            String Check = StringUtils.getFilename(multipartFile.getOriginalFilename());
+            if(!Check.isEmpty()){
+                String FileName = RandomString.make(10);
+                String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+                FileName = FileName + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+                FileName = FileName.replace('.','-');
+                FileName = FileName.replace(' ','-');
+                FileName = FileName + "."+ Ex;
+                String uploadDir = UPLOAD_DIRECTORY + "/"+ product.getProductId();
+                String urlImg = new String();
+                urlImg = "/images/product/" + product.getProductId() +"/"+ FileName;
+                urlImages.add(urlImg);
+                FileUploadUtil.saveFile(uploadDir,FileName,multipartFile);
+                System.out.println(FileName);
+            }
         }
         for (String url:urlImages) {
             ProductImages productImages = new ProductImages();
@@ -96,10 +95,17 @@ public class ProductService {
             productSizeList.get(i).setStatus(Status[i]);
             productSizeList.get(i).setPrice(price[i]);
         }
-        for(int i = 0 ; i < 4 ;i++){
+        for(int i = 0 ;i <4 ;i ++){
             String FileName = StringUtils.getFilename(multipartFiles[i].getOriginalFilename());
             if(!FileName.isEmpty()){
-                File file = new File(DELETE_DIRECTORY +productImagesList.get(i).getUrl());
+                File file = new File("a.txt");
+                if(i < productImagesList.size()){
+                    file = new File(DELETE_DIRECTORY +productImagesList.get(i).getUrl());
+                }else{
+                    ProductImages productImages = new ProductImages();
+                    productImages.setProduct(product);
+                    productImagesList.add(productImages);
+                }
                 if (file.delete() || true) {
                     String FileNameUpdate = RandomString.make(10);
                     String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFiles[i].getOriginalFilename()));
@@ -113,7 +119,11 @@ public class ProductService {
                     if( i == 0){
                         thumbnail = urlImg;
                     }
-                    productImagesList.get(i).setUrl(urlImg);
+                    if(i >= productImagesList.size()){
+                        productImagesList.get(productImagesList.size()-1).setUrl(urlImg);
+                    }else{
+                        productImagesList.get(i).setUrl(urlImg);
+                    }
                     FileUploadUtil.saveFile(uploadDir,FileNameUpdate,multipartFiles[i]);
                     System.out.println(FileNameUpdate);
                     System.out.println(file.getName() + " is deleted!");
