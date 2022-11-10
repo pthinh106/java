@@ -9,11 +9,13 @@ import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
 import LifeLeopard.TeamShop.UploadImagesProduct.FileUploadUtil;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -29,6 +31,9 @@ public class ProductService {
     public static String UPLOAD_DIRECTORY = Paths.get("")
             .toAbsolutePath()
             .toString() + "/src/main/resources/static/images/product";
+    public static String DELETE_DIRECTORY = Paths.get("")
+            .toAbsolutePath()
+            .toString() + "/src/main/resources/static";
     @Autowired
     ProductReps productReps;
     @Autowired
@@ -80,5 +85,54 @@ public class ProductService {
         Product product1 = productReps.getById(product.getProductId());
         product1.setImages(urlImages.get(0));
         productReps.save(product1);
+    }
+    public void updateProduct(int id,Product productDetails,MultipartFile[] multipartFiles,int[] quantity,int[] Status,double[] price) throws IOException {
+        Product product = productReps.getById(id);
+        List<ProductSize> productSizeList = productSizeReps.findAllByProduct(product);
+        List<ProductImages> productImagesList = productImagesReps.findAllByProduct(product);
+        String thumbnail = null;
+        for(int i = 0 ; i < 4 ;i++){
+            productSizeList.get(i).setQuantity(quantity[i]);
+            productSizeList.get(i).setStatus(Status[i]);
+            productSizeList.get(i).setPrice(price[i]);
+            String FileName = StringUtils.getFilename(multipartFiles[i].getOriginalFilename());
+            if(!FileName.isEmpty()){
+                File file = new File(DELETE_DIRECTORY +productImagesList.get(i).getUrl());
+                if (file.delete()) {
+                    String FileNameUpdate = RandomString.make(10);
+                    String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFiles[i].getOriginalFilename()));
+                    FileNameUpdate = FileNameUpdate + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+                    FileNameUpdate = FileNameUpdate.replace('.','-');
+                    FileNameUpdate = FileNameUpdate.replace(' ','-');
+                    FileNameUpdate = FileNameUpdate + "."+ Ex;
+                    String uploadDir = UPLOAD_DIRECTORY + "/"+ product.getProductId();
+                    String urlImg = new String();
+                    urlImg = "/images/product/" + product.getProductId() +"/"+ FileNameUpdate;
+                    if( i == 0){
+                        thumbnail = urlImg;
+                    }
+                    productImagesList.get(i).setUrl(urlImg);
+                    FileUploadUtil.saveFile(uploadDir,FileNameUpdate,multipartFiles[i]);
+                    System.out.println(FileNameUpdate);
+                    System.out.println(file.getName() + " is deleted!");
+                } else {
+                    System.out.println("Delete operation is failed.");
+                }
+
+            }else{
+                System.out.println("file null.");
+            }
+        }
+        product.setProductName(productDetails.getProductName());
+        product.setCategory(productDetails.getCategory());
+        product.setShortDescription(productDetails.getShortDescription());
+        product.setDescription(productDetails.getDescription());
+        product.setStatus(productDetails.getStatus());
+        if(thumbnail != null){
+            product.setImages(thumbnail);
+        }
+        productReps.save(product);
+        productSizeReps.saveAll(productSizeList);
+        productImagesReps.saveAll(productImagesList);
     }
 }

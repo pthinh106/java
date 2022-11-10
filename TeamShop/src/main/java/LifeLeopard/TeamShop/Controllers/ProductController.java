@@ -66,5 +66,9 @@ public class ProductController {
         model.addAttribute("product",product);
         return "home/product-detail";
     }
+    @GetMapping("/test")
+    public String test(){
+        return "home/product-detail";
+    }
 
 }
