@@ -90,7 +90,6 @@ public class AdminController {
             productSize.setQuantity(quantity[i]);
             productSize.setStatus(status[i]);
             productSize.setPrice(price[i]);
-            System.out.println(productSize.toString());
             productSizeList.add(productSize);
         }
         Product productRepos = productService.save(product,productSizeList);

@@ -95,6 +95,8 @@ public class ProductService {
             productSizeList.get(i).setQuantity(quantity[i]);
             productSizeList.get(i).setStatus(Status[i]);
             productSizeList.get(i).setPrice(price[i]);
+        }
+        for(int i = 0 ; i < 4 ;i++){
             String FileName = StringUtils.getFilename(multipartFiles[i].getOriginalFilename());
             if(!FileName.isEmpty()){
                 File file = new File(DELETE_DIRECTORY +productImagesList.get(i).getUrl());
