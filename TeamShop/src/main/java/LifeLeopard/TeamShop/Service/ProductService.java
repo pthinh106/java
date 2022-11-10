@@ -91,7 +91,7 @@ public class ProductService {
         List<ProductSize> productSizeList = productSizeReps.findAllByProduct(product);
         List<ProductImages> productImagesList = productImagesReps.findAllByProduct(product);
         String thumbnail = null;
-        for(int i = 0 ; i < 4 ;i++){
+        for(int i = 0 ; i < productSizeList.size() ;i++){
             productSizeList.get(i).setQuantity(quantity[i]);
             productSizeList.get(i).setStatus(Status[i]);
             productSizeList.get(i).setPrice(price[i]);

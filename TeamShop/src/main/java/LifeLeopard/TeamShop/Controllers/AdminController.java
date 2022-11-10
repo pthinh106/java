@@ -83,7 +83,7 @@ public class AdminController {
         }
         List<ProductSize> productSizeList = new ArrayList<>(4);
         List<Size> sizeList = sizeService.getAllSize();
-        for(int i = 0; i<4 ;i++){
+        for(int i = 0; i<sizeList.size() ;i++){
             ProductSize productSize = new ProductSize();
             productSize.setSize(sizeList.get(i));
             productSize.setQuantity(quantity[i]);
@@ -118,8 +118,10 @@ public class AdminController {
     public String updateProduct(@PathVariable("id") int id,Model model, Principal principal,@ModelAttribute("product") Product productDetails,
                                 @RequestParam("files") MultipartFile[] multipartFiles,
                                 @RequestParam("details_quantity") int[] quantity,@RequestParam("details_status") int[] status,@RequestParam("details_price") double[] price) throws IOException {
+
         productService.updateProduct(id,productDetails,multipartFiles,quantity,status,price);
-        return "redirect:/admin/product/update/" + id;
+        model.addAttribute("update_product_success");
+        return "forward:/admin/product/update/" + id;
     }
 
 }
