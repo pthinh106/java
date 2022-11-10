@@ -81,8 +81,9 @@ public class AdminController {
             Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
             model.addAttribute("employee",employee);
         }
-        List<ProductSize> productSizeList = new ArrayList<>(4);
+
         List<Size> sizeList = sizeService.getAllSize();
+        List<ProductSize> productSizeList = new ArrayList<>(sizeList.size());
         for(int i = 0; i<sizeList.size() ;i++){
             ProductSize productSize = new ProductSize();
             productSize.setSize(sizeList.get(i));
