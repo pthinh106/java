@@ -98,7 +98,7 @@ public class ProductService {
             String FileName = StringUtils.getFilename(multipartFiles[i].getOriginalFilename());
             if(!FileName.isEmpty()){
                 File file = new File(DELETE_DIRECTORY +productImagesList.get(i).getUrl());
-                if (file.delete()) {
+                if (file.delete() || true) {
                     String FileNameUpdate = RandomString.make(10);
                     String Ex = StringUtils.getFilenameExtension(StringUtils.cleanPath(multipartFiles[i].getOriginalFilename()));
                     FileNameUpdate = FileNameUpdate + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
