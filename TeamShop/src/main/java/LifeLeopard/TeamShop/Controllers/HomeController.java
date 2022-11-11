@@ -191,7 +191,7 @@ public class HomeController {
         for(Integer i = 0; i<=66;i++){
             arrayList.add(i);
         }
-        for(Integer i = 1; i<=147;i++){
+        for(Integer i = 1; i<=162;i++){
             arrayList2.add(i);
         }
         model.addAttribute("stt",arrayList);
