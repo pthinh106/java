@@ -147,4 +147,8 @@ public class ProductService {
         productSizeReps.saveAll(productSizeList);
         productImagesReps.saveAll(productImagesList);
     }
+
+    public List<Product> getAllByName(String keyword) {
+        return productReps.findAllByProductNameLike(keyword);
+    }
 }
