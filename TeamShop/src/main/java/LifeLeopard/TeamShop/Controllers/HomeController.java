@@ -9,7 +9,6 @@ import LifeLeopard.TeamShop.Service.CustomerService;
 import LifeLeopard.TeamShop.Service.ProductService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,7 +56,6 @@ public class HomeController {
         }
         return "home/index";
     }
-
     @GetMapping("/login")
     public String login(Principal principal){
         if(principal != null){
@@ -186,27 +184,19 @@ public class HomeController {
         return "home/verify_password";
 
     }
-    @GetMapping("/s")
-    public String gt(Model model){
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        ArrayList<Integer> arrayList2 = new ArrayList<>();
-        for(Integer i = 0; i<=66;i++){
-            arrayList.add(i);
-        }
-        for(Integer i = 1; i<=162;i++){
-            arrayList2.add(i);
-        }
-        model.addAttribute("stt",arrayList);
-        model.addAttribute("chap",arrayList2);
-        return "home/test";
-    }
-    @GetMapping("/contact")
-    public String contact(Model model){
-        return "home/contact";
-    }
+    @GetMapping("/{url}")
+    public String urldef(Model model,Principal principal,@PathVariable("url") String url){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
+            if(customer == null){
+                return "redirect:/admin";
+            }else{
+                model.addAttribute("customer",customer);
+            }
 
-    @GetMapping("/about")
-    public String about(Model model){
-        return "home/about";
+        }
+        System.out.println(url);
+        return "home/" + url;
     }
 }
