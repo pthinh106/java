@@ -34,6 +34,12 @@ public class ProductService {
     public static String DELETE_DIRECTORY = Paths.get("")
             .toAbsolutePath()
             .toString() + "/src/main/resources/static";
+//    public static String UPLOAD_DIRECTORY = Paths.get("")
+//            .toAbsolutePath()
+//            .toString() + "/TeamShop/src/main/resources/static/images/product";
+//    public static String DELETE_DIRECTORY = Paths.get("")
+//            .toAbsolutePath()
+//            .toString() + "/TeamShop/src/main/resources/static";
     @Autowired
     ProductReps productReps;
     @Autowired
