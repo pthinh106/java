@@ -25,12 +25,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Starter Page</h1>
+                        <h1 class="m-0">Product Details</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
+                            <form th:action="@{/admin/product}" class="form-search" method="post">
+                                <input name="keyword" type="text" class="search-input">
+                                <select name="search">
+                                    <option value="0">Search by Id</option>
+                                    <option value="1">Search by Name</option>
+                                </select>
+                                <button type="submit" value="submit"><i class="fas fa-search fa-fw"></i></button>
+                            </form>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -41,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                <div class="row justify-content-center d-flex m-auto" style="width: 95%" >
+                <div class="row justify-content-center m-auto" style="width: 95%" >
                     <table class="table">
                         <thead>
                         <tr>
@@ -79,8 +85,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </td>
                                 <td th:text="${product.getQuantity()}">Mark</td>
                                 <td th:text="${product.getStatus() == 1 ? 'on' : 'off'}">Mark</td>
-                                <td class="d-flex flex-row justify-content-around">
-                                    <a th:href="@{/admin/product/update/{id}(id=${product.getProductId()})}" class="text-decoration-none">Edit</a>
+                                <td >
+                                    <a  th:href="@{/admin/product/update/{id}(id=${product.getProductId()})}" class="text-decoration-none pr-3">Edit</a>
                                     <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none">Delete</a>
                                 </td>
 
@@ -88,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </th:block>
                         </tbody>
                     </table>
-                    <nav aria-label="..." class="d-flex justify-content-center">
+                    <nav aria-label="..." class="d-flex justify-content-center" th:if="${currentPage != null}">
                         <ul class="pagination">
                             <li class="page-item" th:classappend="${currentPage} == 1 ? 'disabled' : ''">
                                 <a class="page-link" href="#" th:if="${currentPage > 1}" th:href="@{/admin/product}" >First</a>
