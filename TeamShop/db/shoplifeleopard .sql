@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2022 at 06:54 PM
+-- Generation Time: Nov 11, 2022 at 02:28 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -96,7 +96,11 @@ INSERT INTO `table_category` (`Category_id`, `Category_name`) VALUES
 (5, 'T-Shirt'),
 (6, 'Skirts'),
 (7, 'Pants'),
-(8, 'Women\'s Shirt');
+(8, 'Women\'s Shirt'),
+(9, 'Men\'s Pants'),
+(10, 'Women\'s Pants'),
+(11, 'Men\'s Clothes'),
+(12, 'Women\'s Clothes');
 
 -- --------------------------------------------------------
 
@@ -558,7 +562,7 @@ ALTER TABLE `table_accounts`
 -- AUTO_INCREMENT for table `table_category`
 --
 ALTER TABLE `table_category`
-  MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `table_customer`
