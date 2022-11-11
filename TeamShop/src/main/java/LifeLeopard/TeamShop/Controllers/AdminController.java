@@ -13,19 +13,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping(path = "/admin")
 public class AdminController {
-    public static String UPLOAD_DIRECTORY = Paths.get("")
-            .toAbsolutePath()
-            .toString() + "/src/main/resources/static";
+//    public static String UPLOAD_DIRECTORY = Paths.get("")
+//            .toAbsolutePath()
+//            .toString() + "/src/main/resources/static";
     @Autowired
     private EmployeeRepos employeeRepos;
     @Autowired
@@ -47,6 +47,7 @@ public class AdminController {
             Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
             model.addAttribute("employee",employee);
         }
+//        System.out.println(UPLOAD_DIRECTORY);
         return "admin/admin.index";
     }
     @GetMapping("/product")
@@ -66,6 +67,27 @@ public class AdminController {
         model.addAttribute("currentPage",page);
 
         return "admin/show-all-product";
+    }
+    @PostMapping("/product")
+    public String findProduct(@RequestParam("keyword") String keyword, @RequestParam("search") int search, Model model){
+        System.out.println(keyword);
+        System.out.println(search);
+        List<Product> productList = new ArrayList<>();
+        try {
+            if(search == 0){
+                Product product =  productService.getById(Integer.parseInt(keyword));
+                productList.add(product);
+            }else{
+                productList = productService.getAllByName(keyword);
+            }
+        }catch (Exception e){
+            return "admin/admin-error";
+        }
+
+        model.addAttribute("productList",productList);
+        System.out.println(productList.get(0).toString());
+        return "admin/show-all-product";
+//        return null;
     }
     @GetMapping("/product/create")
     public String createNewProduct(Model model, Principal principal){
@@ -98,6 +120,9 @@ public class AdminController {
             ProductSize productSize = new ProductSize();
             productSize.setSize(sizeList.get(i));
             productSize.setQuantity(quantity[i]);
+            if(quantity[i] == 0){
+                status[i] = 0;
+            }
             productSize.setStatus(status[i]);
             productSize.setPrice(price[i]);
             productSizeList.add(productSize);
@@ -132,7 +157,7 @@ public class AdminController {
 
         productService.updateProduct(id,productDetails,multipartFiles,quantity,status,price);
         model.addAttribute("update_product_success");
-        return "redirect:/admin/product/update/" + id;
+        return "redirect:/admin/product";
     }
 
 }
