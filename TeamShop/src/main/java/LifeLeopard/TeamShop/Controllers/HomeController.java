@@ -9,6 +9,7 @@ import LifeLeopard.TeamShop.Service.CustomerService;
 import LifeLeopard.TeamShop.Service.ProductService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,6 +57,7 @@ public class HomeController {
         }
         return "home/index";
     }
+
     @GetMapping("/login")
     public String login(Principal principal){
         if(principal != null){
@@ -197,5 +199,14 @@ public class HomeController {
         model.addAttribute("stt",arrayList);
         model.addAttribute("chap",arrayList2);
         return "home/test";
+    }
+    @GetMapping("/contact")
+    public String contact(Model model){
+        return "home/contact";
+    }
+
+    @GetMapping("/about")
+    public String about(Model model){
+        return "home/about";
     }
 }

@@ -9,7 +9,4 @@ public class TeamShopApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TeamShopApplication.class, args);
 	}
-
-
-
 }
