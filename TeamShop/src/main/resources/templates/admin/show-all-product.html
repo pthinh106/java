@@ -12,6 +12,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .messages{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 1000;
+        background: #25cf98;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        display: flex;
+    }
 </style>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -21,8 +31,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+
         <div class="content-header">
             <div class="container-fluid">
+                <div class="row" th:if="${update_product_success}">
+                    <p class="messages" th:text="${'You have update product id is:' + update_product_id }"></p>
+                </div>
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Product Details</h1>

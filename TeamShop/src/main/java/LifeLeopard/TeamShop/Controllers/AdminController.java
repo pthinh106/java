@@ -10,10 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,19 +105,19 @@ public class AdminController {
         model.addAttribute("product",new Product());
         model.addAttribute("categoryList",categoryService.getAllCategory());
         model.addAttribute("sizes",sizeService.getAllSize());
+//        model.addAttribute("message",message);
         return "admin/create-product";
     }
     @PostMapping("/product/create")
-    public String createProduct(Model model, Principal principal,@ModelAttribute("product") Product product,
+    public String createProduct(Model model, RedirectAttributes redirectAttributes, Principal principal, @ModelAttribute("product") Product product,
                                 @RequestParam("files") MultipartFile[] multipartFiles,
-                                @RequestParam("details_quantity") int[] quantity,@RequestParam("details_status") int[] status,@RequestParam("details_price") double[] price) throws IOException {
+                                @RequestParam("details_quantity") int[] quantity, @RequestParam("details_status") int[] status, @RequestParam("details_price") double[] price) throws IOException {
 
         if(principal != null){
             String username = principal.getName().trim();
             Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
             model.addAttribute("employee",employee);
         }
-
         List<Size> sizeList = sizeService.getAllSize();
         List<ProductSize> productSizeList = new ArrayList<>(sizeList.size());
         for(int i = 0; i<sizeList.size() ;i++){
@@ -129,12 +133,14 @@ public class AdminController {
         }
         Product productRepos = productService.save(product,productSizeList);
         System.out.println(productRepos.toString());
-
         productService.saveImgProduct(productRepos,multipartFiles);
+
 //        System.out.println(productSizes.get(0).toString());
         System.out.println("success");
         model.addAttribute("create_product_success",true);
-
+        redirectAttributes.addFlashAttribute("message",
+                true);
+        redirectAttributes.addFlashAttribute("productid",productRepos.getProductId());
         return "redirect:/admin/product/create";
     }
     @GetMapping("/product/update/{id}")
@@ -151,12 +157,13 @@ public class AdminController {
         return "admin/update-product";
     }
     @PostMapping("/product/update/{id}")
-    public String updateProduct(@PathVariable("id") int id,Model model, Principal principal,@ModelAttribute("product") Product productDetails,
+    public String updateProduct(@PathVariable("id") int id,RedirectAttributes redirectAttributes, Principal principal,@ModelAttribute("product") Product productDetails,
                                 @RequestParam("files") MultipartFile[] multipartFiles,
                                 @RequestParam("details_quantity") int[] quantity,@RequestParam("details_status") int[] status,@RequestParam("details_price") double[] price) throws IOException {
 
         productService.updateProduct(id,productDetails,multipartFiles,quantity,status,price);
-        model.addAttribute("update_product_success");
+        redirectAttributes.addFlashAttribute("update_product_success",true);
+        redirectAttributes.addFlashAttribute("update_product_id",id);
         return "redirect:/admin/product";
     }
 
