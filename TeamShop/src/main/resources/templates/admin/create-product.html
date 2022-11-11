@@ -22,6 +22,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     .img-preview {
         width: 500px;
     }
+    .messages{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 1000;
+        background: #25cf98;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        display: flex;
+    }
     @media only screen and (max-width: 575px) {
         .img-preview{
             width: 300px;
@@ -54,8 +64,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <div class="content">
+        <div class="content" >
             <div class="container-fluid">
+                <div class="row" th:if="${message}">
+                     <p class="messages" th:text="${'Create product success and product id is: ' + productid}"></p>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
