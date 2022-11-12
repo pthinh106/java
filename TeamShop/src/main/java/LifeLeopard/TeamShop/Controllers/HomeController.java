@@ -56,7 +56,7 @@ public class HomeController {
         }
         return "home/index";
     }
-    @GetMapping("/login")
+    @GetMapping("/signup")
     public String login(Principal principal){
         if(principal != null){
             return "redirect:/";
