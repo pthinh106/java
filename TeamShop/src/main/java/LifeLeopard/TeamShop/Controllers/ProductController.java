@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,11 +41,14 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-        if(keyword != null){
-            return "home/product-detail";
-        }
         List<Category> categoryList = categoryService.getAllCategory();
-        List<Product> productList = productService.getAllProduct();
+        List<Product> productList = new ArrayList<>();
+        if(keyword != null){
+            productList = productService.getAllByName(keyword);
+        }else{
+            productList = productService.getAllProduct();
+        }
+
         model.addAttribute("productList",productList);
         model.addAttribute("categoryList",categoryList);
         return "home/product";
