@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ProductReps extends JpaRepository<Product,Integer> {
-    List<Product> findAllByProductNameLike(String productName);
+    List<Product> findAllByProductNameContaining(String productName);
     List<Product> findAllByStatusIs(int Status);
 }
