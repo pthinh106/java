@@ -155,6 +155,6 @@ public class ProductService {
     }
 
     public List<Product> getAllByName(String keyword) {
-        return productReps.findAllByProductNameLike(keyword);
+        return productReps.findAllByProductNameContaining(keyword);
     }
 }
