@@ -53,6 +53,14 @@
                         <li>
                             <a href="/product" >Shop</a>
                         </li>
+                        <li>
+                            <a >Event</a>
+                            <ul class="sub-menu">
+                                <th:block th:each="event : ${eventList}">
+                                    <li><a th:href="@{/event/{id}(id=${event.getEventId()})}" th:text="${event.getEventName()}"></a></li>
+                                </th:block>
+                            </ul>
+                        </li>
 
 <!--                        <li class="label1" data-label1="hot">-->
 <!--                            <a href="/shoping-cart">Features</a>-->
