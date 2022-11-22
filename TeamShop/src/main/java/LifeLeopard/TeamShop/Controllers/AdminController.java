@@ -192,5 +192,5 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("update_product_id",id);
         return "redirect:/admin/product";
     }
-
+    ///check
 }
