@@ -10,6 +10,7 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Product_id")
     private int ProductId;
     @ManyToOne
     @JoinColumn(name = "Category_id")

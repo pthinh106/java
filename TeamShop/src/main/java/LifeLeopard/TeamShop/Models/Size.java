@@ -1,14 +1,13 @@
 package LifeLeopard.TeamShop.Models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "table_size")
 public class Size {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Size_id")
     private int SizeId;
     @Column(name = "Size_name")
     private String SizeName;
