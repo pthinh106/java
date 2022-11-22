@@ -47,18 +47,23 @@ public class HomeController {
         if(principal != null){
             String username = principal.getName().trim();
             Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
-            model.addAttribute("customer",customer);
+            if(customer == null){
+                return "redirect:/admin";
+            }else{
+                model.addAttribute("customer",customer);
             }
+
+        }
         return "home/index";
     }
-    @GetMapping("/user/login")
+    @GetMapping("/signup")
     public String login(Principal principal){
         if(principal != null){
             return "redirect:/";
         }
         return "home/login";
     }
-    @GetMapping("/user/login-error")
+    @GetMapping("/login-error")
     public String loginError(Model model){
         model.addAttribute("error",true);
         System.out.println("login_fail");
@@ -178,21 +183,6 @@ public class HomeController {
         }
         return "home/verify_password";
 
-    }
-    @GetMapping("test")
-    public String test(Model model){
-        ArrayList<Integer> chap = new ArrayList<Integer>();
-        ArrayList<Integer> stt = new ArrayList<Integer>();
-        for(Integer i = 0 ; i < 65;i++){
-            chap.add(i);
-        }
-        for(Integer i = 0 ; i < 45;i++){
-            stt.add(i);
-        }
-        model.addAttribute("chap",chap);
-        model.addAttribute("stt",stt);
-
-        return "home/test";
     }
     @GetMapping("/{url}")
     public String urldef(Model model,Principal principal,@PathVariable("url") String url){

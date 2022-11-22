@@ -8,9 +8,6 @@ import LifeLeopard.TeamShop.Service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -58,27 +53,6 @@ public class AdminController {
         }
 //        System.out.println(UPLOAD_DIRECTORY);
         return "admin/admin.index";
-    }
-    @GetMapping("/login")
-    public String login(Principal principal){
-        if(principal != null){
-            return "redirect:/admin";
-        }
-        return "admin/login";
-    }
-    @GetMapping("/login-error")
-    public String loginError(Model model){
-        model.addAttribute("error",true);
-        System.out.println("login_fail");
-        return "admin/login";
-    }
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/admin";
     }
     @GetMapping("/product")
     public String getAllProduct(Model model, Principal principal,@RequestParam(value = "page",defaultValue = "1") int page){
@@ -192,5 +166,5 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("update_product_id",id);
         return "redirect:/admin/product";
     }
-    ///check
+
 }
