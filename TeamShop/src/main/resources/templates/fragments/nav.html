@@ -57,7 +57,7 @@
                             <a >Event</a>
                             <ul class="sub-menu">
                                 <th:block th:each="event : ${eventList}">
-                                    <li><a th:href="@{/event/{id}(id=${event.getEventId()})}" th:text="${event.getEventName()}"></a></li>
+                                    <li ><a th:href="@{/event/{id}(id=${event.getEventId()})}" th:text="${event.getEventName()}"></a></li>
                                 </th:block>
                             </ul>
                         </li>
