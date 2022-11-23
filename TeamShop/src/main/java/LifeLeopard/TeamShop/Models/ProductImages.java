@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ProductImages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Product_images_id")
     private int ProductImagesId;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "Product_id")

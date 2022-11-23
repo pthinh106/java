@@ -1,8 +1,12 @@
 package LifeLeopard.TeamShop.Controllers;
 
+import LifeLeopard.TeamShop.Models.Contact;
 import LifeLeopard.TeamShop.Models.Customers;
+import LifeLeopard.TeamShop.Models.Event;
 import LifeLeopard.TeamShop.Service.AccountService;
+import LifeLeopard.TeamShop.Service.ContactService;
 import LifeLeopard.TeamShop.Service.CustomerService;
+import LifeLeopard.TeamShop.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -18,6 +23,10 @@ public class UserController {
     CustomerService customerService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    private EventService eventService;
+    @Autowired
+    private ContactService contactService;
     @GetMapping("")
     public String proFileUser(Model model,Principal principal){
         if(principal == null){
@@ -26,6 +35,10 @@ public class UserController {
         String username = principal.getName().trim();
         Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
         model.addAttribute("customer",customer);
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
 
 
 //        model.addAttribute("customer",customerService.getByAccountId(2));
@@ -38,6 +51,10 @@ public class UserController {
         }
         String username = principal.getName().trim();
         Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
         model.addAttribute("customer",customer);
         return "home/user/edit-profile";
     }

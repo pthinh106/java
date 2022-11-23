@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Product_Size_id")
     private int ProductSizeId;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "Product_id")
