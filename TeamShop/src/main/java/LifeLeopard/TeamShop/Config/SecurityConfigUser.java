@@ -1,20 +1,23 @@
 package LifeLeopard.TeamShop.Config;
 
-import LifeLeopard.TeamShop.Service.CustomUserDetailsService;
+import LifeLeopard.TeamShop.UserDetails.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configurable
 @EnableWebSecurity
-public class SecurityConfig {
+@Order(1)
+public class SecurityConfigUser {
     @Bean
-    CustomUserDetailsService customUserDetalsService(){
+    CustomUserDetailsService customUserDetailsService(){
         return new CustomUserDetailsService();
     }
     @Bean
@@ -24,25 +27,24 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(this.customUserDetalsService());
+        daoAuthenticationProvider.setUserDetailsService(this.customUserDetailsService());
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
         return daoAuthenticationProvider;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-//                    .antMatchers("/admin/**").hasRole("ADMIN")
-//                    .antMatchers("/user/**").hasAnyRole("USER")
-                    .antMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and().formLogin().loginPage("/login").failureUrl("/login-error").permitAll()
-                    .and().logout(logout -> logout
+        http     .authorizeRequests()
+                .antMatchers("/user/**").hasAnyRole("USER")
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginProcessingUrl("/user/login").loginPage("/user/login").failureUrl("/user/login-error").permitAll()
+                .and().logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"));
+                        .deleteCookies("JSESSIONID"))
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 //                    .and().rememberMe().key("uniqueAndSecret");
 
         return http.build();

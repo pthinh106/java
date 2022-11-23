@@ -1,4 +1,4 @@
-package LifeLeopard.TeamShop.Service;
+package LifeLeopard.TeamShop.UserDetails;
 
 import LifeLeopard.TeamShop.Models.Accounts;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;

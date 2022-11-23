@@ -53,6 +53,14 @@
                         <li>
                             <a href="/product" >Shop</a>
                         </li>
+                        <li>
+                            <a >Event</a>
+                            <ul class="sub-menu">
+                                <th:block th:each="event : ${eventList}">
+                                    <li ><a th:href="@{/event/{id}(id=${event.getEventId()})}" th:text="${event.getEventName()}"></a></li>
+                                </th:block>
+                            </ul>
+                        </li>
 
 <!--                        <li class="label1" data-label1="hot">-->
 <!--                            <a href="/shoping-cart">Features</a>-->
@@ -93,7 +101,7 @@
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                     <div th:if="${fullname} == null">
-                        <a th:href="@{/login}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11" data-notify="0">
+                        <a href="/user/login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11" data-notify="0">
                             <i class="fa fa-user-circle" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -244,7 +252,7 @@
                 </span>
             </li>
             <li th:if="${fullname} == null">
-                <a th:href="@{/login}">SignIn</a>
+                <a href="/user/login">SignIn</a>
             </li>
         </ul>
     </div>

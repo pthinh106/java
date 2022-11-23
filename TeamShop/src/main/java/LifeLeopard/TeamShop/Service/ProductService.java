@@ -9,7 +9,7 @@ import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
 import LifeLeopard.TeamShop.UploadImagesProduct.FileUploadUtil;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -18,13 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ProductService {
@@ -34,6 +32,12 @@ public class ProductService {
     public static String DELETE_DIRECTORY = Paths.get("")
             .toAbsolutePath()
             .toString() + "/src/main/resources/static";
+//    public static String UPLOAD_DIRECTORY = Paths.get("")
+//            .toAbsolutePath()
+//            .toString() + "/TeamShop/src/main/resources/static/images/product";
+//    public static String DELETE_DIRECTORY = Paths.get("")
+//            .toAbsolutePath()
+//            .toString() + "/TeamShop/src/main/resources/static";
     @Autowired
     ProductReps productReps;
     @Autowired
@@ -45,6 +49,18 @@ public class ProductService {
     }
     public Product getById(int id){
         return productReps.getById(id);
+    }
+    public List<Product> getOther(){
+        return productReps.getListProductOther();
+    }
+    public List<Product> getProductByEvent(String listProductId){
+        String[] arrayListProductId = listProductId.split(",");
+        Collection<Integer> ClistProductId = new ArrayList<>();
+        for (String productId: arrayListProductId) {
+            Integer number = Integer.parseInt(productId);
+            ClistProductId.add(number);
+        }
+        return productReps.getProductEvent(ClistProductId);
     }
     @Transactional
     public Product save(Product product, List<ProductSize> productSizeList){
@@ -140,6 +156,10 @@ public class ProductService {
         product.setShortDescription(productDetails.getShortDescription());
         product.setDescription(productDetails.getDescription());
         product.setStatus(productDetails.getStatus());
+        product.setWeight(productDetails.getWeight());
+        product.setDimensions(productDetails.getDimensions());
+        product.setMaterials(productDetails.getMaterials());
+        product.setPircePreview(productDetails.getPircePreview());
         if(thumbnail != null){
             product.setImages(thumbnail);
         }
@@ -149,6 +169,6 @@ public class ProductService {
     }
 
     public List<Product> getAllByName(String keyword) {
-        return productReps.findAllByProductNameLike(keyword);
+        return productReps.findAllByProductNameContaining(keyword);
     }
 }

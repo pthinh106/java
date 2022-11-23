@@ -1,11 +1,11 @@
 package LifeLeopard.TeamShop.Controllers;
 
-import LifeLeopard.TeamShop.Models.Category;
-import LifeLeopard.TeamShop.Models.Customers;
-import LifeLeopard.TeamShop.Models.Product;
+import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;
 import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
 import LifeLeopard.TeamShop.Service.CategoryService;
+import LifeLeopard.TeamShop.Service.ContactService;
+import LifeLeopard.TeamShop.Service.EventService;
 import LifeLeopard.TeamShop.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -24,10 +27,13 @@ public class ProductController {
     @Autowired
     private AccountReps accountReps;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
     @Autowired
-    CategoryService categoryService;
-
+    private CategoryService categoryService;
+    @Autowired
+    private EventService eventService;
+    @Autowired
+    private ContactService contactService;
 
 
     @GetMapping("")
@@ -40,11 +46,17 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-        if(keyword != null){
-            return "home/product-detail";
-        }
         List<Category> categoryList = categoryService.getAllCategory();
-        List<Product> productList = productService.getAllProduct();
+        List<Product> productList = new ArrayList<>();
+        if(keyword != null){
+            productList = productService.getAllByName(keyword);
+        }else{
+            productList = productService.getAllProduct();
+        }
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
         model.addAttribute("productList",productList);
         model.addAttribute("categoryList",categoryList);
         return "home/product";
@@ -63,7 +75,13 @@ public class ProductController {
         if(product == null){
             return "error";
         }
+        List<Product> productListOther = productService.getOther();
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
         model.addAttribute("product",product);
+        model.addAttribute("productListOther",productListOther);
         return "home/product-detail";
     }
     @GetMapping("/test")

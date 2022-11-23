@@ -36,21 +36,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Starter Page</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+<!--        <div class="content-header">-->
+<!--            <div class="container-fluid">-->
+<!--                <div class="row mb-2">-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <h1 class="m-0">Starter Page</h1>-->
+<!--                    </div>&lt;!&ndash; /.col &ndash;&gt;-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <ol class="breadcrumb float-sm-right">-->
+<!--                            <li class="breadcrumb-item"><a href="#">Home</a></li>-->
+<!--                            <li class="breadcrumb-item active">Starter Page</li>-->
+<!--                        </ol>-->
+<!--                    </div>&lt;!&ndash; /.col &ndash;&gt;-->
+<!--                </div>&lt;!&ndash; /.row &ndash;&gt;-->
+<!--            </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--        </div>-->
         <!-- /.content-header -->
 
         <!-- Main content -->
@@ -89,6 +89,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="col-12 col-sm-6">
                                             <label for="Quantity" class="form-label">Quantity</label>
                                             <input type="number" class="form-control" id="Quantity" th:field="*{quantity}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Price Preview</label>
+                                            <input type="number" class="form-control" id="pircePreview" th:field="*{pircePreview}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Weight</label>
+                                            <input type="number" class="form-control" id="Weight" th:field="*{weight}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Dimensions</label>
+                                            <input type="text" class="form-control" id="Dimensions" th:field="*{dimensions}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Materials</label>
+                                            <input type="text" class="form-control" id="Materials" th:field="*{materials}" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <label th:for="productstatus" class="form-label" >Product Status</label>
@@ -145,9 +161,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                                 <div class="col-12 col-sm-4">
                                                     <label class="form-label" >Status</label>
-                                                    <select class="form-select form-control"    name="details_status" th:value="${productsize.getStatus()}">
-                                                        <option value="0">Out of stock</option>
-                                                        <option value="1">stocking</option>
+                                                    <select class="form-select form-control"  name="details_status">
+                                                        <th:block th:if="${productsize.getStatus() == 0 }">
+                                                            <option value="0" selected>Out of stock</option>
+                                                            <option value="1"  >stocking</option>
+                                                        </th:block>
+                                                        <th:block th:if="${productsize.getStatus() == 1 }" >
+                                                            <option value="0" >Out of stock</option>
+                                                            <option value="1"  selected>stocking</option>
+                                                        </th:block>
+
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-sm-4">

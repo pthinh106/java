@@ -22,6 +22,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     .img-preview {
         width: 500px;
     }
+    .messages{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 1000;
+        background: #25cf98;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        display: flex;
+    }
     @media only screen and (max-width: 575px) {
         .img-preview{
             width: 300px;
@@ -36,26 +46,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Starter Page</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+<!--        <div class="content-header">-->
+<!--            <div class="container-fluid">-->
+<!--                <div class="row mb-2">-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <h1 class="m-0">Starter Page</h1>-->
+<!--                    </div>&lt;!&ndash; /.col &ndash;&gt;-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <ol class="breadcrumb float-sm-right">-->
+<!--                            <li class="breadcrumb-item"><a href="#">Home</a></li>-->
+<!--                            <li class="breadcrumb-item active">Starter Page</li>-->
+<!--                        </ol>-->
+<!--                    </div>&lt;!&ndash; /.col &ndash;&gt;-->
+<!--                </div>&lt;!&ndash; /.row &ndash;&gt;-->
+<!--            </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--        </div>-->
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <div class="content">
+        <div class="content" >
             <div class="container-fluid">
+                <div class="row" th:if="${message}">
+                     <p class="messages" th:text="${'Create product success and product id is: ' + productid}"></p>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
@@ -89,6 +102,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="col-12 col-sm-6">
                                             <label for="Quantity" class="form-label">Quantity</label>
                                             <input type="number" class="form-control" id="Quantity" th:field="*{quantity}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Price Preview</label>
+                                            <input type="number" class="form-control" id="pircePreview" th:field="*{pircePreview}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Weight</label>
+                                            <input type="number" class="form-control" id="Weight" th:field="*{weight}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Dimensions</label>
+                                            <input type="text" class="form-control" id="Dimensions" th:field="*{dimensions}" required>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="Quantity" class="form-label">Materials</label>
+                                            <input type="text" class="form-control" id="Materials" th:field="*{materials}" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <label th:for="productstatus" class="form-label" >Product Status</label>

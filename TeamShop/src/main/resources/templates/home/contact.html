@@ -13,7 +13,7 @@
 
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/images/bg-01.jpg');">
 		<h2 class="ltext-105 cl0 txt-center">
 			Contact
 		</h2>
@@ -56,7 +56,7 @@
 								Address
 							</span>
 
-							<p class="stext-115 cl6 size-213 p-t-18">
+							<p class="stext-115 cl6 size-213 p-t-18" th:text="${contact.getAddress()}">
 								280, An Duong Vuong, Ward 4, District 5, Ho Chi Minh City
 							</p>
 						</div>
@@ -72,7 +72,7 @@
 								Lets Talk
 							</span>
 
-							<p class="stext-115 cl1 size-213 p-t-18">
+							<p class="stext-115 cl1 size-213 p-t-18" th:text="${contact.getPhoneNumber()}">
 								+84 94 111 1114
 							</p>
 						</div>
@@ -88,7 +88,7 @@
 								Sale Support
 							</span>
 
-							<p class="stext-115 cl1 size-213 p-t-18">
+							<p class="stext-115 cl1 size-213 p-t-18" th:text="${contact.getEmailsuport()}">
 								lifeleopard.contact@gmail.com
 							</p>
 						</div>
