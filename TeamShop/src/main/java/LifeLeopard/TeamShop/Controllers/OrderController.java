@@ -3,7 +3,14 @@ package LifeLeopard.TeamShop.Controllers;
 import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
 import LifeLeopard.TeamShop.Service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,9 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(path = "order")
@@ -119,7 +124,7 @@ public class OrderController {
     }
     @PostMapping(value = "/addtocart",produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Boolean> addToCart(@RequestParam("productsizeid") int sizeId, HttpServletResponse response,HttpServletRequest request){
+    public ResponseEntity<Boolean> addToCart1(@RequestParam("productSizeId") int sizeId, @RequestParam("productId") int itemId ,@RequestParam("numProduct") int numProduct, HttpServletResponse response,HttpServletRequest request){
         String name = "cart";
         String value = String.valueOf(Arrays.stream(request.getCookies()).filter(cookie -> name.equals(cookie.getName())).map(Cookie::getValue).findAny());
         value = value.replace("Optional","");
@@ -163,5 +168,109 @@ public class OrderController {
     public double getPrice(@Param("size") String size){
         int id = Integer.parseInt(size);
         return productSizeReps.findById(id).get().getPrice();
+    }
+    @PostMapping(value = "/updatecart",produces = "application/json")
+    public ResponseEntity<Boolean> updateCart(@Param("id") String id,
+            HttpServletResponse response,HttpServletRequest request){
+        String name = "cart";
+        String value = String.valueOf(Arrays.stream(request.getCookies()).filter(cookie -> name.equals(cookie.getName())).map(Cookie::getValue).findAny());
+        String idDelate = id+"-";
+        String idDel = "-"+id;
+        if(value.contains(idDelate)){
+            value.replace(idDelate,"");
+        }else{
+            if(value.contains(idDel)){
+                value.replace(idDel,"");
+            }else{
+                value = "";
+            }
+        }
+        if(!value.isEmpty()){
+            Cookie cookie = new Cookie("cart",value);
+            cookie.setMaxAge(86400);
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return ResponseEntity.ok().body(true);
+        }else{
+            Cookie cookie = new Cookie("cart", null);
+            cookie.setMaxAge(0);
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return ResponseEntity.ok().body(true);
+        }
+
+
+    }
+    @PostMapping(value = "/addtocart2",produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Boolean> addToCart(@RequestParam("productSizeId") int sizeId, @RequestParam("productId") int itemId ,@RequestParam("numProduct") int numProduct, HttpServletResponse response,HttpServletRequest request) throws JsonProcessingException {
+        String valueDetails = "";
+        Map<String, Integer> dataDetails = new HashMap<String, Integer>();
+        Map<String, Map<String,Integer>> mapDetails = new HashMap<String, Map<String,Integer>>();
+        Map<String, List<Map<String, Map<String,Integer>>> > cartDetails = new HashMap<String, List<Map<String, Map<String,Integer>>>>();
+        List<Map<String, Map<String,Integer>>> dataCookie = new ArrayList<>();
+        Cookie[] cookies = request.getCookies();
+        Boolean check = true;
+        Boolean checkdup = false;
+        for(Cookie c : cookies){
+            if(c.getName().equals("cart")){
+                valueDetails = c.getValue();
+                valueDetails = valueDetails.replace('%','"');
+                valueDetails = valueDetails.replace('_',',');
+                valueDetails = valueDetails.replace('-','\\');
+                cartDetails = new ObjectMapper().readValue(valueDetails,Map.class);
+                dataCookie = cartDetails.get("data");
+                System.out.println(cartDetails);
+            }
+        }
+        dataDetails.put("itemId", itemId);
+        dataDetails.put("total", numProduct);
+        dataDetails.put("size", sizeId);
+        mapDetails.put(String.valueOf(itemId), dataDetails);
+        for(Map<String, Map<String,Integer>> m : dataCookie){
+            for(Map.Entry<String, Map<String,Integer>> mapEntry : m.entrySet()){
+                if(mapEntry.getKey().equals(String.valueOf(itemId))){
+                    if(m.get(mapEntry.getKey()).get("size") == sizeId){
+                        System.out.println(m.get(mapEntry.getKey()).get("total"));
+                        System.out.println(numProduct);
+                        int total = numProduct + m.get(mapEntry.getKey()).get("total");
+                        System.out.println(total);
+                        m.get(mapEntry.getKey()).put("total",total);
+                        System.out.println(m.get(mapEntry.getKey()).get("total"));
+
+                        check = false;
+                        break;
+                    }
+                }
+            }
+            if(!check){
+                break;
+            }
+        }
+        if(dataCookie.size() < 1){
+            dataCookie.add(mapDetails);
+        }else{
+            if(check){
+                dataCookie.add(mapDetails);
+            }
+        }
+        cartDetails.put("data",dataCookie);
+        System.out.println(cartDetails);
+        valueDetails = new ObjectMapper().writeValueAsString(cartDetails);
+        System.out.println(valueDetails);
+        valueDetails = valueDetails.replace('"','%');
+        valueDetails = valueDetails.replace(',','_');
+        valueDetails = valueDetails.replace('\\','-');
+        Cookie cookie = new Cookie("cart",valueDetails);
+        cookie.setMaxAge(86400);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseEntity.ok().body(true);
     }
 }
