@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactReps extends JpaRepository<Contact,Integer> {
     Contact findByStatusIs(int Status);
+
 }
