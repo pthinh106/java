@@ -3,6 +3,7 @@ package LifeLeopard.TeamShop.Controllers;
 import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.*;
 import LifeLeopard.TeamShop.Service.CategoryService;
+import LifeLeopard.TeamShop.Service.ContactService;
 import LifeLeopard.TeamShop.Service.ProductService;
 import LifeLeopard.TeamShop.Service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public class AdminController {
     private ProductService productService;
     @Autowired
     private ProductPageReps productPageReps;
+    @Autowired
+    private ContactService contactService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -191,6 +194,20 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("update_product_success",true);
         redirectAttributes.addFlashAttribute("update_product_id",id);
         return "redirect:/admin/product";
+    }
+    @GetMapping("/updatecontact")
+    public String updateContact(Model model){
+        model.addAttribute("contact",contactService.getContact());
+        return "admin/update-contact";
+    }
+    @PostMapping("/updatecontact")
+    public String updateContact(@ModelAttribute("contact") Contact contact,RedirectAttributes redirectAttributes){
+        if(contactService.updateContact(contact)){
+            redirectAttributes.addFlashAttribute("success",true);
+        }else{
+            redirectAttributes.addFlashAttribute("fail",true);
+        }
+        return "redirect:/admin/updatecontact";
     }
 
 }
