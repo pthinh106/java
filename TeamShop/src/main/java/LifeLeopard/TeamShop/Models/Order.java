@@ -172,5 +172,7 @@ public class Order {
         this.updated = updated;
     }
 
-
+    public String getFullName(){
+        return firstName+" "+lastName;
+    }
 }

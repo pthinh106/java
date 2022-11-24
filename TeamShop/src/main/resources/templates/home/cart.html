@@ -71,11 +71,14 @@
 														<i class="fs-16 zmdi zmdi-minus"></i>
 													</div>
 
-													<input class="mtext-104 cl3 txt-center num-product" type="number" name="numProduct" value="1">
+													<input class="mtext-104 cl3 txt-center num-product" type="number" name="numProduct" value="1" th:max="${product.getQuantity()}">
 
 													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 														<i class="fs-16 zmdi zmdi-plus"></i>
 													</div>
+												</div>
+												<div class="text-center">
+													<span 	th:text="'Max: '+ ${product.getQuantity()}" style="font-size: 14px;"></span>
 												</div>
 											</td>
 											<td class="column-4 p-r-20"th:text="${product.getPrice() + ' VNĐ' }">$ 36.00</td>

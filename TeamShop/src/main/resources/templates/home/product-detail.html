@@ -65,7 +65,7 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<form  action="/order/addtocart" id="productToCart" method="post">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 class="mtext-105 cl2 js-name-detail p-b-14" th:text="${product.getProductName()}">
+							<h4 class="mtext-105 cl2 js-name-detail p-b-14" id="productName" th:text="${product.getProductName()}">
 								Lightweight Jacket
 							</h4>
 
@@ -86,7 +86,7 @@
 
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="productsizeid" id="sizeid" onchange="getPrice(this.value)">
+											<select class="js-select2" name="productsizeid" id="sizeId" onchange="getPrice(this.value)">
 												<th:block th:each="size : ${product.getProductSizeList()}">
 													<th:block th:if="${size.getStatus() == 1}">
 														<option th:value="${size.getProductSizeId()}" th:text="${size.getSize().getSizeName()}"></option>
@@ -358,13 +358,13 @@
 				url: frm.attr('action'),
 				data: frm.serialize(),
 				success: function (data) {
-						$('.js-addcart-detail').load(function(){
-							var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-							$(this).load( function(){
-								swal(nameProduct, "is added to cart !", "success");
-							});
-						});
-					console.log(data);
+					var nameProduct = document.getElementById("productName").innerText;
+					var size = $("#sizeId").find(":selected").text();
+					if(data){
+						swal(nameProduct,size + " is added to cart !", "success");
+					}else{
+						swal(nameProduct,size +  " is already exist!", "success");
+					}
 				}
 			});
 		});

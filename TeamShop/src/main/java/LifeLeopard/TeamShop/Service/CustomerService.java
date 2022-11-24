@@ -65,7 +65,7 @@ public class CustomerService {
         }
     }
 
-        private void sendVerificationEmail(Customers customers, String siteURL)
+    private void sendVerificationEmail(Customers customers, String siteURL)
         throws MessagingException, UnsupportedEncodingException {
             String toAddress = customers.getEmail();
             String fromAddress = "lifeleopardjava@gmail.com";
@@ -91,7 +91,7 @@ public class CustomerService {
             helper.setText(content, true);
             javaMailSender.send(message);
     }
-        public void sendResetPassWord(Customers customers, String siteURL)
+    public void sendResetPassWord(Customers customers, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = customers.getEmail();
         String fromAddress = "lifeleopardjava@gmail.com";
