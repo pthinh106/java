@@ -36,6 +36,10 @@ public class HandleErrorController implements ErrorController {
             Customers customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
             model.addAttribute("customer",customer);
         }
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
@@ -45,10 +49,7 @@ public class HandleErrorController implements ErrorController {
                 return "error";
             }
         }
-        List<Event> eventList = eventService.getAllEventOn();
-        Contact contact = contactService.getContact();
-        model.addAttribute("contact",contact);
-        model.addAttribute("eventList",eventList);
+
         return "error";
     }
 

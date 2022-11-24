@@ -32,7 +32,7 @@ public class ProductService {
     public static String DELETE_DIRECTORY = Paths.get("")
             .toAbsolutePath()
             .toString() + "/src/main/resources/static";
-//    public static String UPLOAD_DIRECTORY = Paths.get("")
+    //    public static String UPLOAD_DIRECTORY = Paths.get("")
 //            .toAbsolutePath()
 //            .toString() + "/TeamShop/src/main/resources/static/images/product";
 //    public static String DELETE_DIRECTORY = Paths.get("")
@@ -61,6 +61,15 @@ public class ProductService {
             ClistProductId.add(number);
         }
         return productReps.getProductEvent(ClistProductId);
+    }
+    public List<ProductSize> getProductCart(String listProductSizeId){
+        String[] arrayListProductId = listProductSizeId.split("-");
+        Collection<Integer> ClistProductId = new ArrayList<>();
+        for (String productId: arrayListProductId) {
+            Integer number = Integer.parseInt(productId);
+            ClistProductId.add(number);
+        }
+        return productSizeReps.getProductCart(ClistProductId);
     }
     @Transactional
     public Product save(Product product, List<ProductSize> productSizeList){
