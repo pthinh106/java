@@ -34,10 +34,10 @@ public class SecurityConfigUser {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http     .authorizeRequests()
+        http    .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/user/**").hasAnyRole("USER")
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
                 .and().formLogin().loginProcessingUrl("/user/login").loginPage("/user/login").failureUrl("/user/login-error").permitAll()
                 .and().logout(logout -> logout
                         .logoutUrl("/logout")
