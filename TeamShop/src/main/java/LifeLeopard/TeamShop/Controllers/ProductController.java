@@ -46,7 +46,7 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-        List<Category> categoryList = categoryService.getAllCategory();
+        List<Category> categoryList = categoryService.getAllCategoryOn();
         List<Product> productList = new ArrayList<>();
         if(keyword != null){
             productList = productService.getAllByName(keyword);
