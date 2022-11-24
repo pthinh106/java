@@ -50,6 +50,8 @@ public class AdminController {
     private ContactService contactService;
     @Autowired
     private EventService eventService;
+    @Autowired
+    private AboutService aboutService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -219,7 +221,20 @@ public class AdminController {
         int id = eventService.createEvent(event,MultipartFile);
         redirectAttributes.addFlashAttribute("message",true);
         redirectAttributes.addFlashAttribute("eventId",id);
-        return "redirect:/create/event";
+        return "redirect:/admin/event/create";
+    }
+
+    @GetMapping("/about/create")
+    public String CreateAboutInfoo(Model model,Principal principal){
+        model.addAttribute("about",new About());
+        return "admin/create-aboutinformation";
+    }
+    @PostMapping("/about/create")
+    public String CreateAboutInfoo(@ModelAttribute("about") About about, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
+        int id = aboutService.CreateAboutInfo(about, MultipartFile);
+        redirectAttributes.addFlashAttribute("message",true);
+        redirectAttributes.addFlashAttribute("aboutId",id);
+        return "redirect:/admin/about/create";
     }
 
 }
