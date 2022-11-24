@@ -33,6 +33,7 @@ public class EventService {
         return eventReps.getById(id);
     }
     public int createEvent(Event event, MultipartFile multipartFile) throws IOException {
+        eventReps.save(event);
         String Check = StringUtils.getFilename(multipartFile.getOriginalFilename());
         if(!Check.isEmpty()){
             String FileName = RandomString.make(10);
@@ -44,8 +45,10 @@ public class EventService {
             String uploadDir = UPLOAD_DIRECTORY + "/"+ event.getEventId();
             String urlImg = new String();
             urlImg = "/images/event/" + event.getEventId() +"/"+ FileName;
-            event.setEventImg(urlImg);
-            eventReps.save(event);
+            Event event1 = eventReps.getById(event.getEventId());
+            event1.setEventImg(urlImg);
+            eventReps.save(event1);
+
             FileUploadUtil.saveFile(uploadDir,FileName,multipartFile);
         }
         return event.getEventId();
