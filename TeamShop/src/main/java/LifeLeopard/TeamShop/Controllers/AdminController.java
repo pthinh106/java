@@ -2,10 +2,7 @@ package LifeLeopard.TeamShop.Controllers;
 
 import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.*;
-import LifeLeopard.TeamShop.Service.CategoryService;
-import LifeLeopard.TeamShop.Service.ContactService;
-import LifeLeopard.TeamShop.Service.ProductService;
-import LifeLeopard.TeamShop.Service.SizeService;
+import LifeLeopard.TeamShop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -50,6 +48,8 @@ public class AdminController {
     private ProductPageReps productPageReps;
     @Autowired
     private ContactService contactService;
+    @Autowired
+    private EventService eventService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -208,6 +208,18 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("fail",true);
         }
         return "redirect:/admin/updatecontact";
+    }
+    @GetMapping("/event/create")
+    public String createEventt(Model model,Principal principal){
+        model.addAttribute("event",new Event());
+        return "admin/create-event";
+    }
+    @PostMapping("/event/create")
+    public String createEventt(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
+        int id = eventService.createEvent(event,MultipartFile);
+        redirectAttributes.addFlashAttribute("message",true);
+        redirectAttributes.addFlashAttribute("eventId",id);
+        return "redirect:/create/event";
     }
 
 }
