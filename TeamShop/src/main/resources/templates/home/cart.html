@@ -67,11 +67,11 @@
 											</td>
 											<td class="column-3">
 												<div class="wrap-num-product flex-w d-flex m-auto">
-													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" th:onclick="deleteProduct([[${product.getProductSizeId()}]])">
 														<i class="fs-16 zmdi zmdi-minus"></i>
 													</div>
 
-													<input class="mtext-104 cl3 txt-center num-product" type="number" name="numProduct" value="1" th:max="${product.getQuantity()}">
+													<input class="mtext-104 cl3 txt-center num-product" th:id="${product.getProductSizeId()}" type="number" name="numProduct" value="1" th:max="${product.getQuantity()}">
 
 													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 														<i class="fs-16 zmdi zmdi-plus"></i>
@@ -81,7 +81,7 @@
 													<span 	th:text="'Max: '+ ${product.getQuantity()}" style="font-size: 14px;"></span>
 												</div>
 											</td>
-											<td class="column-4 p-r-20"th:text="${product.getPrice() + ' VNĐ' }">$ 36.00</td>
+											<td class="column-4 p-r-20"  name="total" th:text="${product.getPrice() + ' VNĐ' }">$ 36.00</td>
 										</tr>
 									</th:block>
 								</table>
@@ -177,7 +177,29 @@
 	<footer th:replace="fragments/footer"></footer>
 	<div th:replace="fragments/addjs"></div>
 	<script>
+		function deleteProduct(id){
+			var numProduct = Number(document.getElementById(id).value);
+			if(numProduct > 1) {
+				document.getElementById(id).value = numProduct - 1;
+				var pirce = document.querySelector("")
 
+			}else{
+				if(confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng")){
+					$.ajax({
+						url: "/order/updatecart",
+						type: "POST",
+						data: {
+							id: id
+						},
+						success: function(response) {
+							window.location.reload();
+						}
+					});
+				}else{
+					console.log("no");
+				}
+			}
+		}
 	</script>
 </body>
 </html>
