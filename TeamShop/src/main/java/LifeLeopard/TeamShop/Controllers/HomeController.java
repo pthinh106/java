@@ -252,7 +252,7 @@ public class HomeController {
         Event event = eventService.getEventByID(id);
         String listProductId = event.getListProductId();
         List<Product> productList = productService.getProductByEvent(listProductId);
-        List<Category> categoryList = categoryService.getAllCategory();
+        List<Category> categoryList = categoryService.getAllCategoryOn();
         Contact contact = contactService.getContact();
         model.addAttribute("contact",contact);
         model.addAttribute("productList",productList);

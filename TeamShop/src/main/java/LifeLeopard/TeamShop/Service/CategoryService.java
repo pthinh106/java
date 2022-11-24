@@ -11,7 +11,11 @@ import java.util.List;
 public class CategoryService {
     @Autowired
     CategoryReps categoryReps;
+    public List<Category> getAllCategoryOn(){
+        return categoryReps.findAllByStatus(1);
+    }
     public List<Category> getAllCategory(){
         return categoryReps.findAll();
     }
+
 }
