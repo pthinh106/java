@@ -186,6 +186,13 @@
                                             <td class="column-4 p-r-20"th:text="${product.getPrice() * product.getQuantity()+ ' VNĐ' }">$ 36.00</td>
                                         </tr>
                                     </th:block>
+
+                                    <tr style="height: 65px">
+                                        <td class="column-1"></td>
+                                        <td class="column-2"></td>
+                                        <td class="column-3 text-center">Tổng Tiền</td>
+                                        <td class="column-4 p-r-20" th:text="${total == null ? 0 + ' VNĐ': total + ' VNĐ'}"></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

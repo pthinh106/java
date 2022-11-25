@@ -1,5 +1,8 @@
 package LifeLeopard.TeamShop.Models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,9 +13,11 @@ public class ProductSize {
     @Column(name = "Product_Size_id")
     private int ProductSizeId;
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "Product_id")
     private Product product;
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "Size_id")
     private Size size;
     @Column(name = "Quantity")

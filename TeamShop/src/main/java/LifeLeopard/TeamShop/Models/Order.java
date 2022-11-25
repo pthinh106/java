@@ -1,8 +1,8 @@
 package LifeLeopard.TeamShop.Models;
 
 import javax.persistence.*;
-import java.sql.DatabaseMetaData;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "table_order")
@@ -31,12 +31,12 @@ public class Order {
     @Column(name = "status")
     private int status;
     @Column(name = "Created")
-    private Date created;
+    private Timestamp created;
     @Column(name = "Updated")
-    private Date updated;
+    private Timestamp updated;
     public Order(){}
 
-    public Order(int orderId, Customers customers, String firstName, String lastName, String phoneNumber, String address, double total, String payment, int paymentStatus, int status, Date created, Date updated) {
+    public Order(int orderId, Customers customers, String firstName, String lastName, String phoneNumber, String address, double total, String payment, int paymentStatus, int status, Timestamp created, Timestamp updated) {
         this.orderId = orderId;
         this.customers = customers;
         this.firstName = firstName;
@@ -62,7 +62,7 @@ public class Order {
         this.status = status;
     }
 
-    public Order(int orderId, Customers customers, String firstName, String lastName, String phoneNumber, String address, double total, int paymentStatus, int status, Date created, Date updated) {
+    public Order(int orderId, Customers customers, String firstName, String lastName, String phoneNumber, String address, double total, int paymentStatus, int status) {
         this.orderId = orderId;
         this.customers = customers;
         this.firstName = firstName;
@@ -72,8 +72,6 @@ public class Order {
         this.total = total;
         this.paymentStatus = paymentStatus;
         this.status = status;
-        this.created = created;
-        this.updated = updated;
     }
 
     public int getOrderId() {
@@ -156,20 +154,11 @@ public class Order {
         this.status = status;
     }
 
-    public Date getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
+    public Timestamp getUpdated() {
         return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
     }
 
     public String getFullName(){
