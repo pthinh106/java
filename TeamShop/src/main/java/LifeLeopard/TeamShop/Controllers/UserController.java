@@ -33,7 +33,6 @@ public class UserController {
         }
         String username = principal.getName().trim();
         Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
-//        Customers customer =customerService.getByAccountId(2);
         List<Order> orderList = orderService.findAllByCustomer(customer);
         List<Event> eventList = eventService.getAllEventOn();
         Contact contact = contactService.getContact();
@@ -41,9 +40,6 @@ public class UserController {
         model.addAttribute("customer",customer);
         model.addAttribute("contact",contact);
         model.addAttribute("eventList",eventList);
-
-
-//        model.addAttribute("customer",customerService.getByAccountId(2));
         return "home/user/profile-user";
     }
     @GetMapping("/edit")
@@ -94,14 +90,20 @@ public class UserController {
         }
         String username = principal.getName().trim();
         Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
+        Order order = orderService.findbyid(id);
         List<ProductOrder> productOrderList = orderService.findAllByOrder(orderService.findbyid(id));
         List<Event> eventList = eventService.getAllEventOn();
         Contact contact = contactService.getContact();
+
         model.addAttribute("id",id);
+        model.addAttribute("total",order.getTotal());
         model.addAttribute("productOrderList",productOrderList);
         model.addAttribute("contact",contact);
         model.addAttribute("eventList",eventList);
         model.addAttribute("customer",customer);
+        if(productOrderList.isEmpty()){
+            return "redirect:/user";
+        }
         return "home/user/user-order";
     }
 

@@ -1,12 +1,9 @@
 package LifeLeopard.TeamShop.Service;
 
-import LifeLeopard.TeamShop.Controllers.OrderController;
-import LifeLeopard.TeamShop.Models.Customers;
-import LifeLeopard.TeamShop.Models.Order;
-import LifeLeopard.TeamShop.Models.ProductOrder;
-import LifeLeopard.TeamShop.Models.ProductSize;
+import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.OrderReps;
 import LifeLeopard.TeamShop.Responsibility.ProductOrderReps;
+import LifeLeopard.TeamShop.Responsibility.ProductReps;
 import LifeLeopard.TeamShop.Responsibility.ProductSizeReps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,8 @@ public class OrderService {
     private OrderReps orderReps;
     @Autowired
     private ProductSizeReps productSizeReps;
+    @Autowired
+    private ProductReps productReps;
     public List<Order> findAllByCustomer(Customers customers){
         return orderReps.findAllByCustomers(customers);
     }
@@ -32,19 +31,29 @@ public class OrderService {
     public List<ProductOrder> findAllByOrder(Order order){
         return productOrderReps.findAllByOrder(order);
     }
-    public void saveOrder(Order order, List<ProductSize> productSizeList,int[] quantityProduct){
+    public void saveOrder(Order order, List<ProductCart> productCartList){
         orderReps.save(order);
         List<ProductOrder> productOrderList = new ArrayList<>();
-        for (int i = 0 ; i < productSizeList.size(); i++){
+        for(ProductCart productCart : productCartList){
             ProductOrder productOrder = new ProductOrder();
             productOrder.setOrder(order);
-            productOrder.setProductSize(productSizeList.get(i));
-            productOrder.setPrice(productSizeList.get(i).getPrice());
-            productOrder.setQuantity(quantityProduct[i]);
+            productOrder.setProductSize(productCart.getProductSize());
+            productOrder.setPrice(productCart.getTotal());
+            productOrder.setQuantity(productCart.getQuantity());
             productOrderList.add(productOrder);
-            productSizeList.get(i).setQuantity(productSizeList.get(i).getQuantity()-quantityProduct[i]);
+            ProductSize productSize = productSizeReps.getById(productCart.getProductSize().getProductSizeId());
+            Optional<Product> product = productReps.findById(productOrder.getProductSize().getProduct().getProductId());
+            product.get().setQuantity(product.get().getQuantity() - productCart.getQuantity());
+            if(product.get().getQuantity() < 1){
+                product.get().setStatus(0);
+            }
+            productReps.save(product.get());
+            productSize.setQuantity(productSize.getQuantity() - productCart.getQuantity());
+            if(productSize.getQuantity() < 1){
+                productSize.setQuantity(0);
+            }
+            productSizeReps.save(productSize);
         }
         productOrderReps.saveAll(productOrderList);
-        productSizeReps.saveAll(productSizeList);
     }
 }
