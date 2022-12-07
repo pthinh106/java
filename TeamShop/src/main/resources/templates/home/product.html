@@ -43,7 +43,7 @@
 										<a th:href="@{/product/{id}(id=${product.getProductId()})}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6" th:text="${product.getProductName()}">
 											Esprit Ruffle Shirt
 										</a>
-										<span class="stext-105 cl3" th:text="${product.getPircePreview() + ' VNĐ'}">$75.00</span>
+										<span class="stext-105 cl3" th:text="${#numbers.formatDecimal(product.getPircePreview(),0,'COMMA',0,'POINT')+ ' VNĐ'}">$75.00</span>
 									</div>
 
 									<div class="block2-txt-ch	ild2 flex-r p-t-3">

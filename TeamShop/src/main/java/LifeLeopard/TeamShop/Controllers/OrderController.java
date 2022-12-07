@@ -330,4 +330,11 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("buy_success", true);
         return "redirect:/order/cart";
     }
+
+    @GetMapping(value = "/price",produces = "application/json")
+    @ResponseBody
+    public double getPrice(@Param("size") String size){
+        int id = Integer.parseInt(size);
+        return productSizeReps.findById(id).get().getPrice();
+    }
 }
