@@ -34,25 +34,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row" th:if="${update_product_success}">
-                    <p class="messages" th:text="${'You have update product id is:' + update_product_id }"></p>
-                </div>
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Product Details</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <form th:action="@{/admin/product}" class="form-search" method="post">
-                                <input name="keyword" type="text" class="search-input">
-                                <select name="search">
-                                    <option value="0">Search by Id</option>
-                                    <option value="1">Search by Name</option>
-                                </select>
-                                <button type="submit" value="submit"><i class="fas fa-search fa-fw"></i></button>
-                            </form>
-                        </ol>
-                    </div><!-- /.col -->
+                        <h1 class="m-0">Order Details</h1>
+                    </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
@@ -99,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center" th:text="${product.getQuantity()}">
+                                <td  th:text="${product.getQuantity()}">
 
                                 </td>
                                 <td class="p-r-20"th:text=" ${#numbers.formatDecimal(product.getPrice() * product.getQuantity(),0,'COMMA',0,'POINT')+ ' VNĐ' }">$ 36.00</td>
@@ -107,10 +92,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </th:block>
 
                         <tr style="height: 65px">
-                            <td class="column-1"></td>
-                            <td class="column-2"></td>
-                            <td class="column-3 text-center">Tổng Tiền</td>
-                            <td class="column-4 p-r-20" th:text="${total == null ? 0 + ' VNĐ': #numbers.formatDecimal(total,0,'COMMA',0,'POINT') + ' VNĐ'}"></td>
+                            <td ></td>
+                            <td ></td>
+                            <td >Tổng Tiền</td>
+                            <td th:text="${total == null ? 0 + ' VNĐ': #numbers.formatDecimal(total,0,'COMMA',0,'POINT') + ' VNĐ'}"></td>
                         </tr>
                     </table>
                 </div><!-- /.container-fluid -->

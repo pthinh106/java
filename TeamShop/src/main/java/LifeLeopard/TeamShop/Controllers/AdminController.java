@@ -276,5 +276,43 @@ public class AdminController {
         model.addAttribute("orderList",orderList);
         return "admin/order-success";
     }
+    @GetMapping("/category")
+    public String getAllCategory(Model model,Principal principal){
+        List<Category> categoryList = categoryService.getAllCategory();
+        model.addAttribute("categoryList",categoryList);
+        return "admin/show-all-category";
+    }
+    @GetMapping("/category/create")
+    public String createCategory(Model model,Principal principal){
+        model.addAttribute("category",new Category());
+        return "admin/create-category";
+    }
+    @GetMapping("/category/update/{id}")
+    public String edditCategory(@PathVariable("id") int id,Model model,Principal principal){
+        Optional<Category> category = categoryService.getCategoryById(id);
+        if(category.isPresent()){
+            model.addAttribute("category",category.get());
+            return "admin/create-category";
+
+        }
+        return "redirect:/admin/category";
+    }
+    @PostMapping("/category/create")
+    public String updateCategory(Model model,Principal principal,@ModelAttribute("category") Category categoryDetails,RedirectAttributes redirectAttributes){
+        Optional<Category> category = categoryService.getCategoryById(categoryDetails.getCategoryId());
+        if(category.isPresent()){
+            System.out.println(categoryDetails);
+            category.get().setCategoryName(categoryDetails.getCategoryName());
+            category.get().setStatus(categoryDetails.getStatus());
+            categoryService.Save(category.get());
+            redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("id",category.get().getCategoryId());
+            return "redirect:/admin/category";
+        }else{
+            categoryService.Save(categoryDetails);
+            redirectAttributes.addFlashAttribute("message",true);
+        }
+        return "redirect:/admin/category/create";
+    }
 
 }
