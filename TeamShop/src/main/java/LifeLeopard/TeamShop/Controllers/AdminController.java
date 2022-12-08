@@ -52,6 +52,8 @@ public class AdminController {
     private EventService eventService;
     @Autowired
     private AboutService aboutService;
+    @Autowired
+    private AboutPageReps aboutPageReps;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -231,10 +233,48 @@ public class AdminController {
     }
     @PostMapping("/about/create")
     public String CreateAboutInfoo(@ModelAttribute("about") About about, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
-        int id = aboutService.CreateAboutInfo(about, MultipartFile);
-        redirectAttributes.addFlashAttribute("message",true);
-        redirectAttributes.addFlashAttribute("aboutId",id);
-        return "redirect:/admin/about/create";
+        Optional<About> about1 = aboutService.findById(about.getAboutId());
+        if(about1.isPresent()){
+            aboutService.updateAbout(about,MultipartFile);
+            redirectAttributes.addFlashAttribute("update_aboutinfo_success",true);
+            redirectAttributes.addFlashAttribute("update_aboutinfo_id",about1.get().getAboutId());
+            return "redirect:/admin/about";
+        }else{
+            int id = aboutService.CreateAboutInfo(about, MultipartFile);
+            redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("aboutId",id);
+            return "redirect:/admin/about/create";
+        }
+    }
+
+    @GetMapping("/about")
+    public String getAllAboutInfo(Model model, Principal principal,@RequestParam(value = "page",defaultValue = "1") int page){
+
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        int pagesize =10;
+        Pageable pageable = PageRequest.of(page-1,pagesize);
+        int totalPages = aboutPageReps.findAll(pageable).getTotalPages();
+        List<About> aboutList = aboutPageReps.findAll(pageable).getContent();
+        model.addAttribute("aboutList",aboutList);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("currentPage",page);
+
+        return "admin/showallaboutinfo";
+    }
+    @GetMapping("/about/update/{id}")
+    public String getAboutUpdateById(Model model, Principal principal ,@PathVariable int id){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        About about = aboutService.getById(id);
+        model.addAttribute("about",about);
+        return "admin/create-aboutinformation";
     }
 
 }
