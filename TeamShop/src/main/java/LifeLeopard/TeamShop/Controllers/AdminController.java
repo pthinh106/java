@@ -6,7 +6,6 @@ import LifeLeopard.TeamShop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -54,7 +53,7 @@ public class AdminController {
     @Autowired
     private AboutService aboutService;
     @Autowired
-    private OrderService orderService;
+    private AboutPageReps aboutPageReps;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -234,85 +233,48 @@ public class AdminController {
     }
     @PostMapping("/about/create")
     public String CreateAboutInfoo(@ModelAttribute("about") About about, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
-        int id = aboutService.CreateAboutInfo(about, MultipartFile);
-        redirectAttributes.addFlashAttribute("message",true);
-        redirectAttributes.addFlashAttribute("aboutId",id);
-        return "redirect:/admin/about/create";
-    }
-    @GetMapping("/order")
-    public String getAllOrder(Model model,Principal principal){
-        List<Order> orderList = orderService.getAllOrderProcessing();
-        model.addAttribute("orderList",orderList);
-        return "admin/show-all-order";
-    }
-    @PostMapping(value ="/order/processing/{id}",produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<Boolean> updateOrderProcessing(@PathVariable("id") int id, Model model, Principal principal){
-        Order order = orderService.findbyid(id);
-        order.setStatus(1);
-        orderService.Save(order);
-        return ResponseEntity.ok().body(true);
-    }
-    @PostMapping( value = "/order/successing/{id}",produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<Boolean> updateOrderSuccessing(@PathVariable("id") int id,Model model,Principal principal){
-        Order order = orderService.findbyid(id);
-        order.setStatus(2);
-        orderService.Save(order);
-        return ResponseEntity.ok().body(true);
-    }
-    @GetMapping("/order/{id}" )
-    public String getOrderDetails(@PathVariable("id") int id,Model model,Principal principal){
-        Order order = orderService.findbyid(id);
-        List<ProductOrder> productOrderList = orderService.findAllByOrder(orderService.findbyid(id));
-        model.addAttribute("productOrderList",productOrderList);
-        model.addAttribute("total",order.getTotal());
-        model.addAttribute("order",order);
-        return "admin/order-details";
-    }
-    @GetMapping("/order/success")
-    public String getAllOrderSuccess(Model model,Principal principal){
-        List<Order> orderList = orderService.getAllOrderSuccess();
-        model.addAttribute("orderList",orderList);
-        return "admin/order-success";
-    }
-    @GetMapping("/category")
-    public String getAllCategory(Model model,Principal principal){
-        List<Category> categoryList = categoryService.getAllCategory();
-        model.addAttribute("categoryList",categoryList);
-        return "admin/show-all-category";
-    }
-    @GetMapping("/category/create")
-    public String createCategory(Model model,Principal principal){
-        model.addAttribute("category",new Category());
-        return "admin/create-category";
-    }
-    @GetMapping("/category/update/{id}")
-    public String edditCategory(@PathVariable("id") int id,Model model,Principal principal){
-        Optional<Category> category = categoryService.getCategoryById(id);
-        if(category.isPresent()){
-            model.addAttribute("category",category.get());
-            return "admin/create-category";
-
-        }
-        return "redirect:/admin/category";
-    }
-    @PostMapping("/category/create")
-    public String updateCategory(Model model,Principal principal,@ModelAttribute("category") Category categoryDetails,RedirectAttributes redirectAttributes){
-        Optional<Category> category = categoryService.getCategoryById(categoryDetails.getCategoryId());
-        if(category.isPresent()){
-            System.out.println(categoryDetails);
-            category.get().setCategoryName(categoryDetails.getCategoryName());
-            category.get().setStatus(categoryDetails.getStatus());
-            categoryService.Save(category.get());
-            redirectAttributes.addFlashAttribute("message",true);
-            redirectAttributes.addFlashAttribute("id",category.get().getCategoryId());
-            return "redirect:/admin/category";
+        Optional<About> about1 = aboutService.findById(about.getAboutId());
+        if(about1.isPresent()){
+            aboutService.updateAbout(about,MultipartFile);
+            redirectAttributes.addFlashAttribute("update_aboutinfo_success",true);
+            redirectAttributes.addFlashAttribute("update_aboutinfo_id",about1.get().getAboutId());
+            return "redirect:/admin/about";
         }else{
-            categoryService.Save(categoryDetails);
+            int id = aboutService.CreateAboutInfo(about, MultipartFile);
             redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("aboutId",id);
+            return "redirect:/admin/about/create";
         }
-        return "redirect:/admin/category/create";
+    }
+
+    @GetMapping("/about")
+    public String getAllAboutInfo(Model model, Principal principal,@RequestParam(value = "page",defaultValue = "1") int page){
+
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        int pagesize =10;
+        Pageable pageable = PageRequest.of(page-1,pagesize);
+        int totalPages = aboutPageReps.findAll(pageable).getTotalPages();
+        List<About> aboutList = aboutPageReps.findAll(pageable).getContent();
+        model.addAttribute("aboutList",aboutList);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("currentPage",page);
+
+        return "admin/showallaboutinfo";
+    }
+    @GetMapping("/about/update/{id}")
+    public String getAboutUpdateById(Model model, Principal principal ,@PathVariable int id){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        About about = aboutService.getById(id);
+        model.addAttribute("about",about);
+        return "admin/create-aboutinformation";
     }
 
 }
