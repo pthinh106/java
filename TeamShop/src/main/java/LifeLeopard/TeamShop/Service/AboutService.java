@@ -20,7 +20,7 @@ import java.util.List;
 public class AboutService {
     public static String UPLOAD_DIRECTORY = Paths.get("")
             .toAbsolutePath()
-            .toString() + "/src/main/resources/static/images/event";
+            .toString() + "/src/main/resources/static/images/about";
     public static String DELETE_DIRECTORY = Paths.get("")
             .toAbsolutePath()
             .toString() + "/src/main/resources/static";
@@ -30,6 +30,7 @@ public class AboutService {
         return aboutReps.findAllByStatusIs(1);
     }
     public int CreateAboutInfo(About about, MultipartFile multipartFile) throws IOException {
+        aboutReps.save(about);
         String Check = StringUtils.getFilename(multipartFile.getOriginalFilename());
         if(!Check.isEmpty()){
             String FileName = RandomString.make(10);
