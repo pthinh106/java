@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,17 @@ public class OrderService {
     private ProductSizeReps productSizeReps;
     @Autowired
     private ProductReps productReps;
+    public List<Order> getAllOrderProcessing(){
+        Collection<Integer> collection = new ArrayList<>();
+        collection.add(1);
+        collection.add(0);
+        return orderReps.findAllByStatusIn(collection);
+    }
+    public List<Order> getAllOrderSuccess(){
+        Collection<Integer> collection = new ArrayList<>();
+        collection.add(2);
+        return orderReps.findAllByStatusIn(collection);
+    }
     public List<Order> findAllByCustomer(Customers customers){
         return orderReps.findAllByCustomers(customers);
     }
@@ -30,6 +42,9 @@ public class OrderService {
     }
     public List<ProductOrder> findAllByOrder(Order order){
         return productOrderReps.findAllByOrder(order);
+    }
+    public void Save(Order order){
+        orderReps.save(order);
     }
     public void saveOrder(Order order, List<ProductCart> productCartList){
         orderReps.save(order);
