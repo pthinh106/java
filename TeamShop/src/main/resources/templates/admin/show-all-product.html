@@ -100,8 +100,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <td th:text="${product.getQuantity()}">Mark</td>
                                 <td th:text="${product.getStatus() == 1 ? 'on' : 'off'}">Mark</td>
                                 <td >
-                                    <a  th:href="@{/admin/product/update/{id}(id=${product.getProductId()})}" class="text-decoration-none pr-3">Edit</a>
-                                    <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none">Delete</a>
+                                    <a  th:href="@{/admin/product/update/{id}(id=${product.getProductId()})}" class="text-decoration-none pr-3"><button class="btn btn-primary">Edit</button></a>
+                                    <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none"><button class="btn btn-danger">Delete</button></a>
                                 </td>
 
                             </tr>
@@ -134,27 +134,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         </ul>
                     </nav>
-<!--                    <div class="page-item text-center align-content-center">-->
-<!--                        <a th:if="${currentPage > 1}" th:href="@{/admin/product}">First</a>-->
-<!--                        <span th:unless="${currentPage > 1}" >First</span>-->
-<!--                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--                            <a th:if="${currentPage != i}" th:href="@{/admin/product(page=${i})}">[[${i}]]</a>-->
-<!--                            <span th:unless="${currentPage != i}">[[${i}]]</span>-->
-<!--                            &nbsp;-->
-<!--                        </span>-->
-<!--                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/product(page=${currentPage + 1})}" >Next</a>-->
-<!--                        <span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/product(page=${totalPages})}">Last</a>-->
-<!--                        <span th:unless="${currentPage < totalPages}">Last</span>-->
-<!--                    </div>-->
-                </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 
+                </div><!-- /.container-fluid -->
+            </div>
+        <!-- /.content -->
+        </div>
+    <!-- /.content-wrapper -->
+    </div>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->

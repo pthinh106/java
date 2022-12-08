@@ -6,6 +6,7 @@ import LifeLeopard.TeamShop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -52,6 +53,8 @@ public class AdminController {
     private EventService eventService;
     @Autowired
     private AboutService aboutService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -235,6 +238,43 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message",true);
         redirectAttributes.addFlashAttribute("aboutId",id);
         return "redirect:/admin/about/create";
+    }
+    @GetMapping("/order")
+    public String getAllOrder(Model model,Principal principal){
+        List<Order> orderList = orderService.getAllOrderProcessing();
+        model.addAttribute("orderList",orderList);
+        return "admin/show-all-order";
+    }
+    @PostMapping(value ="/order/processing/{id}",produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Boolean> updateOrderProcessing(@PathVariable("id") int id, Model model, Principal principal){
+        Order order = orderService.findbyid(id);
+        order.setStatus(1);
+        orderService.Save(order);
+        return ResponseEntity.ok().body(true);
+    }
+    @PostMapping( value = "/order/successing/{id}",produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Boolean> updateOrderSuccessing(@PathVariable("id") int id,Model model,Principal principal){
+        Order order = orderService.findbyid(id);
+        order.setStatus(2);
+        orderService.Save(order);
+        return ResponseEntity.ok().body(true);
+    }
+    @GetMapping("/order/{id}" )
+    public String getOrderDetails(@PathVariable("id") int id,Model model,Principal principal){
+        Order order = orderService.findbyid(id);
+        List<ProductOrder> productOrderList = orderService.findAllByOrder(orderService.findbyid(id));
+        model.addAttribute("productOrderList",productOrderList);
+        model.addAttribute("total",order.getTotal());
+        model.addAttribute("order",order);
+        return "admin/order-details";
+    }
+    @GetMapping("/order/success")
+    public String getAllOrderSuccess(Model model,Principal principal){
+        List<Order> orderList = orderService.getAllOrderSuccess();
+        model.addAttribute("orderList",orderList);
+        return "admin/order-success";
     }
 
 }
