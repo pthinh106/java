@@ -34,25 +34,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row" th:if="${update_product_success}">
-                    <p class="messages" th:text="${'You have update product id is:' + update_product_id }"></p>
-                </div>
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Product Details</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <form th:action="@{/admin/product}" class="form-search" method="post">
-                                <input name="keyword" type="text" class="search-input">
-                                <select name="search">
-                                    <option value="0">Search by Id</option>
-                                    <option value="1">Search by Name</option>
-                                </select>
-                                <button type="submit" value="submit"><i class="fas fa-search fa-fw"></i></button>
-                            </form>
-                        </ol>
-                    </div><!-- /.col -->
+                        <h1 class="m-0">Order Success</h1>
+                    </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
@@ -83,19 +68,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <td th:text="${order.getFullName()}"></td>
                                 <td th:text="${order.getPhoneNumber()}">26 Sept,2020</td>
                                 <td th:text="${order.getAddress()}">xxxxxx5288</td>
-                                <th th:text="${order.getCreated()}">Gold Coin </th>
+                                <td th:text="${order.getCreated()}">Gold Coin </td>
                                 <th:block th:if="${order.status == 0}">
-                                    <th >Đang Lấy Hàng</th>
+                                    <td >Đang Lấy Hàng</td>
                                 </th:block>
                                 <th:block th:if="${order.status == 1}">
-                                    <th >Đang Giao Hàng</th>
+                                    <td >Đang Giao Hàng</td>
                                 </th:block>
                                 <th:block th:if="${order.status == 2}">
-                                    <th >Đã Giao Hàng</th>
+                                    <td >Đã Giao Hàng</td>
                                 </th:block>
-                                <th>
+                                <td>
                                     <a class="text-decoration-none" th:href="@{/admin/order/{id}(id=${order.getOrderId()})}"><button class="btn btn-info">Details</button></a>
-                                </th>
+                                </td>
                             </tr>
                         </th:block>
                         </tbody>
