@@ -55,7 +55,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-body">
                 <h3>Create About Information</h3>
                 <form th:action="@{/admin/about/create}" th:object="${about}" method="post" enctype="multipart/form-data">
-                  <input type="hidden" th:field="*{aboutId}">
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <label  class="form-label">About title</label>
@@ -77,16 +76,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="col-12 col-sm-6">
                       <label  class="form-label">Status</label>
-                      <select class="form-control" th:field="*{status}">
-                        <option value="0">off</option>
-                        <option value="1">on</option>
-                      </select>
+                      <input type="text" class="form-control" th:field="*{status}" required>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <label for="thumbnail" class="form-label">About Images</label>
-                      <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/png, image/jpeg" >
+                      <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/png, image/jpeg"    required>
                       <img id="blah" src="#" alt="your image" class="img-preview p-2"  />
                     </div>
                   </div>
