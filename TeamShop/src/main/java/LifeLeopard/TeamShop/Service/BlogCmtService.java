@@ -24,11 +24,11 @@ public class BlogCmtService {
     public void save(BlogComment blogComment) {
         blogCmtReps.save(blogComment);
     }
-
+//tìm một blogcmt theo id
     public Optional<BlogComment> findbyId(int id) {
         return blogCmtReps.findById(id);
     }
-
+    //xoa blogcmt theo di
     public void delete(int id) {
         blogCmtReps.deleteById(id);
     }
