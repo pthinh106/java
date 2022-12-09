@@ -52,6 +52,8 @@ public class HomeController {
     private ProductPageReps productPageReps;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private BlogService blogService;
 
     @GetMapping("/")
     public String index(Model model, Principal principal){

@@ -9,5 +9,4 @@ class TeamShopApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

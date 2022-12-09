@@ -5,35 +5,50 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
-@Table(name = "blogs")
+@Table(name = "table_blog")
+@Data
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "blog_id")
     private int blogId;
-    @Column(name = "blog_title")
 
-    private String blogTitle;
-    @Column(name = "blog_desc")
-
-    private String blogDesc;
-    @Column(name = "blog_content")
-
-    private String blogContent;
-    @OneToOne
-    @JoinColumn(name = "Customer_id", nullable = false)
-    private Customers customers;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "blog_image")
+    private Timestamp createdAt;
 
-    private String blogImage;
+    @Column(name = "title")
+    private String blogTitle;
 
-    public Blog() {
+    @Column(name = "descript")
+    private String blogDesc;
+    @Column(name = "img")
+    private String img;
+    @Column(name = "content")
+    private  String blogContent;
+
+    @Column(name = "author")
+    private String blogAuthor;
+
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<BlogComment> commentId;
+
+    public  Blog(){}
+
+    public Blog(int blogId, Timestamp createdAt, String blogTitle, String blogDesc, String img, String blogContent, String blogAuthor, List<BlogComment> commentId) {
+        this.blogId = blogId;
+        this.createdAt = createdAt;
+        this.blogTitle = blogTitle;
+        this.blogDesc = blogDesc;
+        this.img = img;
+        this.blogContent = blogContent;
+        this.blogAuthor = blogAuthor;
+        this.commentId = commentId;
     }
 
     public int getBlogId() {
@@ -42,6 +57,14 @@ public class Blog {
 
     public void setBlogId(int blogId) {
         this.blogId = blogId;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getBlogTitle() {
@@ -68,50 +91,27 @@ public class Blog {
         this.blogContent = blogContent;
     }
 
-    public Customers getCustomers() {
-        return customers;
+    public String getBlogAuthor() {
+        return blogAuthor;
     }
 
-    public void setCustomers(Customers customers) {
-        this.customers = customers;
+    public void setBlogAuthor(String blogAuthor) {
+        this.blogAuthor = blogAuthor;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public List<BlogComment> getCommentId() {
+        return commentId;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCommentId(List<BlogComment> commentId) {
+        this.commentId = commentId;
     }
 
-    public String getBlogImage() {
-        return blogImage;
+    public String getImg() {
+        return img;
     }
 
-    public void setBlogImage(String blogImage) {
-        this.blogImage = blogImage;
-    }
-
-    public Blog(int blogId, String blogTitle, String blogDesc, String blogContent, Customers customers, LocalDateTime createdAt, String blogImage) {
-        this.blogId = blogId;
-        this.blogTitle = blogTitle;
-        this.blogDesc = blogDesc;
-        this.blogContent = blogContent;
-        this.customers = customers;
-        this.createdAt = createdAt;
-        this.blogImage = blogImage;
-    }
-
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "blogId=" + blogId +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogDesc='" + blogDesc + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", customers=" + customers +
-                ", createdAt=" + createdAt +
-                ", blogImage='" + blogImage + '\'' +
-                '}';
+    public void setImg(String img) {
+        this.img = img;
     }
 }
