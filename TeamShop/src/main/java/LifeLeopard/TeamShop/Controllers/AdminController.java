@@ -427,20 +427,6 @@ public class AdminController {
         model.addAttribute("eventList",eventList);
         return "admin/show-all-event";
     }
-    @GetMapping("/blog")
-    public String listBlog(Model model, Principal principal){
-        if(principal != null){
-            String username = principal.getName().trim();
-            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
-            model.addAttribute("employee",employee);
-        }
-        List<Event> eventList = eventService.getAllEventOn();
-        Contact contact = contactService.getContact();
-        model.addAttribute("contact",contact);
-        model.addAttribute("eventList",eventList);
-        model.addAttribute("listBlog", blogService.findAllBlog());
-        return "home/blog";
-    }
     @GetMapping("/{id}")
     public String blogDetails(@PathVariable("id") int id, Model model, Principal principal){
         if(principal != null){
@@ -457,8 +443,9 @@ public class AdminController {
         return "home/blog-detail";
     }
 
-    @GetMapping("/blog/show")
+    @GetMapping("/blog")
     public String blogShow(Model model){
+        model.addAttribute("blogList",blogService.getAllBlog());
         return "admin/blog-show";
     }
 
@@ -471,10 +458,24 @@ public class AdminController {
     @PostMapping("/blog/create")
     public String CreateBlog(@ModelAttribute("blog") Blog blog, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
         Optional<Blog> blog1 = blogService.findBlogById(blog.getBlogId());
-        int id = blogService.CreateBlog(blog, MultipartFile);
-        redirectAttributes.addFlashAttribute("message",true);
-        redirectAttributes.addFlashAttribute("blogId",id);
+        if(blog1.isPresent()){
+            blogService.updateBlog(blog,MultipartFile);
+            redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("blogId",blog1.get().getBlogId());
+            return "redirect:/admin/blog";
+        }else{
+            int id = blogService.CreateBlog(blog, MultipartFile);
+            redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("blogId",id);
+        }
+
         return "redirect:/admin/blog/create";
+    }
+///
+    @GetMapping("/blog/edit/{id}")
+    public  String blogEdit(@PathVariable("id") int id,Model model, Principal principal){
+        model.addAttribute("blog",blogService.getBlogById(id).get());
+        return "admin/create-blog";
     }
 
 }

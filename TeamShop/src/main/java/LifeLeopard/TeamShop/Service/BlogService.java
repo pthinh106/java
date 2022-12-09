@@ -64,7 +64,7 @@ public class BlogService {
     public Optional<Blog> getBlogById(int id){
         return blogReps.findById(id);
     }
-    public void updateAbout(Blog blogDetails,MultipartFile multipartFiles) throws IOException {
+    public void updateBlog(Blog blogDetails,MultipartFile multipartFiles) throws IOException {
         Blog blog = blogReps.getById(blogDetails.getBlogId());
         String urlImg = new String();
         String FileName = StringUtils.getFilename(multipartFiles.getOriginalFilename());
@@ -79,7 +79,7 @@ public class BlogService {
                 FileNameUpdate = FileNameUpdate + "."+ Ex;
                 String uploadDir = UPLOAD_DIRECTORY + "/"+ blog.getBlogId();
 
-                urlImg = "/images/product/" + blog.getBlogId() +"/"+ FileNameUpdate;
+                urlImg = "/images/blogs/" + blog.getBlogId() +"/"+ FileNameUpdate;
                 FileUploadUtil.saveFile(uploadDir,FileNameUpdate,multipartFiles);
                 System.out.println(FileNameUpdate);
                 System.out.println(file.getName() + " is deleted!");
@@ -97,5 +97,6 @@ public class BlogService {
         blog.setBlogContent(blogDetails.getBlogContent());
         blog.setBlogAuthor(blogDetails.getBlogAuthor());
         blog.setBlogDesc(blogDetails.getBlogDesc());
+        blogReps.save(blog);
     }
 }

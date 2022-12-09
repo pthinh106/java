@@ -6,21 +6,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="admin/fragmientAdmin/head :: formField(title = 'Admin')"></head>
 <style>
-    fieldset{
-        border: 1px solid #ccc;
-        display: block;
-        padding: 10px 10px;
-        margin-top: 10px;
-    }
-    legend{
-        width: auto;
-        float: none;
-        font-size: 20px;
-        padding: 5px 5px;
-        font-weight: 900;
-    }
-    .img-preview {
-        width: 500px;
+    .description-product{
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .messages{
         text-align: center;
@@ -32,89 +22,84 @@ scratch. This page gets rid of all links and provides the needed markup only.
         align-content: center;
         display: flex;
     }
-    @media only screen and (max-width: 575px) {
-        .img-preview{
-            width: 300px;
-        }
-    }
-
 </style>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand " href="#">Blog</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="">Home</a>
-                        <a class="nav-link" href="#">Features</a>
-                        <a class="nav-link" href="#">Pricing</a>
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-<!--
     <nav th:replace="admin/fragmientAdmin/nav"></nav>
--->
 
-<!--
     <aside th:replace="admin/fragmientAdmin/slider-bar"></aside>
--->
-<div class="content-header">
-    <button class="btn btn-success m-50">Create</button>
-    <table class="table  table-striped">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Image</th>
-            <th scope="col">Descripts</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-                <button type="button" class="btn-primary">Edit</button>
-                <button type="button" class="btn-danger">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Th0rnton</td>
-            <td>@fat</td>
-            <td>
-                <button type="button" class="btn-primary">Edit</button>
-                <button type="button" class="btn-danger">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-            <td>
-                <button type="button" class="btn-primary">Edit</button>
-                <button type="button" class="btn-danger">Delete</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
 
-</div>
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row" th:if="${message}">
+                    <p class="messages" th:text="${'You have update blog id is:' + blogId}"></p>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Blogs Details</h1>
+                    </div><!-- /.col -->
 
-    <!-- /.content-wrapper -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
 
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center m-auto" style="width: 95%" >
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Content</th>
+                            <th scope="col">Images</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="blog,count : ${blogList}">
+                            <tr>
+                                <td class="text-center" th:text="${count.index + 1}">Mark</td>
+                                <td th:text="${blog.getBlogId()}">Mark</td>
+                                <td >
+                                    <p class="description-product" th:text="${blog.getBlogTitle()}" style="max-width: 100px;"></p>
+                                </td>
+                                <td >
+                                    <p class="description-product" th:text="${blog.getBlogDesc()}" style="max-width: 100px;"></p>
+                                </td>
+                                <td >
+                                    <p class="description-product" th:text="${blog.getBlogContent()}" style="max-width: 100px;"></p>
+                                </td>
+                                <td >
+                                    <img th:src="${blog.getImg()}" width="200px">
+                                </td>
+                                <td >
+                                    <p  th:text="${blog.getCreatedAt()}" ></p>
+                                </td>
+                                <td >
+                                    <a  th:href="@{/admin/blog/edit/{id}(id=${blog.getBlogId()})}" class="text-decoration-none pr-3"><button class="btn btn-primary">Edit</button></a>
+                                    <!--                                    <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none"><button class="btn btn-danger">Delete</button></a>-->
+                                </td>
+
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
@@ -128,35 +113,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Footer -->
     <footer th:replace="admin/fragmientAdmin/footer"></footer>
 </div>
+<!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
 <div th:replace="admin/fragmientAdmin/addjs"></div>
-<script>
-    thumbnail.onchange = evt => {
-        const [file] = thumbnail.files
-        if (file) {
-            blah.src = URL.createObjectURL(file)
-        }
-    }
-    img1.onchange = evt => {
-        const [file] = img1.files
-        if (file) {
-            blah1.src = URL.createObjectURL(file)
-        }
-    }
-    img2.onchange = evt => {
-        const [file] = img2.files
-        if (file) {
-            blah2.src = URL.createObjectURL(file)
-        }
-    }
-    img3.onchange = evt => {
-        const [file] = img3.files
-        if (file) {
-            blah3.src = URL.createObjectURL(file)
-        }
-    }
-
-</script>
-
 </body>
 </html>

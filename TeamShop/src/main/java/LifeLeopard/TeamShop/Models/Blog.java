@@ -114,4 +114,18 @@ public class Blog {
     public void setImg(String img) {
         this.img = img;
     }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "blogId=" + blogId +
+                ", createdAt=" + createdAt +
+                ", blogTitle='" + blogTitle + '\'' +
+                ", blogDesc='" + blogDesc + '\'' +
+                ", img='" + img + '\'' +
+                ", blogContent='" + blogContent + '\'' +
+                ", blogAuthor='" + blogAuthor + '\'' +
+                ", commentId=" + commentId +
+                '}';
+    }
 }
