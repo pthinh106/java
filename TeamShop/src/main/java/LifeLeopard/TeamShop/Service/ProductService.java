@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -179,5 +180,9 @@ public class ProductService {
 
     public List<Product> getAllByName(String keyword) {
         return productReps.findAllByProductNameContaining(keyword);
+    }
+
+    public Optional<Product> findById(int id) {
+        return productReps.findById(id);
     }
 }
