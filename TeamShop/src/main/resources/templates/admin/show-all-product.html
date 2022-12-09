@@ -101,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <td th:text="${product.getStatus() == 1 ? 'on' : 'off'}">Mark</td>
                                 <td >
                                     <a  th:href="@{/admin/product/update/{id}(id=${product.getProductId()})}" class="text-decoration-none pr-3"><button class="btn btn-primary">Edit</button></a>
-                                    <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none"><button class="btn btn-danger">Delete</button></a>
+<!--                                    <a th:href="@{/admin/product/delete/{id}(id=${product.getProductId()})}" class="text-decoration-none"><button class="btn btn-danger">Delete</button></a>-->
                                 </td>
 
                             </tr>

@@ -218,27 +218,6 @@ public class AdminController {
         }
         return "redirect:/admin/updatecontact";
     }
-    @GetMapping("/event/create")
-    public String createEvent(Model model,Principal principal){
-        model.addAttribute("event",new Event());
-        return "admin/create-event";
-    }
-    @PostMapping("/event/create")
-    public String createEvent(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
-        Optional<Event> event1 = eventService.findById(event.getEventId());
-        if(event1.isPresent()){
-            eventService.updateEvent(event,MultipartFile);
-            redirectAttributes.addFlashAttribute("update_event_success", true);
-            redirectAttributes.addFlashAttribute("update_event_id", event1.get().getEventId());
-            return "redirect:/admin/event";
-        }
-        else {
-            int id = eventService.createEvent(event, MultipartFile);
-            redirectAttributes.addFlashAttribute("message", true);
-            redirectAttributes.addFlashAttribute("eventId", id);
-            return "redirect:/admin/event/create";
-        }
-    }
 
     @GetMapping("/about/create")
     public String CreateAboutInfoo(Model model,Principal principal){
@@ -400,6 +379,28 @@ public class AdminController {
             return "admin/create-slide";
         }
     }
+    @GetMapping("/event/create")
+    public String createEvent(Model model,Principal principal){
+        model.addAttribute("event",new Event());
+        return "admin/create-event";
+    }
+    @PostMapping("/event/create")
+    public String createEvent(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
+        Optional<Event> event1 = eventService.findById(event.getEventId());
+        if(event1.isPresent()){
+            eventService.updateEvent(event,MultipartFile);
+            redirectAttributes.addFlashAttribute("update_event_success", true);
+            redirectAttributes.addFlashAttribute("update_event_id", event1.get().getEventId());
+            return "redirect:/admin/event";
+        }
+        else {
+            int id = eventService.createEvent(event, MultipartFile);
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("eventId", id);
+            return "redirect:/admin/event/create";
+        }
+    }
+
     @GetMapping("/event/update/{id}")
     public String getEventUpdateById(Model model, Principal principal ,@PathVariable int id){
         if(principal != null){
