@@ -57,6 +57,8 @@ public class AdminController {
     private AboutPageReps aboutPageReps;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private HomeSildeService homeSildeService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -353,5 +355,41 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("message",true);
         }
         return "redirect:/admin/category/create";
+    }
+    @GetMapping("/slidehome")
+    public String getAllslide(Model model,Principal principal){
+        List<HomeSlide> homeSlideList = homeSildeService.getAllSlide();
+        model.addAttribute("homeSlideList",homeSlideList);
+        return "admin/slide";
+    }
+    @GetMapping("/slidehome/create")
+    public String createSlide(Model model,Principal principal){
+        model.addAttribute("slide",new HomeSlide());
+        return "admin/create-slide";
+    }
+    @GetMapping("/slidehome/update/{id}")
+    public String createSlide(@PathVariable("id") int id,Model model,Principal principal){
+        Optional<HomeSlide> homeSlide= homeSildeService.getSlideHome(id);
+        if(homeSlide.isPresent()){
+            model.addAttribute("slide",homeSlide.get());
+        }else{
+            model.addAttribute("slide",new HomeSlide());
+        }
+        return "admin/create-slide";
+    }
+    @PostMapping("/slidehome/create")
+    public String createSlide(Model model,Principal principal,@ModelAttribute("slide") HomeSlide homeSlideDetails,RedirectAttributes redirectAttributes,@RequestParam("thumbnail") MultipartFile multipartFile) throws IOException {
+        Optional<HomeSlide> homeSlide = homeSildeService.getSlideHome(homeSlideDetails.getSlideID());
+        if(homeSlide.isPresent()){
+            homeSildeService.updateHoneSlide(homeSlideDetails,multipartFile);
+            redirectAttributes.addFlashAttribute("message",true);
+            redirectAttributes.addFlashAttribute("id",homeSlide.get().getSlideID());
+            return "redirect:/admin/slidehome";
+        }else{
+            homeSildeService.ceateHomeSlide(homeSlideDetails,multipartFile);
+            redirectAttributes.addFlashAttribute("message",true);
+            return "admin/create-slide";
+        }
+
     }
 }
