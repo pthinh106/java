@@ -57,6 +57,8 @@ public class AdminController {
     private AboutPageReps aboutPageReps;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private HomeSildeService homeSildeService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -363,29 +365,6 @@ public class AdminController {
         }
         return "redirect:/admin/category/create";
     }
-    @GetMapping("/event/update/{id}")
-    public String getEventUpdateById(Model model, Principal principal ,@PathVariable int id){
-        if(principal != null){
-            String username = principal.getName().trim();
-            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
-            model.addAttribute("employee",employee);
-        }
-        Event event = eventService.getEventByID(id);
-        model.addAttribute("event",event);
-        return "admin/create-event";
-    }
-    @GetMapping("/event")
-    public String getAllEvent(Model model, Principal principal,@RequestParam(value = "page",defaultValue = "1") int page){
 
-        if(principal != null){
-            String username = principal.getName().trim();
-            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
-            model.addAttribute("employee",employee);
-        }
-        int pagesize =10;
-        Pageable pageable = PageRequest.of(page-1,pagesize);
-        List<Event> eventList = eventService.getAllEvent();
-        model.addAttribute("eventList",eventList);
-        return "admin/show-all-event";
     }
 }
