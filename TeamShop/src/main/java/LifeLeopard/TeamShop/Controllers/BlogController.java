@@ -63,11 +63,14 @@ public class BlogController {
             }
 
         }
-        Optional<Blog>  blog = blogService.getBlogById(id);
         List<Event> eventList = eventService.getAllEventOn();
         Contact contact = contactService.getContact();
         model.addAttribute("contact",contact);
         model.addAttribute("eventList",eventList);
+        Optional<Blog>  blog = blogService.getBlogById(id);
+        if(!blog.isPresent()){
+            return "error";
+        }
         model.addAttribute("blog", blog.get());
         return "home/blog-detail";
     }
