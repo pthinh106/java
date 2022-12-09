@@ -219,16 +219,25 @@ public class AdminController {
         return "redirect:/admin/updatecontact";
     }
     @GetMapping("/event/create")
-    public String createEventt(Model model,Principal principal){
+    public String createEvent(Model model,Principal principal){
         model.addAttribute("event",new Event());
         return "admin/create-event";
     }
     @PostMapping("/event/create")
-    public String createEventt(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
-        int id = eventService.createEvent(event,MultipartFile);
-        redirectAttributes.addFlashAttribute("message",true);
-        redirectAttributes.addFlashAttribute("eventId",id);
-        return "redirect:/admin/event/create";
+    public String createEvent(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
+        Optional<Event> event1 = eventService.findById(event.getEventId());
+        if(event1.isPresent()){
+            eventService.updateEvent(event,MultipartFile);
+            redirectAttributes.addFlashAttribute("update_event_success", true);
+            redirectAttributes.addFlashAttribute("update_event_id", event1.get().getEventId());
+            return "redirect:/admin/event";
+        }
+        else {
+            int id = eventService.createEvent(event, MultipartFile);
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("eventId", id);
+            return "redirect:/admin/event/create";
+        }
     }
 
     @GetMapping("/about/create")
@@ -390,6 +399,29 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("message",true);
             return "admin/create-slide";
         }
-
+    }
+    @GetMapping("/event/update/{id}")
+    public String getEventUpdateById(Model model, Principal principal ,@PathVariable int id){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        Event event = eventService.getEventByID(id);
+        model.addAttribute("event",event);
+        return "admin/create-event";
+    }
+    @GetMapping("/event")
+    public String getAllEvent(Model model, Principal principal,@RequestParam(value = "page",defaultValue = "1") int page){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        int pagesize =10;
+        Pageable pageable = PageRequest.of(page-1,pagesize);
+        List<Event> eventList = eventService.getAllEvent();
+        model.addAttribute("eventList",eventList);
+        return "admin/show-all-event";
     }
 }

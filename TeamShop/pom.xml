@@ -112,6 +112,20 @@
 			<artifactId>android-json</artifactId>
 			<version>0.0.20131108.vaadin1</version>
 		</dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-el</artifactId>
+			<version>9.0.68</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>28.2-android</version>
+		</dependency>
 	</dependencies>
 
 	<build>
