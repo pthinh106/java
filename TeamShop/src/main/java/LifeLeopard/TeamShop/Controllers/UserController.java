@@ -59,11 +59,32 @@ public class UserController {
     @PostMapping("/edit")
     public String editProfileUser(Model model, Principal principal,@ModelAttribute("customer") Customers customers, @RequestParam("password") String password){
         if(customerService.editProfile(customers,password,principal)){
+            if(principal == null){
+                return "redirect:/login";
+            }
+            String username = principal.getName().trim();
+            Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
+            List<Event> eventList = eventService.getAllEventOn();
+            Contact contact = contactService.getContact();
+            model.addAttribute("contact",contact);
+            model.addAttribute("eventList",eventList);
+            model.addAttribute("customer",customer);
             model.addAttribute("edit_profile_success",true);
+            return "home/user/edit-profile";
         }else{
+            if(principal == null){
+                return "redirect:/login";
+            }
+            String username = principal.getName().trim();
+            Customers customer =customerService.getByAccountId(accountService.getUsername(username).getAccountId());
+            List<Event> eventList = eventService.getAllEventOn();
+            Contact contact = contactService.getContact();
+            model.addAttribute("contact",contact);
+            model.addAttribute("eventList",eventList);
+            model.addAttribute("customer",customer);
             model.addAttribute("edit_profile_fail",true);
+            return "home/user/edit-profile";
         }
-        return "redirect:/user";
     }
     @PostMapping("/reset/password")
     public String resetPassword(Model model, Principal principal, @RequestParam("current_password") String currentPassword,

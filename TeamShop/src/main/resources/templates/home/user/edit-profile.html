@@ -34,6 +34,20 @@
 <header th:if="${customer} == null">
     <div th:replace="fragments/nav"></div>
 </header>
+<th:block th:if="${edit_profile_success != null}">
+    <script>
+        window.onload = function (){
+            swal("Success !","Edit Profile Success", "success");
+        }
+    </script>
+</th:block>
+<th:block th:if="${edit_profile_fail != null}">
+    <script>
+        window.onload = function (){
+            swal("Fail !","Edit Profile Fail", "error");
+        }
+    </script>
+</th:block>
 <section style="background-color: #eee;" class="p-b-140 bg0 p-t-80 p-b-50">
     <div class="container py-5">
         <div class="row">
@@ -199,7 +213,7 @@
 </div>
 <div th:replace="fragments/addjs"></div>
 <script>
-    let passwordInput = document.getElementById('confirm_password_edit'),
+    let passwordInput = document.getElementById('confirm_password'),
         toggle = document.getElementById('btnToggle'),
         icon =  document.getElementById('eyeIcon');
 
