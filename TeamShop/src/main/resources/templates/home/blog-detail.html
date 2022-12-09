@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: formField(title = 'Blog Detail')"></head>
 <body class="animsition">
 
@@ -95,35 +95,58 @@
 
 					<!--  -->
 					<div class="p-t-40">
-						<h5 class="mtext-113 cl2 p-b-12">
-							Leave a Comment
-						</h5>
+						<th:block th:each="cmt : ${blogComments}">
+							<div class="flex-w flex-t p-b-68">
+								<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+									<img src="/images/avatar-01.jpg" alt="AVATAR">
+								</div>
 
-						<p class="stext-107 cl6 p-b-40">
-							Your email address will not be published. Required fields are marked *
-						</p>
+								<div class="size-207">
+									<div class="flex-w p-b-17">
+										<span class="mtext-107 cl2 p-r-20" th:text="${cmt.getCustomers().getFullName()}">
+											Ariana Grande
+										</span>
+										<th:block th:if="${customer != null}">
+											<th:block th:if="${cmt.getCustomers().getAccountId() == customer.getAccountId()}">
+												<span class="xt-1 cl2 p-r-20" th:onclick="deleteCmt([[${cmt.getCommentId()}]])" style=" font-size: 16px;font-family: 'Material-Design-Iconic-Font';}">
+												Delete
+												</span>
+											</th:block>
+										</th:block>
 
-						<form>
-							<div class="bor19 m-b-20">
-								<textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="cmt" placeholder="Comment..."></textarea>
+
+									</div>
+
+									<p class="stext-102 cl6" th:text="${cmt.getCmt()}">
+										Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
+									</p>
+								</div>
 							</div>
+						</th:block>
+						<th:block th:if="${customer == null}">
+							<h5 class="mtext-113 cl2 p-b-12">
+								Login To Comment
+							</h5>
+						</th:block>
+						<th:block th:unless="${customer == null}">
+							<h5 class="mtext-113 cl2 p-b-12">
+								Leave A comment
+							</h5>
+<!--							th:action là đường link đưa thể hiện dữ liệu sẽ đi đến, th:object là kiêu dữ liệu này đang là một BlogComment-->
+							<form id="idForm" method="post" th:action="@{/blog/comment/{id}(id=${blog.getBlogId()})}" th:object="${comment}">
+								<div class="bor19 m-b-20">
+									<textarea type="text" class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="cmt" placeholder="Comment..." th:field="*{cmt}"></textarea>
+								</div>
 
-							<div class="bor19 size-218 m-b-20">
-								<input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="name" placeholder="Name *">
-							</div>
+								<button class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04" type="submit">
+									Post Comment
+								</button>
+							</form>
+						</th:block>
 
-							<div class="bor19 size-218 m-b-20">
-								<input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="email" placeholder="Email *">
-							</div>
 
-							<div class="bor19 size-218 m-b-30">
-								<input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="web" placeholder="Website">
-							</div>
 
-							<button class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
-								Post Comment
-							</button>
-						</form>
+
 					</div>
 				</div>
 			</div>
@@ -141,5 +164,39 @@
 <!-- Back to top -->
 
 <div th:replace="fragments/addjs"></div>
+<!--xử dụng ajax để call lên server để tạo một cmt-->
+<script>
+	$("#idForm").submit(function(e) {
+
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+		var form = $(this);
+		$.ajax({
+			type: form.attr('method'),
+			url: form.attr('action'),
+			data: form.serialize(), // serializes the form's elements.
+			success: function(data)
+			{
+				if(data){
+					window.location.reload();
+				}
+			}
+		});
+
+	});
+</script>
+<script>
+	function deleteCmt(id){
+		$.ajax({
+			type: "POST",
+			url: "/blog/deleteCmt/"+id,
+			success: function(data)
+			{
+				if(data){
+					window.location.reload();
+				}
+			}
+		});
+	}
+</script>
 </body>
 </html>
