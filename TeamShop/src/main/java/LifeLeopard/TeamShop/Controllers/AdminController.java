@@ -225,10 +225,19 @@ public class AdminController {
     }
     @PostMapping("/event/create")
     public String createEventt(@ModelAttribute("event") Event event, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
-        int id = eventService.createEvent(event,MultipartFile);
-        redirectAttributes.addFlashAttribute("message",true);
-        redirectAttributes.addFlashAttribute("eventId",id);
-        return "redirect:/admin/event/create";
+        Optional<Event> event1 = eventService.findById(event.getEventId());
+        if(event1.isPresent()){
+            eventService.updateEvent(event,MultipartFile);
+            redirectAttributes.addFlashAttribute("update_event_success", true);
+            redirectAttributes.addFlashAttribute("update_event_id", event1.get().getEventId());
+            return "redirect:/admin/event";
+        }
+        else {
+            int id = eventService.createEvent(event, MultipartFile);
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("eventId", id);
+            return "redirect:/admin/event/create";
+        }
     }
 
     @GetMapping("/about/create")
@@ -330,7 +339,7 @@ public class AdminController {
         return "admin/create-category";
     }
     @GetMapping("/category/update/{id}")
-    public String edditCategory(@PathVariable("id") int id,Model model,Principal principal){
+    public String editCategory(@PathVariable("id") int id,Model model,Principal principal){
         Optional<Category> category = categoryService.getCategoryById(id);
         if(category.isPresent()){
             model.addAttribute("category",category.get());
@@ -356,40 +365,6 @@ public class AdminController {
         }
         return "redirect:/admin/category/create";
     }
-    @GetMapping("/slidehome")
-    public String getAllslide(Model model,Principal principal){
-        List<HomeSlide> homeSlideList = homeSildeService.getAllSlide();
-        model.addAttribute("homeSlideList",homeSlideList);
-        return "admin/slide";
-    }
-    @GetMapping("/slidehome/create")
-    public String createSlide(Model model,Principal principal){
-        model.addAttribute("slide",new HomeSlide());
-        return "admin/create-slide";
-    }
-    @GetMapping("/slidehome/update/{id}")
-    public String createSlide(@PathVariable("id") int id,Model model,Principal principal){
-        Optional<HomeSlide> homeSlide= homeSildeService.getSlideHome(id);
-        if(homeSlide.isPresent()){
-            model.addAttribute("slide",homeSlide.get());
-        }else{
-            model.addAttribute("slide",new HomeSlide());
-        }
-        return "admin/create-slide";
-    }
-    @PostMapping("/slidehome/create")
-    public String createSlide(Model model,Principal principal,@ModelAttribute("slide") HomeSlide homeSlideDetails,RedirectAttributes redirectAttributes,@RequestParam("thumbnail") MultipartFile multipartFile) throws IOException {
-        Optional<HomeSlide> homeSlide = homeSildeService.getSlideHome(homeSlideDetails.getSlideID());
-        if(homeSlide.isPresent()){
-            homeSildeService.updateHoneSlide(homeSlideDetails,multipartFile);
-            redirectAttributes.addFlashAttribute("message",true);
-            redirectAttributes.addFlashAttribute("id",homeSlide.get().getSlideID());
-            return "redirect:/admin/slidehome";
-        }else{
-            homeSildeService.ceateHomeSlide(homeSlideDetails,multipartFile);
-            redirectAttributes.addFlashAttribute("message",true);
-            return "admin/create-slide";
-        }
 
     }
 }
