@@ -55,6 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-body">
                 <h3>create Event</h3>
                 <form th:action="@{/admin/event/create}" th:object="${event}" method="post" enctype="multipart/form-data">
+                  <input type="hidden" th:field="*{eventId}">
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <label  class="form-label">Event name</label>
@@ -82,7 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <label for="thumbnail" class="form-label">Event Thumbnail</label>
-                      <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/png, image/jpeg"    required>
+                      <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/png, image/jpeg, image/jpg">
                       <img id="blah" src="#" alt="your image" class="img-preview p-2"  />
                     </div>
                   </div>
