@@ -3,21 +3,16 @@ package LifeLeopard.TeamShop.Controllers;
 import LifeLeopard.TeamShop.Models.*;
 import LifeLeopard.TeamShop.Responsibility.AccountReps;
 import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
-import LifeLeopard.TeamShop.Service.CategoryService;
-import LifeLeopard.TeamShop.Service.ContactService;
-import LifeLeopard.TeamShop.Service.EventService;
-import LifeLeopard.TeamShop.Service.ProductService;
+import LifeLeopard.TeamShop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(path = "/product")
@@ -34,6 +29,8 @@ public class ProductController {
     private EventService eventService;
     @Autowired
     private ContactService contactService;
+    @Autowired
+    private ProductCommentService productCommentService;
 
 
     @GetMapping("")
@@ -71,18 +68,42 @@ public class ProductController {
             }
             model.addAttribute("customer",customer);
         }
-        Product product = productService.getById(id);
-        if(product == null){
-            return "error";
-        }
-        List<Product> productListOther = productService.getOther();
         List<Event> eventList = eventService.getAllEventOn();
         Contact contact = contactService.getContact();
         model.addAttribute("contact",contact);
         model.addAttribute("eventList",eventList);
+        Product product = productService.getById(id);
+        if(product == null){
+            return "error";
+        }
+        model.addAttribute("listComment",productCommentService.getAllCmtByProduct(product));
+        model.addAttribute("commentUser",new ProductComment());
+        List<Product> productListOther = productService.getOther();
         model.addAttribute("product",product);
         model.addAttribute("productListOther",productListOther);
         return "home/product-detail";
+    }
+    @PostMapping( value = "/comment/{id}" ,produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Boolean> createComment(@PathVariable("id") int id,Principal principal,@ModelAttribute("commentUser") ProductComment productComment){
+        Optional<Product> product = productService.findById(id);
+        Customers customer = new Customers();
+        if(principal != null){
+            String username = principal.getName().trim();
+            customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            if(customer == null){
+                return ResponseEntity.ok().body(false);
+            }
+        }
+        if(product.isPresent()){
+            productComment.setProduct(product.get());
+            productComment.setCustomers(customer);
+            productComment.setStatus(1);
+            productCommentService.Save(productComment);
+            return ResponseEntity.ok().body(true);
+        }else{
+            return ResponseEntity.ok().body(false);
+        }
     }
     @GetMapping("/test")
     public String test(){
