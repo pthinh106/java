@@ -27,4 +27,53 @@ public class BlogComment {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
+    public BlogComment(){}
+
+    public BlogComment(int commentId, Blog blog, String cmt, Customers customers, Timestamp createdAt) {
+        this.commentId = commentId;
+        this.blog = blog;
+        this.cmt = cmt;
+        this.customers = customers;
+        this.createdAt = createdAt;
+    }
+
+    public int getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
+
+    public String getCmt() {
+        return cmt;
+    }
+
+    public void setCmt(String cmt) {
+        this.cmt = cmt;
+    }
+
+    public Customers getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Customers customers) {
+        this.customers = customers;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 }
