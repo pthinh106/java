@@ -36,7 +36,7 @@ public class SecurityConfigUser {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http    .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/user/**").hasAnyRole("USER")
+                .antMatchers("/user/**").hasAnyRole("USER")
                 .antMatchers("/**").permitAll()
                 .and().formLogin().loginProcessingUrl("/user/login").loginPage("/user/login").failureUrl("/user/login-error").permitAll()
                 .and().logout(logout -> logout

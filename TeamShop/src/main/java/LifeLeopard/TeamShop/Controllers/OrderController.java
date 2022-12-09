@@ -70,10 +70,10 @@ public class OrderController {
                         productDetails = productService.getById(product.getValue());
                     }
                     if (product.getKey().equals("itemId")) {
-                            productSize = productSizeReps.getById(product.getValue());
+                        productSize = productSizeReps.getById(product.getValue());
                     }
                     if(product.getKey().equals("quantity")){
-                            quantity = product.getValue();
+                        quantity = product.getValue();
                     }
 
                 }
@@ -208,7 +208,7 @@ public class OrderController {
     }
     @PostMapping(value = "/uơdatequantity",produces = "application/json")
     public ResponseEntity<Boolean> updateQuantityV2(@Param("id") String id,@Param("quantity") String quantity,
-                                                HttpServletResponse response, HttpServletRequest request) throws JsonProcessingException{
+                                                    HttpServletResponse response, HttpServletRequest request) throws JsonProcessingException{
         String valueDetails = "";
         Map<String, List<Map<String, Map<String, Integer>>>> cartDetails = new HashMap<>();
         List<Map<String, Map<String, Integer>>> dataCookie = new ArrayList<>();
@@ -329,5 +329,12 @@ public class OrderController {
         response.addCookie(cookie);
         redirectAttributes.addFlashAttribute("buy_success", true);
         return "redirect:/order/cart";
+    }
+
+    @GetMapping(value = "/price",produces = "application/json")
+    @ResponseBody
+    public double getPrice(@Param("size") String size){
+        int id = Integer.parseInt(size);
+        return productSizeReps.findById(id).get().getPrice();
     }
 }
