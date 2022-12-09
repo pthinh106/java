@@ -59,6 +59,8 @@ public class AdminController {
     private OrderService orderService;
     @Autowired
     private HomeSildeService homeSildeService;
+    @Autowired
+    private BlogService blogService;
 
     @GetMapping("")
     public String index(Model model, Principal principal){
@@ -425,4 +427,54 @@ public class AdminController {
         model.addAttribute("eventList",eventList);
         return "admin/show-all-event";
     }
+    @GetMapping("/blog")
+    public String listBlog(Model model, Principal principal){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
+        model.addAttribute("listBlog", blogService.findAllBlog());
+        return "home/blog";
+    }
+    @GetMapping("/{id}")
+    public String blogDetails(@PathVariable("id") int id, Model model, Principal principal){
+        if(principal != null){
+            String username = principal.getName().trim();
+            Employee employee =employeeRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
+            model.addAttribute("employee",employee);
+        }
+        Optional<Blog>  blog = blogService.findBlogById(id);
+        List<Event> eventList = eventService.getAllEventOn();
+        Contact contact = contactService.getContact();
+        model.addAttribute("contact",contact);
+        model.addAttribute("eventList",eventList);
+        model.addAttribute("blog", blog.get());
+        return "home/blog-detail";
+    }
+
+    @GetMapping("/blog/show")
+    public String blogShow(Model model){
+        return "admin/blog-show";
+    }
+
+    @GetMapping("/blog/create")
+    public  String blogCreate(Model model, Principal principal){
+        model.addAttribute("blog",new Blog());
+        return "admin/create-blog";
+    }
+
+    @PostMapping("/blog/create")
+    public String CreateBlog(@ModelAttribute("blog") Blog blog, Principal principal, RedirectAttributes redirectAttributes, @RequestParam("thumbnail")MultipartFile MultipartFile) throws IOException {
+        Optional<Blog> blog1 = blogService.findBlogById(blog.getBlogId());
+        int id = blogService.CreateBlog(blog, MultipartFile);
+        redirectAttributes.addFlashAttribute("message",true);
+        redirectAttributes.addFlashAttribute("blogId",id);
+        return "redirect:/admin/blog/create";
+    }
+
 }
