@@ -2,9 +2,6 @@ package LifeLeopard.TeamShop.Controllers;
 
 
 import LifeLeopard.TeamShop.Models.*;
-import LifeLeopard.TeamShop.Responsibility.AccountReps;
-import LifeLeopard.TeamShop.Responsibility.BlogReps;
-import LifeLeopard.TeamShop.Responsibility.CustomerRepos;
 import LifeLeopard.TeamShop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
