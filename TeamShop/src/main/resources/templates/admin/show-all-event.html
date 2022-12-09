@@ -34,16 +34,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row" th:if="${update_aboutinfo_success}">
-          <p class="messages" th:text="${'You have update product id is:' + update_aboutinfo_id }"></p>
+        <div class="row" th:if="${update_event_success}">
+          <p class="messages" th:text="${'You have update product id is:' + update_event_id }"></p>
         </div>
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">About Infomation</h1>
+            <h1 class="m-0">Event Infomation</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <form th:action="@{/admin/about/update}" class="form-search" method="post">
+              <form th:action="@{/admin/event}" class="form-search" method="post">
                 <input name="keyword" type="text" class="search-input">
                 <select name="search">
                   <option value="0">Search by Id</option>
@@ -67,38 +67,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <tr>
               <th scope="col">STT</th>
               <th scope="col">ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Subtitle</th>
-              <th scope="col">Image</th>
-              <th scope="col">Topic</th>
               <th scope="col">Name</th>
+              <th scope="col">Topic</th>
+              <th scope="col">ProductID List</th>
+              <th scope="col">Image</th>
               <th scope="col">Status</th>
               <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="about,count : ${aboutList}">
+            <th:block th:each="event,count : ${eventList}">
               <tr>
                 <td class="text-center" th:text="${count.index + 1}">Mark</td>
-                <td th:text="${about.getAboutId()}">Mark</td>
+                <td th:text="${event.getEventId()}">Mark</td>
                 <td >
-                  <p class="description-about" th:text="${about.getAboutTitle()}" style="max-width: 100px;"></p>
+                  <p class="description-about" th:text="${event.getEventName()}" style="max-width: 100px;"></p>
                 </td>
                 <td >
-                  <p class="description-about" th:text="${about.getAboutSub()}" style="max-width: 100px;"></p>
+                  <p class="description-about" th:text="${event.getEventTopic()}" style="max-width: 100px;"></p>
                 </td>
                 <td >
-                  <img th:src="${about.getAboutImg()}" width="100px">
+                  <p class="description-about" th:text="${event.getListProductId()}" style="max-width: 100px;"></p>
                 </td>
                 <td >
-                  <p class="description-about" th:text="${about.getAboutTopic()}" style="max-width: 100px;"></p>
+                  <img th:src="${event.getEventImg()}" width="100px">
                 </td>
-                <td >
-                  <p class="description-about" th:text="${about.getName()}" style="max-width: 250px;"></p>
                 </td>
-                <td th:text="${about.getStatus() == 1 ? 'on' : 'off'}">Mark</td>
+                <td th:text="${event.getStatus() == 1 ? 'on' : 'off'}">Mark</td>
                 <td >
-                  <a  th:href="@{/admin/about/update/{id}(id=${about.getAboutId()})}" class="text-decoration-none pr-3"><button class="btn btn-info">Edit</button></a>
+                  <a  th:href="@{/admin/event/update/{id}(id=${event.getEventId()})}" class="text-decoration-none pr-3"><button class="btn btn-info">Edit</button></a>
                 </td>
 
               </tr>
@@ -112,22 +109,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a class="page-link" href="#" th:unless="${currentPage > 1}">First</a>
               </li>
               <li class="page-item " th:classappend="${currentPage == 1 ? 'disabled' : ''}">
-                <a class="page-link"  tabindex="-1 " th:if="${currentPage > 1}" th:href="@{/admin/about/update(page=${currentPage -1})}">Previous</a>
+                <a class="page-link"  tabindex="-1 " th:if="${currentPage > 1}" th:href="@{/admin/event/update(page=${currentPage -1})}">Previous</a>
               </li>
               <li class="page-item" th:if="${currentPage > 1}">
-                <a class="page-link"  tabindex="-1 "  th:href="@{/admin/about/update(page=${currentPage -1})}" th:text="${currentPage -1}"></a>
+                <a class="page-link"  tabindex="-1 "  th:href="@{/admin/event/update(page=${currentPage -1})}" th:text="${currentPage -1}"></a>
               </li>
               <li class="page-item active">
                 <a class="page-link" href="#" th:text="${currentPage}"><span class="sr-only">(current)</span></a>
               </li>
               <li class="page-item" th:if="${currentPage < totalPages}">
-                <a class="page-link"  tabindex="-1 "  th:href="@{/admin/about/update(page=${currentPage +1})}" th:text="${currentPage  + 1}"></a>
+                <a class="page-link"  tabindex="-1 "  th:href="@{/admin/event/update(page=${currentPage +1})}" th:text="${currentPage  + 1}"></a>
               </li>
               <li class="page-item " th:classappend="${currentPage == totalPages ? 'disabled':''}">
-                <a class="page-link"  th:href="@{/admin/about/update(page=${currentPage +1})}">Next</a>
+                <a class="page-link"  th:href="@{/admin/event/update(page=${currentPage +1})}">Next</a>
               </li>
               <li class="page-item" th:if="${currentPage < totalPages}">
-                <a class="page-link" th:href="@{/admin/about/update(page=${totalPages})}">Last</a>
+                <a class="page-link" th:href="@{/admin/event/update(page=${totalPages})}">Last</a>
               </li>
             </ul>
           </nav>
