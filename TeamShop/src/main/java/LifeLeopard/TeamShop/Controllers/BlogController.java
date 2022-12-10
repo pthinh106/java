@@ -78,7 +78,6 @@ public class BlogController {
             return "error";
         }
         List<BlogComment> blogComments = blogCmtService.findAllByblog(blog.get());
-        //truyền dữ liệu xuống view
         model.addAttribute("comment",new BlogComment());
         model.addAttribute("blogComments",blogComments);
         model.addAttribute("blog", blog.get());
@@ -88,7 +87,6 @@ public class BlogController {
     @ResponseBody
     public ResponseEntity<Boolean> createComment(@PathVariable("id") int id,@ModelAttribute("comment") BlogComment blogComment,Principal principal){
         Customers customer = new Customers();
-        //kiểm tra người dùng đã đăng nhập hay chưa
         if(principal != null){
             String username = principal.getName().trim();
             customer =customerRepos.findByAccountId(accountReps.findByUsername(username).getAccountId());
@@ -96,30 +94,24 @@ public class BlogController {
                 return ResponseEntity.ok().body(false);
             }
         }
-        //tìm một blog theo id
         Optional<Blog> blog = blogService.getBlogById(id);
-        //kiểm tra blog có tồn tại k
         if(blog.isPresent()){
-            //set dữ liệu còn thiêu cho blogcmt
             blogComment.setBlog(blog.get());
             blogComment.setCustomers(customer);
-            //lưu blogcmt
             blogCmtService.save(blogComment);
             return ResponseEntity.ok().body(true);
         }else{
             return ResponseEntity.ok().body(false);
         }
     }
-//    cái produces là loại dữ liệu trả về còn @PathVariable là cái biến mà client gửi lên có cái tượng trưng kaf id
-    //ResponseEntity này là kiểu trả về theo thực thể ở đây là Boolean
+
     @PostMapping( value = "/deleteCmt/{id}",produces = "application/json")
     @ResponseBody
     public ResponseEntity<Boolean> deteleComment(@PathVariable("id") int id){
-        //tìm một blogcomment theo id
+
         Optional<BlogComment> blogComment = blogCmtService.findbyId(id);
-        //kiểm tra nó có tồn tại không
+
         if(blogComment.isPresent()){
-            //xóa blogcmt theo id
             blogCmtService.delete(id);
             return ResponseEntity.ok().body(true);
         }

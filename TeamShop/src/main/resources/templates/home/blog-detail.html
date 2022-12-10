@@ -132,10 +132,8 @@
 							<h5 class="mtext-113 cl2 p-b-12">
 								Leave A comment
 							</h5>
-<!--							th:action là đường link đưa thể hiện dữ liệu sẽ đi đến, th:object là kiêu dữ liệu này đang là một BlogComment-->
 							<form id="idForm" method="post" th:action="@{/blog/comment/{id}(id=${blog.getBlogId()})}" th:object="${comment}">
 								<div class="bor19 m-b-20">
-<!--									field này đùng để định nghĩa các thuộc tính của một object ở đây là Blogcmt với thuộc tính cmt -->
 									<textarea type="text" class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="cmt" placeholder="Comment..." th:field="*{cmt}"></textarea>
 								</div>
 
@@ -165,7 +163,6 @@
 <!-- Back to top -->
 
 <div th:replace="fragments/addjs"></div>
-<!--xử dụng ajax để call lên server để tạo một cmt-->
 <script>
 	$("#idForm").submit(function(e) {
 
@@ -185,15 +182,11 @@
 
 	});
 </script>
-<!--này là ajax call server để xóa cmt-->
 <script>
 	function deleteCmt(id){
 		$.ajax({
-			// nay là phương thức
 			type: "POST",
-			// nay là đường link dữ liệu chuyển đến
 			url: "/blog/deleteCmt/"+id,
-			// này là data trả về
 			success: function(data)
 			{
 				if(data){
