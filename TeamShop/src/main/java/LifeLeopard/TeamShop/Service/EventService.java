@@ -36,6 +36,7 @@ public class EventService {
         return eventReps.getById(id);
     }
     public int createEvent(Event event, MultipartFile multipartFile) throws IOException {
+        event.setEventImg("null");
         eventReps.save(event);
         String Check = StringUtils.getFilename(multipartFile.getOriginalFilename());
         if(!Check.isEmpty()){
