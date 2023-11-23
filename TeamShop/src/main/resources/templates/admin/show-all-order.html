@@ -118,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
     function processing(id){
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "http://localhost:8070/admin/order/processing/"+id,
             success: function(data)
             {
@@ -130,7 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     }
     function success(id){
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "http://localhost:8070/admin/order/successing/"+id,
             success: function(data)
             {

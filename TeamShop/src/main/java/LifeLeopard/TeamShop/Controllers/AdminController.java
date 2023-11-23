@@ -277,7 +277,7 @@ public class AdminController {
         model.addAttribute("orderList",orderList);
         return "admin/show-all-order";
     }
-    @PostMapping(value ="/order/processing/{id}",produces = "application/json")
+    @GetMapping(value ="/order/processing/{id}",produces = "application/json")
     @ResponseBody
     public ResponseEntity<Boolean> updateOrderProcessing(@PathVariable("id") int id, Model model, Principal principal){
         Order order = orderService.findbyid(id);
@@ -285,7 +285,7 @@ public class AdminController {
         orderService.Save(order);
         return ResponseEntity.ok().body(true);
     }
-    @PostMapping( value = "/order/successing/{id}",produces = "application/json")
+    @GetMapping( value = "/order/successing/{id}",produces = "application/json")
     @ResponseBody
     public ResponseEntity<Boolean> updateOrderSuccessing(@PathVariable("id") int id,Model model,Principal principal){
         Order order = orderService.findbyid(id);
